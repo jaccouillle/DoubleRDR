@@ -1,0 +1,393 @@
+
+--------------------  #D = 4
+
+Nombre de tests : 10000
+
+Taille de D : 4
+
+Taille de k : 256
+
+
+RDR time: 373
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 4
+
+Taille de k : 512
+
+
+RDR time: 661
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 4
+
+Taille de k : 1024
+
+
+RDR time: 1512
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 4
+
+Taille de k : 2048
+
+
+RDR time: 3971
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 4
+
+Taille de k : 4096
+
+
+RDR time: 11950
+
+-------------------------------
+--------------------  #D = 8
+
+Nombre de tests : 10000
+
+Taille de D : 8
+
+Taille de k : 256
+
+
+RDR time: 342
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 8
+
+Taille de k : 512
+
+
+RDR time: 685
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 8
+
+Taille de k : 1024
+
+
+RDR time: 1596
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 8
+
+Taille de k : 2048
+
+
+RDR time: 4623
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 8
+
+Taille de k : 4096
+
+
+RDR time: 12659
+
+-------------------------------
+--------------------  #D = 16
+
+Nombre de tests : 10000
+
+Taille de D : 16
+
+Taille de k : 256
+
+
+RDR time: 380
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 16
+
+Taille de k : 512
+
+
+RDR time: 787
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 16
+
+Taille de k : 1024
+
+
+RDR time: 1714
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 16
+
+Taille de k : 2048
+
+
+RDR time: 4356
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 16
+
+Taille de k : 4096
+
+
+RDR time: 12101
+
+-------------------------------
+--------------------  #D = 24
+
+Nombre de tests : 10000
+
+Taille de D : 24
+
+Taille de k : 256
+
+
+RDR time: 499
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 24
+
+Taille de k : 512
+
+
+RDR time: 816
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 24
+
+Taille de k : 1024
+
+
+RDR time: 1712
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 24
+
+Taille de k : 2048
+
+
+RDR time: 3865
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 24
+
+Taille de k : 4096
+
+
+RDR time: 11334
+
+-------------------------------
+--------------------  #D = 32
+
+Nombre de tests : 10000
+
+Taille de D : 32
+
+Taille de k : 256
+
+
+RDR time: 526
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 32
+
+Taille de k : 512
+
+
+RDR time: 834
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 32
+
+Taille de k : 1024
+
+
+RDR time: 1690
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 32
+
+Taille de k : 2048
+
+
+RDR time: 4113
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 32
+
+Taille de k : 4096
+
+
+RDR time: 11324
+
+-------------------------------
+--------------------  #D = 48
+
+Nombre de tests : 10000
+
+Taille de D : 48
+
+Taille de k : 256
+
+
+RDR time: 1143
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 48
+
+Taille de k : 512
+
+
+RDR time: 1452
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 48
+
+Taille de k : 1024
+
+
+RDR time: 2234
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 48
+
+Taille de k : 2048
+
+
+RDR time: 4608
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 48
+
+Taille de k : 4096
+
+
+RDR time: 12320
+
+-------------------------------
+--------------------  #D = 64
+
+Nombre de tests : 10000
+
+Taille de D : 64
+
+Taille de k : 256
+
+
+RDR time: 1108
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 64
+
+Taille de k : 512
+
+
+RDR time: 1498
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 64
+
+Taille de k : 1024
+
+
+RDR time: 2281
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 64
+
+Taille de k : 2048
+
+
+RDR time: 4541
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 64
+
+Taille de k : 4096
+
+
+RDR time: 12481
+
+-------------------------------

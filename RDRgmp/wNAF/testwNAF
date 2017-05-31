@@ -1,0 +1,393 @@
+
+--------------------  #D = 4
+
+Nombre de tests : 10000
+
+Taille de D : 4
+
+Taille de k : 256
+
+
+wNAF time: 244
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 4
+
+Taille de k : 512
+
+
+wNAF time: 494
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 4
+
+Taille de k : 1024
+
+
+wNAF time: 1238
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 4
+
+Taille de k : 2048
+
+
+wNAF time: 3542
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 4
+
+Taille de k : 4096
+
+
+wNAF time: 10820
+
+-------------------------------
+--------------------  #D = 8
+
+Nombre de tests : 10000
+
+Taille de D : 8
+
+Taille de k : 256
+
+
+wNAF time: 224
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 8
+
+Taille de k : 512
+
+
+wNAF time: 484
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 8
+
+Taille de k : 1024
+
+
+wNAF time: 1275
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 8
+
+Taille de k : 2048
+
+
+wNAF time: 3479
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 8
+
+Taille de k : 4096
+
+
+wNAF time: 10619
+
+-------------------------------
+--------------------  #D = 16
+
+Nombre de tests : 10000
+
+Taille de D : 16
+
+Taille de k : 256
+
+
+wNAF time: 215
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 16
+
+Taille de k : 512
+
+
+wNAF time: 485
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 16
+
+Taille de k : 1024
+
+
+wNAF time: 1216
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 16
+
+Taille de k : 2048
+
+
+wNAF time: 3402
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 16
+
+Taille de k : 4096
+
+
+wNAF time: 10585
+
+-------------------------------
+--------------------  #D = 24
+
+Nombre de tests : 10000
+
+Taille de D : 24
+
+Taille de k : 256
+
+
+wNAF time: 214
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 24
+
+Taille de k : 512
+
+
+wNAF time: 482
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 24
+
+Taille de k : 1024
+
+
+wNAF time: 1228
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 24
+
+Taille de k : 2048
+
+
+wNAF time: 3413
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 24
+
+Taille de k : 4096
+
+
+wNAF time: 10692
+
+-------------------------------
+--------------------  #D = 32
+
+Nombre de tests : 10000
+
+Taille de D : 32
+
+Taille de k : 256
+
+
+wNAF time: 214
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 32
+
+Taille de k : 512
+
+
+wNAF time: 483
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 32
+
+Taille de k : 1024
+
+
+wNAF time: 1217
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 32
+
+Taille de k : 2048
+
+
+wNAF time: 3405
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 32
+
+Taille de k : 4096
+
+
+wNAF time: 10554
+
+-------------------------------
+--------------------  #D = 48
+
+Nombre de tests : 10000
+
+Taille de D : 48
+
+Taille de k : 256
+
+
+wNAF time: 216
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 48
+
+Taille de k : 512
+
+
+wNAF time: 486
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 48
+
+Taille de k : 1024
+
+
+wNAF time: 1217
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 48
+
+Taille de k : 2048
+
+
+wNAF time: 3411
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 48
+
+Taille de k : 4096
+
+
+wNAF time: 10621
+
+-------------------------------
+--------------------  #D = 64
+
+Nombre de tests : 10000
+
+Taille de D : 64
+
+Taille de k : 256
+
+
+wNAF time: 220
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 64
+
+Taille de k : 512
+
+
+wNAF time: 486
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 64
+
+Taille de k : 1024
+
+
+wNAF time: 1218
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 64
+
+Taille de k : 2048
+
+
+wNAF time: 3403
+
+-------------------------------
+
+Nombre de tests : 10000
+
+Taille de D : 64
+
+Taille de k : 4096
+
+
+wNAF time: 10538
+
+-------------------------------

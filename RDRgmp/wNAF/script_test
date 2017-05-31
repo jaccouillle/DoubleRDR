@@ -1,0 +1,13 @@
+#! /usr/bin/env/ bash
+echo > test
+for j in '4' '8' '16' '24' '32' '48' '64'
+do
+	echo "--------------------  #D = $j" >> test
+	i=256
+	while [ $i -le 4096 ]
+	do
+		./wNAF.exe 10000 $j $i >> test
+		let "i = 2*i"
+	done
+done
+exit 0
