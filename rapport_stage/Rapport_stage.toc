@@ -1,0 +1,98 @@
+\select@language {english}
+\select@language {french}
+\contentsline {chapter}{R\'esum\'e}{i}
+\contentsline {chapter}{R\'esum\'e}{i}
+\select@language {french}
+\select@language {french}
+\contentsline {chapter}{\chapternumberline {1}Introduction}{1}
+\contentsline {subsubsection}{L'exponentiation modulaire et le RSA}{1}
+\contentsline {subsubsection}{Les premiers algorithmes d'exponentiation}{2}
+\contentsline {chapter}{\chapternumberline {2}Repr\IeC {\'e}sentation al\IeC {\'e}atoire de l'exposant}{3}
+\contentsline {section}{\numberline {2.1}State of the art\dots }{3}
+\contentsline {subsection}{\numberline {2.1.1}Pr\IeC {\'e}calcul et Exponentiation}{3}
+\contentsline {subsection}{\numberline {2.1.2}Repr\IeC {\'e}sentation $NAF$ (Non Adjacent Form)}{4}
+\contentsline {subsection}{\numberline {2.1.3}Repr\IeC {\'e}sentation $wNAF$ (window Non Adjacent Form)}{4}
+\contentsline {subsection}{\numberline {2.1.4}Fractional Windows}{4}
+\contentsline {section}{\numberline {2.2}Randomisation et Optimisation}{5}
+\contentsline {subsection}{\numberline {2.2.1}Randomisation dans l'algorithme de Fractional Windows}{5}
+\contentsline {subsubsection}{La fonction \emph {digit}}{5}
+\contentsline {subsubsection}{L'algorithme de repr\IeC {\'e}sentation}{6}
+\contentsline {subsubsection}{Premi\IeC {\`e}re impl\IeC {\'e}mentation}{6}
+\contentsline {subsection}{\numberline {2.2.2}Optimisation de l'algorithme}{8}
+\contentsline {subsubsection}{\emph {Digit} vue comme un tableau}{8}
+\contentsline {subsubsection}{Construction de \emph {$D_{max}$}}{8}
+\contentsline {subsection}{\numberline {2.2.3}Preuve}{8}
+\contentsline {subsubsection}{La fonction \emph {digit} sous forme math\IeC {\'e}matique}{10}
+\contentsline {subsubsection}{Preuve de fonctionnement de \emph {$D_{max}$}}{10}
+\contentsline {subsection}{\numberline {2.2.4}Test et Performance}{11}
+\contentsline {subsubsection}{Comparaison avec $wNAF$}{12}
+\contentsline {chapter}{\chapternumberline {3}Etat de l'art de la double exponentiation}{13}
+\contentsline {section}{\numberline {3.1}L'approche de Shamir}{13}
+\contentsline {subsection}{\numberline {3.1.1}La m\IeC {\'e}thode na\IeC {\"\i }ve}{13}
+\contentsline {subsection}{\numberline {3.1.2}Le ``square'' en simultan\IeC {\'e}}{13}
+\contentsline {subsection}{\numberline {3.1.3}Le pr\IeC {\'e}calcul}{14}
+\contentsline {section}{\numberline {3.2}L'approche de Solinas et la $JSF$}{14}
+\contentsline {subsection}{\numberline {3.2.1}Bas\IeC {\'e} sur un $NAF$}{15}
+\contentsline {subsection}{\numberline {3.2.2}La Joint Spar Form}{15}
+\contentsline {subsubsection}{Joint Hamming Weight}{15}
+\contentsline {subsubsection}{Comparaison avec $NAF$}{16}
+\contentsline {subsubsection}{Un exemple simple}{16}
+\contentsline {chapter}{\chapternumberline {4}Approche du probl\IeC {\`e}me}{17}
+\contentsline {section}{\numberline {4.1}La repr\IeC {\'e}sentation d'un couple d'exposants}{17}
+\contentsline {subsection}{\numberline {4.1.1}Une solution simple \IeC {\`a} l'objectif $1$}{17}
+\contentsline {subsection}{\numberline {4.1.2}La $JSF$, solution \IeC {\`a} l'objectif $2$}{18}
+\contentsline {subsection}{\numberline {4.1.3}La repr\IeC {\'e}sentation $DoubleRDR$}{18}
+\contentsline {section}{\numberline {4.2}Exemple et Contraintes}{19}
+\contentsline {subsection}{\numberline {4.2.1}Exemple}{19}
+\contentsline {subsection}{\numberline {4.2.2}Contraintes et Objectifs}{22}
+\contentsline {subsubsection}{Premi\IeC {\`e}res contraintes li\IeC {\'e}es \IeC {\`a} la $RDR$}{22}
+\contentsline {subsubsection}{Contraintes li\IeC {\'e}es \IeC {\`a} la m\IeC {\'e}thode de recodage}{23}
+\contentsline {subsubsection}{Objectifs et D\IeC {\'e}finition}{23}
+\contentsline {section}{\numberline {4.3}D\IeC {\'e}cortiquer et trouver une m\IeC {\'e}thode explicite}{23}
+\contentsline {subsection}{\numberline {4.3.1}D\IeC {\'e}marrage du recodage}{23}
+\contentsline {subsection}{\numberline {4.3.2}Le choix des coefficients}{24}
+\contentsline {subsection}{\numberline {4.3.3}Le choix d'une fen\IeC {\^e}tre}{25}
+\contentsline {subsection}{\numberline {4.3.4}Le coeur de la m\IeC {\'e}thode, le choix des coefficients}{26}
+\contentsline {subsection}{\numberline {4.3.5}Principes fondamentaux de la m\IeC {\'e}thode}{27}
+\contentsline {subsubsection}{Distinction de cas}{27}
+\contentsline {subsubsection}{Un probl\IeC {\`e}me nomm\IeC {\'e} arithm\IeC {\'e}tique}{27}
+\contentsline {subsubsection}{Retour sur la m\IeC {\'e}thode g\IeC {\'e}n\IeC {\'e}rale}{28}
+\contentsline {chapter}{\chapternumberline {5}Th\IeC {\'e}orie, Impl\IeC {\'e}mentation et Optimisation}{31}
+\contentsline {section}{\numberline {5.1}Un proc\IeC {\'e}d\IeC {\'e} purement arithm\IeC {\'e}tique}{31}
+\contentsline {subsection}{\numberline {5.1.1}Disjonction de cas et squelette du programme}{31}
+\contentsline {subsubsection}{Squelette du programme : D\IeC {\'e}marrage}{31}
+\contentsline {subsubsection}{Squelette du programme : Premier cas}{31}
+\contentsline {subsubsection}{Squelette du programme : Deuxi\IeC {\`e}me cas}{32}
+\contentsline {subsection}{\numberline {5.1.2}Le coeur du programme, les fonctions.}{33}
+\contentsline {subsubsection}{Les fonctions simples.}{33}
+\contentsline {subsubsection}{Les fonctions complexes : le coeur du raisonnement.}{33}
+\contentsline {section}{\numberline {5.2}De l'arithm\IeC {\'e}tique \IeC {\`a} l'optimisation}{35}
+\contentsline {subsection}{\numberline {5.2.1}La recherche dans un tableau, proc\IeC {\'e}d\IeC {\'e} \IeC {\`a} \IeC {\'e}viter}{36}
+\contentsline {subsection}{\numberline {5.2.2}Existence du tableau $DoubleDmax$}{36}
+\contentsline {subsection}{\numberline {5.2.3}Cr\IeC {\'e}ation du tableau $DoubleDmax$}{36}
+\contentsline {subsection}{\numberline {5.2.4}Initialisation du tableau $DoubleDmax$}{36}
+\contentsline {subsection}{\numberline {5.2.5}Remplissage partiel du tableau $DoubleDmax$}{37}
+\contentsline {subsection}{\numberline {5.2.6}Fin du remplissage de $DoubleDmax$}{37}
+\contentsline {subsection}{\numberline {5.2.7}Astuces}{38}
+\contentsline {subsection}{\numberline {5.2.8}Algorithmes}{38}
+\contentsline {subsubsection}{Cr\IeC {\'e}ation de $DoubleDmax$}{38}
+\contentsline {subsubsection}{Remplissage de $DoubleDmax$ : Premi\IeC {\`e}re partie}{38}
+\contentsline {subsubsection}{Remplissage de $DoubleDmax$ : Deuxi\IeC {\`e}me partie}{39}
+\contentsline {section}{\numberline {5.3}Equivalence et preuve}{39}
+\contentsline {subsection}{\numberline {5.3.1}La $DoubleRDR$, k\IeC {\'e}sako ?}{39}
+\contentsline {subsection}{\numberline {5.3.2}Algorithme et Math\IeC {\'e}matiques}{42}
+\contentsline {chapter}{\chapternumberline {6}Performances et Al\IeC {\'e}atoire : l'importance des coefficients}{43}
+\contentsline {section}{\numberline {6.1}L'important choix des coefficients}{43}
+\contentsline {subsection}{\numberline {6.1.1}Deux choix , deux r\IeC {\'e}sultats}{43}
+\contentsline {subsection}{\numberline {6.1.2}Etude sur les coefficients}{43}
+\contentsline {subsection}{\numberline {6.1.3}Cons\IeC {\'e}quences}{44}
+\contentsline {section}{\numberline {6.2}Liens entre les coefficients}{45}
+\contentsline {subsection}{\numberline {6.2.1}Les coefficients ``optimums''}{45}
+\contentsline {subsection}{\numberline {6.2.2}Les autres coefficients}{46}
+\contentsline {subsubsection}{Level 3 : un intrus}{46}
+\contentsline {subsubsection}{Level 4 : changement minimum pour un r\IeC {\'e}sultat bien diff\IeC {\'e}rent}{47}
+\contentsline {subsubsection}{Level 5 : dernier casse-t\IeC {\^e}te avant la fin}{47}
+\contentsline {section}{\numberline {6.3}G\IeC {\'e}n\IeC {\'e}ralisation et Th\IeC {\'e}orie}{48}
+\contentsline {subsection}{\numberline {6.3.1}Une r\IeC {\'e}alit\IeC {\'e} arithm\IeC {\'e}tique}{48}
+\contentsline {chapter}{\chapternumberline {7}Conclusion}{49}
+\contentsline {chapter}{Bibliographie}{51}
