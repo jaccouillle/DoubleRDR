@@ -1007,10 +1007,514 @@ Et :
 
 De ces constats, on peut définir la $DoubleRDR$ selon les deux objectifs suivants :
 \begin{itemize}
- \item [Objectif $1$:] Les coefficients non nuls d'un exposant doivent se situer sur les mêmes bits 
- que les coefficients non nuls de l'autre exposant.
+ \item [Objectif $1$:] On choisit $d_0$ et $d_0'$ les coefficients dans la $DoubleRDR$ de $k_1$ et $k_2$
+ respectivement, tels que le prochain coefficient \emph{non nul} de chaque exposant ``coïncident'', 
+ c'est-à-dire tels qu'il y ait le même nombre de $0$ consécutifs après $d_0$ et $d_0'$ dans la représentation.
  \item [Objectif $2$:] La représentation doit contenir un maximum de $\doublezero$ consécutifs.
 \end{itemize}
+
+Pour résumer, lorsqu'on choisit un coefficient pour $k_1$ et/ou pour $k_2$, il faut d'abord que les prochains 
+coefficients \emph{non nuls} de chaque exposant soient sur le même bit, puis si c'est possible qu'il y ait 
+le maximum de $0$ consécutifs dans la représentation.
+
+\begin{Remarque}
+ Comme $1 \in \mathcal{D}$, si $k_1$ et $k_2$ impairs, il est toujours possible de choisir $d_0$ et $d_0'$ 
+ tels que $k_1$ et $k_2$ ``coïncident''.
+ 
+ Par exemple, si $k_1 = 1 \mod 4$ et $k_2 = 3 \mod 4$, alors il suffit de choisir $d_0 = -1$ et $d_0' = 1$.
+ Dans ce cas, on aura $k_1 - d_0 = k_2 - d_0' = 2 \mod 4$, et donc $\frac{k_1 - d_0}{2}$ et $\frac{k_2 - d_0'}{2}$
+ tous deux impairs.
+\end{Remarque}
+
+
+
+\section{La méthode $DoubleRDR$}
+
+Dans la partie précédente, la représentation $DoubleRDR$ d'un couple d'exposant a été définie.
+Dans cette partie, une méthode pour calculer la $DoubleRDR$ de $k_1$ et $k_2$ est détaillée.
+
+  \subsection{Le début de la $DoubleRDR$}
+  
+  Avant de détailler le recodage de la $DoubleRDR$, il est nécessaire de rappeler certaines conditions :
+  \begin{itemize}
+   \item [$\bullet$] Pour recoder un exposant, il faut utiliser les propriétés arithmétiques du nombre, ou éventuellement
+   sa représentation binaire (on ne peut pas utiliser la représentation $wNAF$, $RDR$ ou encore $JSF$).
+   \item [$\bullet$] Il faut fixer une taille de fenêtre maximale en fonction des éléments de $\mathcal{D}$.
+   Etant donné que l'ensemble $\mathcal{D}$ est borné, le choix d'un coefficient dépend uniquement des premiers 
+   bits suivants (équivalent de $W_n + 2$ dans l'algorithme de $RDR$)
+   \item [$\bullet$] Il est plus pratique et plus efficace de commencer la méthode de recodage par le bit de 
+   poids faible plutôt que par le bit de poids fort.
+  \end{itemize}
+
+%  Malgré une infinité de représentations possibles (par exemple  $ \begin{pmatrix} 1 & 0 & -1 \end{pmatrix}$
+%  peut être remplacé par  $ \begin{pmatrix} 0 & 0 & 3 \end{pmatrix}$ dans les représentations précédentes), 
+%  l'approche de la problématique posée est la suivante : il faut commencer par fixer les positions 
+%  (les bits) pour lesquels les exposants auront des coefficients non nuls.
+   
+%   Ainsi, en optant pour le recodage à partir du bit de poids faible, les bits de poids faibles sont les 
+%   premiers bits fixés, il faut ensuite choisir des coefficients pour les exposants, puis avancer dans la représentation.
+   
+%   Par exemple, pour l'exemple de $53$ et $102$, on a :
+%   \begin{itemize}
+%    \item [$\bullet$] $53$ est impair donc le bit $0$ est fixé.
+%    \item [$\bullet$] $102$ est pair et non divisible par $4$ donc le bit $1$ est fixé.
+%    \end{itemize}
+    
+% $$\begin{array}{ccccccccc}
+%  53 & = & (0 & 1 & 1 & 0 & 1 & 0 & \textcolor{blue}{1}) \\
+%  102 & = & (1 & 1 & 0 & 0 & 1 & \textcolor{blue}{1} & 0)
+% \end{array}$$
+ 
+ Pour la suite, les bits de poids faibles sont à gauche (et non à droite comme précédemment).
+ Ainsi, le recodage s'effectue de la gauche (bit de poids faible) vers la droite (bit de poids fort).
+ 
+ L'exemple de $53$ et $102$ donne :
+ 
+  $$\begin{array}{ccccccccc}
+  53 & = & (\textcolor{blue}{1} & 0 & 1 & 0 & 1 & 1 & 0) \\
+  102 & = & (0 & \textcolor{blue}{1} & 1 & 0 & 0 & 1 & 1)
+ \end{array}$$
+ 
+   Il est nécessaire de fixer une taille de fenêtre en fonction des coefficients de $\mathcal{D}$, on calcule
+   (comme dans la $RDR$) $W_n = \lfloor log_2(max_i(d_i)) \rfloor$, et on définit $W_{max} = W_n + 2$.
+   
+   On peut définir également $\dbarre = \mathcal{D} \cup -\mathcal{D}$, qu'on utilise dans la $DoubleRDR$.
+
+   Ainsi pour $\mathcal{D} = \{1,3,23,27\}$, on a $\dbarre = \{1,3,23,27,-1,-3,-23,-27\}$, \\
+   et $W_{max} = \lfloor log_2(27) \rfloor + 2 = 6$.
+
+ 
+ \subsection{Le choix des coefficients}
+
+ Cette partie explique comment choisir les coefficients de la $DoubleRDR$.
+ 
+ \subsubsection{Bits de poids faibles}
+ 
+ Tout d'abord, il faut déterminer le  bit de poids faible $B_{f,1}$ et $B_{f,2}$ des exposants $k_1$ et $k_2$ 
+ respectivement. 
+ 
+ Pour $k_1 = 53$ et $k_2 = 102$, on a $B_{f,1} = 0$ et $B_{f,2} = 1$.
+ 
+ Ainsi, les $B_{f,1}$ premiers coefficients de la $DoubleRDR$ de $k_1$ sont nul, de même pour $k_2$.
+ 
+ Dans notre exemple on a donc :
+ 
+   $$\begin{array}{ccccc}
+  53 & = & (? & \ldots & \ldots) \\
+  102 & = & (\textcolor{blue}{0} & ? & \ldots)
+ \end{array}$$
+  
+ Et pour le cas général, en supposant $B_{f,1} > B_{f,2}$, on a :
+ 
+    $$\begin{array}{ccccccc}
+   k_1 & = & (\underbrace{0 \ldots 0}_{0 \ldots B_{f,2} - 1} & 0 & \underbrace{0 \ldots 0}_{B_{f,1} - B_{f,2}-1} & ? & \ldots) \\
+   k_2 & = & (\underbrace{0 \ldots 0}_{0 \ldots B_{f,2} - 1} & ? & \underbrace{0 \ldots 0}_{B_{f,1} - B_{f,2}-1} & \ldots & \ldots)
+   \end{array}$$
+ 
+ Il faut ensuite diviser par $2^{B_{f,i}}$ l'exposant $k_i$ (afin d'avancer dans la représentation).
+ 
+ \subsubsection{Disjonction de cas}
+ 
+ Ensuite, il faut distinguer deux cas principaux :
+ \begin{itemize}
+  \item [$1^{\text{er}}$ cas :] Si $B_{f,1} = B_{f,2}$, ce cas est détaillé dans la prochaine partie.
+  \item [$2^{\text{ème}}$ cas :] Si $B_{f,1} \neq B_{f,2}$, alors on calcule $\omega = |B_{f,1} - B_{f,2}|$.
+ \end{itemize}
+
+ Dans cette partie, on explique le deuxième cas.
+ 
+ Prenons par exemple le cas où $B_{f,1} > B_{f,2}$ (dans le cas contraire, il suffit d'intervertir les rôles
+ de $k_1$ et $k_2$), il s'agit de déterminer un coefficient $d_0$ pour $k_2$ tel que le prochain coefficient non 
+ nul de $k_2$ soit sur le bit $B_{f,1}$.
+ 
+ Ce qui donnera ceci dans la représentation :
+ 
+     $$\begin{array}{ccccccc}
+   k_1 & = & (\underbrace{0 \ldots 0}_{0 \ldots B_{f,2} - 1} & 0 & \underbrace{0 \ldots 0}_{B_{f,1} - B_{f,2}-1} & ? & \ldots) \\
+   k_2 & = & (\underbrace{0 \ldots 0}_{0 \ldots B_{f,2} - 1} & d_0 & \underbrace{0 \ldots 0}_{B_{f,1} - B_{f,2}-1} & ? & \ldots)
+   \end{array}$$
+   
+
+   Afin de choisir le coefficient $d_0$ de $k_2$, il faut trouver $d_0 \in \dbarre$ tel que :
+   \begin{center}
+    $2^{\omega} \mid (k_2 - d_0) \mod (2^{W_{max}})$ \\
+    $2^{\omega+1} \nmid (k_2 - d_0) \mod (2^{W_{max}})$
+   \end{center}
+ 
+ Il peut arriver qu'aucun élément de $\dbarre$ vérifie ces conditions, dans ce cas on pose $\omega' = \omega - 1$, 
+ il faut trouver $d_0 \in \dbarre$ tel que :
+ \begin{center}
+    $2^{\omega'} \mid (k_2 - d_0) \mod (2^{W_{max}})$ \\
+    $2^{\omega'+1} \nmid (k_2 - d_0) \mod (2^{W_{max}})$
+ \end{center}
+ 
+ On répète le processus jusqu'à trouver une solution vérifiant les conditions.
+ 
+ Puis on calcule $\frac{k_2 - d_0}{2^{\omega}}$, afin d'avancer dans la représentation.
+ 
+ \begin{Exemple}
+  Pour $k_1 = 53$ et $k_2 = 102$, on a $0 = B_{f,1} < B_{f,2} = 1$, donc $\omega = 1 - 0 = 1$.
+  
+  Trouvons un coefficient $d_0 \in dbarre$ tel que :
+  \begin{center}
+   $2 \mid (53 - d_0) \mod 2^6$ \\
+   $4 \nmid (53 - d_0) \mod 2^6$.
+  \end{center}
+  
+  Les valeurs $3$, $23$, $27$ et $-1$ sont solutions, on pose $d_0 = 3$ (choix arbitraire).
+  
+  On obtient ainsi :
+  
+     $$\begin{array}{ccccc}
+  53 & = & (\textcolor{blue}{3} & ? & \ldots) \\
+  102 & = & (\textcolor{blue}{0} & ? & \ldots)
+ \end{array}$$
+ 
+ Puis on calcule $\frac{53 - 3}{2} = 25$.
+ \end{Exemple}
+
+  \subsubsection{Synchronisation des coefficients}
+ 
+ Cette partie a pour but d'expliquer comment choisir les coefficients $d_0$ et $d_0'$ de $k_1$ et $k_2$ respectivement
+ lorsqu'on est dans le premier cas (voir partie précédente).
+ 
+ Dans le cas où $B_{f,1} = B_{f,2}$, on choisit les coefficients $d_0$ et $d_0'$ de $k_1$ et $k_2$ simultanément.
+ 
+ Il faut choisir $d_0$ et $d_0'$ tels qu'il y ait un \emph{même} nombre \emph{maximum}, noté $\omega_{max}-1$, de zéros consécutifs dans les représentations
+ de $k_1$ et $k_2$, ce qui donnera ceci dans la représentation $DoubleRDR$ :
+ 
+      $$\begin{array}{ccccccc}
+   k_1 & = & (\underbrace{0 \ldots 0}_{0 \ldots B_{f,1} - 1} & d_0 & \underbrace{0 \ldots 0}_{\omega_{max}-1} & ? & \ldots) \\
+   k_2 & = & (\underbrace{0 \ldots 0}_{0 \ldots B_{f,2} - 1} & d_0' & \underbrace{0 \ldots 0}_{\omega_{max}-1} & ? & \ldots)
+   \end{array}$$
+ 
+ Afin de choisir $d_0$ et $d_0'$, il faut déterminer $\omega_{max} \leq W_{max}$ tel que :
+ \begin{center}
+ $\exists \, d_0 \in \dbarre$ tel que : $2^{\omega_{max}} \mid (k_1 - d_0) \mod 2^{W_{max}}$ et $2^{\omega_{max}+1} \nmid (k_1 - d_0) \mod 2^{W_{max}}$, \\
+ $\exists \, d_0' \in \dbarre$ tel que : $2^{\omega_{max}} \mid (k_2 - d_0') \mod 2^{W_{max}}$ et $2^{\omega_{max}+1} \nmid (k_2 - d_0') \mod 2^{W_{max}}$.
+ \end{center}
+ 
+ On prend $d_0$ et $d_0'$ comme coefficients de la $DoubleRDR$ de $(k_1,k_2)$, puis on calcule
+ $\frac{k_1-d_0}{2^{\omega_{max}}}$ et $\frac{k_2-d_0'}{2^{\omega_{max}}}$, afin d'avancer dans la représentation.
+ 
+ \begin{Exemple}
+  Pour $k_1 = 25$ et $k_2 = 51$ (la suite de l'exemple précédent), on a $B_{f,1} = B_{f,2} = 0$. \\
+  Pour $\omega_{max} = 6$, il n'existe pas de coefficient $d_0$ vérifiant les conditions pour $k_1$. \\
+  De même pour $\omega_{max} = 5$. \\
+  Prenons $\omega_{max} = 4$, on pose $d_0 = -23$ et $d_0' = 3$, et on a : \\
+  \begin{center}
+   $(k_1 - d_0) \mod 2^6 = 48$ divisible par $2^4 = 16$, et non divisible par $32$, \\
+   $(k_2 - d_0') \mod 2^6 = 48$ divisible par $2^4 = 16$, et non divisible par $32$.
+  \end{center}
+  
+  Puis on calcule $\frac{48}{16} = 3$.
+
+  Ainsi, on choisit $-23$ et $3$ comme coefficient de $k_1$ et $k_2$ respectivement, et on ajoute $3$ zéros,
+  ce qui donne dans la représentation :
+  
+ $$\begin{array}{ccccccccc}
+  53 & = & (\textcolor{red}{3} & \textcolor{blue}{-23} & 0 & 0 & 0 & ? & \ldots) \\
+  102 & = & (\textcolor{red}{0} & \textcolor{blue}{3} & 0 & 0 & 0 & ? & \ldots)
+ \end{array}$$
+ 
+ Les derniers coefficients sont $3$ pour $k_1$ et $k_2$ car $\frac{48}{16} = 3$. Ainsi la $DoubleRDR$ de $(k_1,k_2)$ est :
+ 
+ $$\begin{array}{cccccccc}
+  53 & = & (3 & -23 & 0 & 0 & 0 & \textcolor{blue}{3}) \\
+  102 & = & (0 & 3 & 0 & 0 & 0 & \textcolor{blue}{3})
+ \end{array}$$
+ \end{Exemple}
+
+ \subsection{Fin de la $DoubleRDR$}
+ 
+ Lorsqu'on doit recoder les derniers bits (de poids forts) des exposants, on applique la $RDR$ à chacun des exposants
+ jusqu'à la fin du recodage, en vérifiant la condition que les coefficients choisis sont inférieurs aux exposants.
+ 
+ \begin{Exemple}
+  Pour $k_1 = 7$ et $k_2 = 13$, on regarde chaque exposant indépendamment. \\
+  La $RDR$ de $k_1$ donne : 
+  $$\begin{array}{cccccc}
+  7 & = & (-1 & 0 & 0 & 1)
+ \end{array}$$
+ Celle de $k_2$ donne :
+   $$\begin{array}{ccccccc}
+  13 & = & (-3 & 0 & 0 & 0 & 1)
+ \end{array}$$
+ 
+ La $DoubleRDR$ de $(k_1,k_2)$ donne :
+  $$\begin{array}{ccccccc}
+  7 & = & (-1 & 0 & 0 & 1 & 0) \\
+  13 & = & (-3 & 0 & 0 & 0 & 1)
+ \end{array}$$
+ \end{Exemple}
+
+ 
+ %Pour illustrer cette méthode, on commence par choisir les coefficients des premiers bits fixés (représentés 
+ %en bleu sur la fin de la partie précédente), on remarque que :
+ %\begin{itemize}
+  %\item [$1)$] Comme $102$ est pair, nécessairement son premier bit est nul.
+  %\item [$2)$] Comme $53$ est impair, son premier bit est non nul.
+  %\item [$3)$] Puisque le bit $1$ de $102$ est non nul, il est inutile d'avoir un $0$ sur le bit $1$ de $53$.
+  %\item [$4)$] On choisit donc le coefficient du bit $0$ de $53$ tel que le coefficient du bit $1$ soit non nul.
+  %Pour se faire il suffit de choisir $d_0$ tel que $53 - d_0$ soit divisible par $2$ mais pas par $2^2 = 4$ (car dans 
+  %ce cas $\frac{53 - d_0}{2}$ est pair et donc le bit suivant est $0$). \\
+  %Il suffit de choisir parmi $3$, $23$, $27$ ou $-1$. Prenons $d_0 = 3$ par exemple.
+ %\end{itemize}
+
+ %On a donc :
+ 
+  % $$\begin{array}{ccccccccc}
+  %53 & = & (\textcolor{red}{3} & \textcolor{blue}{?} & \ldots & \ldots & \ldots & \ldots & \ldots) \\
+  %102 & = & (\textcolor{red}{0} & \textcolor{blue}{?} & \ldots & \ldots & \ldots & \ldots & \ldots)
+ %\end{array}$$
+ 
+ %Une fois le premier coefficient choisi pour chaque exposant, on continue le recodage, on remarque que :
+ 
+% \begin{itemize}
+%  \item [$1)$] Pour ``avancer'' dans la représentation, il faut calculer  $\frac{53 - d_0}{2} = 25$ et $\frac{102}{2} = 51$.
+%  \item [$2)$] Pour rappel, l'objectif $1$ est que les deux exposants aient le même nombre de $0$ consécutifs dans leur représentation.
+%  \item [$3)$] Pour rappel, l'objectif $2$ est qu'il y ait un maximum de $\doublezero$ consécutifs dans la représentation du couple.
+%  \item [$4)$] Les nombres $25$ et $51$ ont le même nombre de $0$ consécutifs dans leur représentation si $25 - d_0$ et $51 - d_0'$ 
+%  ont la même divisibilité par une puissance de $2$, c'est-à-dire qu'il existe $k$ tel que $25 - d_0$ et $51 - d_0'$ sont divisibles
+%  par $2^k$ et non divisibles par $2^{k+1}$, dans ce cas il y a $k-1$ zéros consécutifs (et pas un de plus !) dans la représentation
+%  de chaque exposant.
+%  \item [$5)$] Afin de respecter l'objectif $2$, il faut choisir $d_0$ et $d_0'$ tels que le nombre $k$, défini dans le point précédent
+%  soit le plus grand possible.
+%  \item [$6)$] Pour $d_0 = -23$ et $d_0' = 3$, on a $25 - d_0 = 48$ et $51 - d_0' = 48$, tous deux divisibles par $2^4$
+%  et non par $2^5$.
+% \end{itemize}
+  
+%  On a donc :
+  
+%    $$\begin{array}{ccccccccc}
+%  53 & = & (\textcolor{red}{3} & \textcolor{red}{-23} & \textcolor{blue}{?} & \ldots & \ldots & \ldots & \ldots) \\
+%  102 & = & (\textcolor{red}{0} & \textcolor{red}{3} & \textcolor{blue}{?} & \ldots & \ldots & \ldots & \ldots)
+% \end{array}$$
+
+% Ainsi, on calcule $\frac{25 - d_0}{2} = 24$ et $\frac{51 - d_0}{2} = 24$, tous les deux divisibles par $8 = 2^3$, on a donc :
+ 
+%     $$\begin{array}{ccccccccc}
+%  53 & = & (\textcolor{red}{3} & \textcolor{red}{-23} & \textcolor{red}{0} & \textcolor{red}{0} & \textcolor{red}{0} & \textcolor{blue}{?} & \ldots) \\
+%  102 & = & (\textcolor{red}{0} & \textcolor{red}{3} & \textcolor{red}{0} & \textcolor{red}{0} & \textcolor{red}{0} & \textcolor{blue}{?} & \ldots)
+% \end{array}$$
+ 
+% Ainsi, on calcule $\frac{24}{8} = 3$, on a donc $d_0 = 3$ pour les deux exposants, ce qui donne :
+ 
+%      $$\begin{array}{cccccccc}
+%  53 & = & (\textcolor{red}{3} & \textcolor{red}{-23} & \textcolor{red}{0} & \textcolor{red}{0} & \textcolor{red}{0} & \textcolor{red}{3}) \\
+%  102 & = & (\textcolor{red}{0} & \textcolor{red}{3} & \textcolor{red}{0} & \textcolor{red}{0} & \textcolor{red}{0} & \textcolor{red}{3})
+% \end{array}$$
+ 
+ 
+%\subsection{Le coeur de la méthode, le choix des coefficients}
+
+%J'ai commencé par observé les deux premiers bits non nuls de $53$ et $102$, qui sont le bit $1$ ($2^0$) et le 
+%bit $2$ ($2^1$) pour $53$ et $102$ respectivement.
+%Ainsi le nombre $53$ est le premier à recoder, je définis ensuite les bits que je m'autorise à utiliser, dans ce cas, je peux
+%utiliser au moins le bit $1$ et le bit $2$ (car bit faible de $102$).
+
+%Une fois les conditions établies, le premier objectif donné est de choisir les deux coefficients (celui pour le bit $1$
+%et celui pour le bit $2$) de telle sorte qu'il y ait un maximum de zéros consécutifs dans la représentation de $53$.
+%Cela revient à trouver $d_0$ et $d_1$ dans $\overline{\mathcal{D}}$ telles que :
+%\begin{equation}
+% 53 = d_0 + 2 \times d_1 [64]
+%\end{equation}
+
+%Si de tels coefficients existent et sont dans $\overline{\mathcal{D}}$, alors la représentation de $53$ aura uniquement deux bits non
+%nuls, les deux premiers bits.
+
+%En prenant $d_0 = -1$ et $d_1 = 27$, on obtient bien $53$.
+
+%Passons maintenant à l'exposant $102$, son premier bit est $0$ car il est pair.
+%Ainsi je fixe $0$, et je regarde désormais $51 = \frac{102}{2}$, ce qui revient à regarder les $6$ prochains bits :
+%  $$\begin{array}{ccc}
+%53 & = & (\underbrace{0 \, 1 \, 1 \, 0 \, 1 \, 0}_{26} \, 1) \\
+%102 & = & (\underbrace{1 \, 1 \, 0 \, 0 \, 1 \, 1}_{51} \, 0)
+% \end{array}$$
+
+%De la même manière qu'avec $53$, on cherche $d_0$ dans $\overline{\mathcal{D}}$ telles que :
+%\begin{equation}
+% 51 = d_0 [64]
+%\end{equation}
+
+%Comme ce n'est pas possible, on cherche alors $d_0$ et $d_1$ dans $\overline{\mathcal{D}}$ telles que :
+%\begin{equation}
+% 51 = d_0 + 2^5 \times d_1 [64]
+%\end{equation}
+ 
+% On remarque alors $d_0$ vérifie :
+% \begin{equation}
+%  51 = d_0 [32]
+% \end{equation}
+%  
+% Ce qui est également impossible.
+% J'ai donc essayé avec une puissance plus petite :
+% \begin{equation}
+%  51 = d_0 + 2^4 \times d_1 [64]
+% \end{equation}
+% 
+% On a donc :
+%   $$\begin{array}{cccc}
+% 51 & = & d_0 & [16] \\
+% \, & = & 3 & [16]
+%  \end{array}$$
+% 
+% Ainsi on obtient $d_0 = 3 [16] = 3$ (car le seul coefficient de $\overline{\mathcal{D}}$ vérifiant cette condition).
+% 
+% D'où on constate que $d_1$ vérifie :
+% \begin{equation}
+%  48 = 2^4 \times d_1 [64]
+% \end{equation}
+%  
+% on remarque que $d_1 = 3$ est solution.
+% Cependant il est important de noter que $-1$, $23$ et $27$ était également solution et que tous ces coefficients
+% vérifient $d_1 = 3 [4]$ (car $4 = \frac{64}{16}$).
+% 
+% Finalement, on obtient la représentation suivante :
+%   $$\begin{array}{ccccccccc}
+%   53 & = & (0 & 0 & 0 & 0 & 0 & 27 & -1) \\
+%   102 & = & (0 & 3 & 0 & 0 & 0 & 3 & 0)
+%  \end{array}$$
+% 
+%  On notera que le recodage contient le même nombre de double zéros que celui obtenu par tatonnement ($5$), mais il
+%  contient plus de $0$ ($1$ de plus) que ce dernier.
+%  
+% \subsection{Principes fondamentaux de la méthode}
+%  
+%  Avec le premier exemple, très simple, de $53$ et $102$, que je noterai $k_1 = 53$ et $k_2 = 102$ 
+%  dans la suite de l'explication, j'en ai extrait un procédé applicable à de plus grands nombres.
+%  
+%  En essayant d'appliquer cette méthode sur des nombres plus grands (de $20$ bits), je détecte que plusieurs cas n'ont 
+%  pas été traités, et principalement le cas où le bit de poid faible de chacun des exposant est le même (par exemple les deux 
+%  exposants sont impairs).
+%  
+%  \subsubsection{Distinction de cas}
+%  
+%  En essayant d'appliquer le procédé sur la représentation binaire des deux exposants, j'ai remarqué que la première
+%  phase consistait à enregistrer le bit faible de chacun des exposants, en faisant cela je suis arrivé à une distinction
+%  de cas.
+%  
+%  J'ai également décidé d'inverser la représentation des deux exposants et de les ranger du bit faible au bit fort pour 
+%  plus de clarté (plus logique car recodage de gauche à droite).
+%  
+%  J'ai distingué $2$ cas au sein de la méthode:
+%  \begin{itemize}
+%   \item [$a)$] Le cas déjà traité : lorsque le premier bit faible de $k_1$ est différent de celui de $k_2$. \\
+%   \item [$b)$] Le cas non traité : lorsque le premier bit faible de $k_1$ est à la même position que celui de $k_2$.
+%   \end{itemize} 
+% 
+%  \subsubsection{Un problème nommé arithmétique}
+% 
+%  Pour traiter le cas $a)$, j'ai remarqué que ce n'était pas toujours possible et pour constaté cela j'ai utilisé un outil
+%  qui m'a permis de traiter la totalité des cas et d'éclaircir cette méthode.
+%  
+%  Prenons par exemple $16$ et $29$,
+%   $$\begin{array}{ccccccccc}
+%   16 & = & (0 & 0 & 0 & 0 & 1 & 0 & 0) \\
+%   29 & = & (1 & 0 & 1 & 1 & 1 & 0 & 0)
+%  \end{array}$$
+%  
+%  Il n'est pas possible de recoder $k_2 = 29$ avec $d_0$ et $d_1$ dans $\dbarre$ de telle sorte que :
+%  \begin{equation}
+%  29 = d_0 + 2^4 \times d_1 [64]
+% \end{equation}
+%  
+%  En effet, en écrivant l'ensemble que j'ai noté $k_2 - \dbarre = \{28,26,6,2,30,32,52,56\}$, on remarque que :
+%  \begin{itemize}
+%   \item [$\bullet$] Le seul élément de cet ensemble divisible par $16$ est $32$.
+%   \item [$\bullet$] Choisir $d_0 = -3$ donne systématiquement le prochain nombre à construire (en l'ocurrence $32$
+%   dans ce cas) dans l'équation, ce choix donne ainsi une liste de coefficients (possibles ou non) pour la suite. 
+%   \item [$\bullet$] Il n'y a aucun élément divisible par $16$ et non divisible par $32$.
+%  \end{itemize}
+% 
+%  Ceci, ajouté au fait qu'il n'existe pas d'élément $d_1$ tel que $29 = -3 + d_1 \times 16 [64]$ (il suffit de tous les tester) 
+%  montre que le cas $a)$ n'est pas toujours réalisable.
+%  
+%  En reprenant cette fois-ci le cas déjà traité de $53$ et $102$, et en utilisant le même procédé, voilà ce 
+%  que j'obtiens :
+%  
+%    $$\begin{array}{ccccccccc}
+%   53 & = & (1 & 0 & 1 & 0 & 1 & 1 & 0) \\
+%   102 & = & (0 & 1 & 1 & 0 & 0 & 1 & 1)
+%  \end{array}$$
+%  
+%  On cherche $d_0$ et $d_1$ tels que :
+%   \begin{equation}
+%  53 = d_0 + 2^1 \times d_1 [64]
+% \end{equation}
+%  
+%  De la même manière, en écrivant l'ensemble que j'ai noté $k_1 - \dbarre = \{52,50,30,26,54,56,12,16\}$, 
+%  on remarque que pour $k_1 - d_0 = 16$, $56$, $12$ et $52$ (ie $d_0 = -27$, $-3$, $-23$ et $1$), le nombre de 
+%  zéros consécutifs dans la représentation sera trop grand (resp $3$, $2$ et $1$ pour $12$ et $52$) alors que
+%  le prochain bit de $k_1$ non nul devrait être le bit $2$ ($2^1$).
+%  
+%  On remarque dans le même temps, que la divisibilité par une puissance de $2$ est directement liée à cette méthode.
+%  Plus précisement, il est clair que le nombre de zéros que l'on cherche à obtenir donne exactement 
+%  la divisibilité par une puissance de $2$ que l'on doit obtenir. 
+%  
+%  On peut maintenant traiter le cas $b)$ avec ce même outil, et ainsi définir $k_1 - \dbarre$ et $k_2 - \dbarre$
+%  et regarder quelle est la plus grande puissance de $2$ qui divise les deux ensembles.
+%  
+%   \subsubsection{Retour sur la méthode générale}
+%   
+%   On cherche à recoder $k_1$ et $k_2$ deux exposants telle que le recodage compte le plus de $\doublezero$ consécutifs.
+%   On utilise l'ensemble $\dbarre$ construit à partir de coefficients choisis au préalable de manière aléatoire,
+%   et $W_{max}$ comme défini dans la $RDR$ classique.
+%   
+%   Il reste à mettre la méthode en forme.
+%   \begin{itemize}
+%    \item [$1^{\text{ère}}$ étape :] Dans un premier temps, il faut déterminer quels sont les bits de poids faibles non nuls
+%    de chacun des exposants, noté $B_{f,1}$ et $B_{f,2}$ respectivement. Puis on divise $k_1$ et $k_2$ par $2^{B_{f,1}}$ ou $2^{B_{f,2}}$ suivant lequel est le plus faible.
+%    \item [$2^{\text{ème}}$ étape :] Il y a $2$ situations possibles : \\
+%    \begin{itemize}
+%     \item [$\bullet$] Si $B_{f,1} = B_{f,2}$, alors on calcule les ensembles $k_1 - \dbarre$ et $k_2 - \dbarre$, puis on cherche
+%    la plus grande puissance de $2$, disons $2^{\omega}$ divisant l'un des nombres de chacun des ensembles,
+%    et telle que $2^{\omega+1}$ ne divise aucun des deux nombres précédemment cités. \\
+%    Une fois que l'on a déterminé cette puissance de $2$, on pose $d_0$ et $d_0'$ les valeurs de $\dbarre$ telles que : \\
+%    $2^w$ divise $k_1 - d_0$ Mod $(2^{W_{max}})$ \\
+%    $2^w$ divise $k_2 - d_0'$ Mod $(2^{W_{max}})$ \\
+%    Finalement, on vérifie qu'il existe $d_1$ et $d_1'$ dans $\dbarre$ telles que : \\
+%    $k_1 = d_0 + 2^w \times d_1$ Mod $(2^{W_{max}})$ \\
+%    $k_2 = d_0' + 2^w \times d_1'$ Mod $(2^{W_{max}})$.
+%    
+%    Si c'est le cas, on pose alors : \\
+%    $$\begin{array}{cccccc}
+%    k_1 & = & (\underbrace{0 \ldots 0}_{0 \ldots B_{f,1} - 1} & d_0 & \underbrace{0 \ldots 0}_{w-1} & \ldots) \\
+%    k_2 & = & (\underbrace{0 \ldots 0}_{0 \ldots B_{f,2} - 1} & d_0' & \underbrace{0 \ldots 0}_{w-1} & \ldots)
+%    \end{array}$$
+%    
+%    Dans le cas contraire, on réitère le processus avec $2^{w-1}$, et ainsi de suite jusqu'à ce qu'on trouve un quadruplets $(d_0,d_0',d_1,d_1')$ solution.
+%    \item [$\bullet$] Sinon $B_{f,1} \neq B_{f,2}$, par exemple $B_{f,1} > B_{f,2}$. \\
+%    Dans ce cas, on calcule $B_{f,1} - B_{f,2}$, puis on calcule $k_2 - \dbarre$, et finalement on cherche un élément de cette ensemble divisible par $2^{B_{f,1} - B_{f,2}}$.
+%    
+%    Si il existe un tel $d_0$, on vérifie qu'il existe $d_1 \in \dbarre$ tel que :
+%    $k_2 = d_0 + 2^{B_{f,1} - B_{f,2}} \times d_1$ Mod $(2^{W_{max}})$ \\
+%    
+%    Si c'est le cas, on pose alors : \\
+%    $$\begin{array}{cccccc}
+%    k_1 & = & (\underbrace{0 \ldots 0}_{0 \ldots B_{f,2} - 1} & 0 & \underbrace{0 \ldots 0}_{B_{f,1} - B_{f,2}-1} & \ldots) \\
+%    k_2 & = & (\underbrace{0 \ldots 0}_{0 \ldots B_{f,2} - 1} & d_0 & \underbrace{0 \ldots 0}_{B_{f,1} - B_{f,2}-1} & \ldots)
+%    \end{array}$$
+%    
+%    Dans le cas contraire, on réitère avec le processus avec $2^{B_{f,1} - B_{f,2} - 1}$, et ainsi de suite jusqu'à trouver une solution $(d_0,d_1)$ qui fonctionne.
+%    \end{itemize}
+%   \end{itemize}
+% 
+% \begin{Remarque}
+%  Je me suis aperçu par la suite que l'étape de vérification de l'existence de $d_1$ (et de $d_1'$ dans le premier cas)
+%  n'était pas nécessaire.
+%  
+%  On constate que, même s'il n'existe pas $d_1 \in \dbarre$ tel que :
+%  \begin{equation}
+%     k_2 = d_0 + 2^{B_{f,1} - B_{f,2}} \times d_1 \,\,\, \text{Mod} \, (2^{W_{max}})
+%  \end{equation}
+% 
+%    Cela n'entraine pas forcément que c'est impossible, d'ailleurs le principe du recodage montre que, même 
+%    si pour tous les coefficients $d_1 \in \dbarre$, on a $k_2 - d_0 \neq 2^{B_{f,1} - B_{f,2}} \times d_1$ Mod $(2^{W_{max}})$,
+%    alors il suffit simplement de compenser cette différence dans les coefficients qui suivront.
+% \end{Remarque}
+% 
+
 
 \section{Exemple et Contraintes}
 
@@ -1019,8 +1523,9 @@ De ces constats, on peut définir la $DoubleRDR$ selon les deux objectifs suivan
 Prenons un exemple simple afin de comprendre les tenants et les aboutissants de cette méthode.
 
 J'ai choisi $k_1 = 869027$ et $k_2 = 706440$, et $\mathcal{D} = \{1,3,23,27\}$. \\
-On a donc $W_{max} = 6$ et $\dbarre = \{1,3,23,27,37,41,61,63\}$.
+On a donc $W_{max} = 6$ et $\dbarre = \{1,3,23,27,-1,-3,-23,-27\}$.
 
+La représentation binaire du couple d'exposant $(k_1,k_2)$ est :
 $$\begin{array}{cccccccccccccccccccccc}
   869027 & = & (1 & 1 & 0 & 0 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 1 & 0 & 1 & 1) \\
   706440 & = & (0 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 1 & 1 & 0 & 1 & 0 & 1)
@@ -1037,21 +1542,22 @@ $$\begin{array}{cccccccccccccccccccccc}
 
  Nombre de $\doublezero$ : $11$.
  
-Maintenant appliquons la méthode sur ces deux exposants, en tout premier lieu il s'agit d'observer les bits faibles de chacun 
+On applique la méthode $DoubleRDR$ sur ces deux exposants, premièrement il s'agit d'observer les bits faibles de chacun 
 des exposants. \\
 On a donc $B_{f,1} = 0$ et $B_{f,2} = 3$, et donc $B_{f,1} < B_{f,2}$. \\
-Ensuite, comme $B_{f,1} - B_{f,2} = 3$, il s'agit de trouver les coefficients $d_0$ et $d_1$ de $\dbarre$ tels que
+Ensuite, comme $\omega = B_{f,1} - B_{f,2} = 3$, il s'agit de trouver le coefficient $d_0$ de $\dbarre$ tel que :
+   \begin{center}
+    $2^{3} \mid (k_1 - d_0) \mod 64$ \\
+    $2^{4} \nmid (k_1 - d_0) \mod 64$
+   \end{center}
 
-  $$\begin{array}{ccc}
-k_1 & = & d_0 + 2^3 \times d_1[64] \\
- \end{array}$$
-
- Pour se faire, on calcule donc $k_1 - \dbarre$.
- Ici $k_1 = 35 [64]$, et donc on a : \\
+   Il y a une méthode rapide et efficace pour déterminer rapidement le coefficient $d_0$, il suffit de calculer
+   $k_1 - \dbarre = \{(k_1 - d) \mod 64, d \in \dbarre\}$, et de choisir un nombre divisible par $8$ et non 
+   divisible par $16$ dans cet ensemble. \\
+   Dans ce cas , on a $k_1 = 35 \mod 64$, et donc on a : \\
  $k_1 - \dbarre = \{34,32,12,8,36,38,58,62\}$. \\
- On remarque que $8$ divise $8$, et donc $d_0 = 27$. \\
- Maintenant, il faut vérifier qu'il existe $d_1 \in \dbarre$, pour lequel
- $8 \times d_1 = 8$, ce qui est le cas pour $d_1 = 1$.
+ On remarque que $8$ est divisible par $8$ et non divisible par $16$, et donc $d_0 = 27$ convient ($8 = 35-27$).
+ 
  
  Donc on a :
  
@@ -1066,25 +1572,19 @@ k_1 & = & d_0 + 2^3 \times d_1[64] \\
   \frac{706440}{8} & = & 88305
  \end{array}$$
  
-Puis on note les bits faibles de chacun des exposants, $B_{f,1} = B_{f,2} = 0$. \\
-Comme les bits faibles sont identiques, on calcule $k_1 - \dbarre$ et $k_2 - \dbarre$. \\
-Ici $k_1 = 17 [64]$ et $k_2 = 49 [64]$. \\
+Puis on note les bits faibles de chacun des restes, $B_{f,1} = B_{f,2} = 0$. \\
+Il y a également une méthode rapide et efficace pour calculer les coefficients $d_0$ et $d_0'$, on calcule
+$k_1 - \dbarre$ et $k_2 - \dbarre$, puis on cherche $\omega_{max}$ tel que dans chaque ensemble $k_i - \dbarre$, 
+il y ait un nombre divisible par $2^{\omega_{max}}$ et non divisible par $2^{\omega_{max}+1}$.
+
+Ici $k_1 = 17 \mod 64$ et $k_2 = 49 \mod 64$. \\
 Ainsi  $k_1 - \dbarre = \{16,14,58,54,18,20,40,44\}$. \\
 Et  $k_2 - \dbarre = \{48,46,26,22,50,52,8,12\}$. \\ 
 La plus grande puissance de $2$ qui divise un des élément dans chacun des ensembles est $16$
-car il y a $16$ dans le premier ensemble et $48$ dans le second. \\
-Ainsi pour $d_0 = 1$ pour $k_1$ et $d_0' = 1$ pour $k_2$, il reste à vérifier qu'il existe $d_1$ et 
-$d_1'$ tels que :
+car il y a $16$ dans le premier ensemble et $48$ dans le second. Or $32$ ne divise aucun de ces deux nombres. 
+Donc $\omega_{max} = 4$. \\
+Ainsi pour $d_0 = 1$ pour $k_1$ et $d_0' = 1$ pour $k_2$, la $DoubleRDR$ de $(k_1,k_2)$ donne :
 
-   $$\begin{array}{ccc}
-k_1 & = & 1 + 16 \times d_1[64] \\
-k_2 & = & 1 + 16 \times d_1'[64]
- \end{array}$$
- 
-Ce qui est le cas pour $d_1 = 1$ et $d_1' = 3$. 
-
-Donc on a :
- 
  $$\begin{array}{cccccccccc}
   869027 & = & (27 & 0 & 0 & 1 & 0 & 0 & 0 & \ldots \\
   706440 & = & (0 & 0 & 0 & 1 & 0 & 0 & 0 & \ldots
@@ -1096,29 +1596,20 @@ Donc on a :
   \frac{88305-1}{16} & = & 5519
  \end{array}$$
  
- On continue la méthode, on se retrouver dans la même situation que précédemment.
+ On continue la méthode, on est dans le même cas que précédemment ($B_{f,1} = B_{f,2} = 0$).
  
  Ainsi on réitère le processus : \\
- Ici $k_1 = 5 [64]$ et $k_2 = 15 [64]$. \\
+ Ici $k_1 = 5 \mod 64$ et $k_2 = 15 \mod 64$. \\
 Ainsi  $k_1 - \dbarre = \{4,2,46,42,6,8,28,32\}$. \\
 Et  $k_2 - \dbarre = \{14,12,56,52,16,18,38,42\}$. \\ 
- Cette fois-ci, on remarque que $32$ divise un élément de $k_1 - \dbarre$ mais aucun élément de $k_2 - \dbarre$,
-et $16$ divise un élement de $k_2 - \dbarre$ et $32$ pour $k_1 - \dbarre$, cependant comme il a été dit précédemment
-il est impossible de trouver un élément $d_1$ tel que $k_1 - d_0 = 32 = 16 \times d_1 [64]$, car dans ce case
-on aurait $d_1$ pair et non nul, impossible.
-
+ Cette fois-ci, on remarque que $2^5 = 32$ divise un élément de $k_1 - \dbarre$ (pour $d_0 = -27$, $k_1 - d_0 = 32$) 
+ mais aucun élément de $k_2 - \dbarre$, donc $\omega_{max} < 5$. \\
+Puis $16$ divise un élement de $k_2 - \dbarre$, et le seul élément de $k_1 - \dbarre$ divisible par $16$ est aussi
+divisible par $32$, donc $\omega_{max} < 4$. \\
 Donc on a $8$ la plus grande puissance de $2$ divisant à la fois un élément de $k_1 - \dbarre$
-et un de $k_2 - \dbarre$, et telle que la puissance supérieure ($16$) ne divise pas ces éléments. \\
-On prend $d_0 = -3$ pour $k_1$ et $d_0' = 23$ pour $k_2$, il reste à vérifier qu'il existe $d_1$ et 
-$d_1'$ tels que :
-
-   $$\begin{array}{ccc}
-k_1 & = & -3 + 8 \times d_1[64] \\
-k_2 & = & 23 + 8 \times d_1'[64]
- \end{array}$$
+et un de $k_2 - \dbarre$, et telle que $16$ ne divise pas ces éléments, donc $\omega_{max} = 3$. \\
+On prend $d_0 = -3$ pour $k_1$ et $d_0' = 23$ pour $k_2$.
  
-Ce qui est le cas pour $d_1 = 1$ et $d_1' = -1$.
-
 Donc on a :
  
  $$\begin{array}{ccccccccccccc}
@@ -1132,21 +1623,11 @@ Donc on a :
   \frac{5519-23}{8} & = & 687
  \end{array}$$
  
- On continue la méthode, on se retrouver dans la même situation que précédemment.
- 
- Ainsi on réitère le processus : \\
+ On obtient $k_1$ et $k_2$ impairs, comme précédemment. Ainsi on réitère le processus : \\
  Ici $k_1 = 17 [64]$ et $k_2 = 47 [64]$. \\
 Ainsi  $k_1 - \dbarre = \{16,14,58,54,18,20,40,44\}$. \\
 Et  $k_2 - \dbarre = \{46,44,24,20,48,50,6,10\}$. \\ 
- Ainsi on prend $d_0 = 1$ pour $k_1$ et $d_0' = -1$ pour $k_2$, il reste à vérifier qu'il existe $d_1$ et 
-$d_1'$ tels que :
-
-   $$\begin{array}{ccc}
-k_1 & = & 1 + 16 \times d_1[64] \\
-k_2 & = & -1 + 16 \times d_1'[64]
- \end{array}$$
- 
-Ce qui est le cas pour $d_1 = 1$ et $d_1' = 3$.
+ Ainsi, on a $\omega_{max} = 4$ en prenant $d_0 = 1$ pour $k_1$ et $d_0' = -1$ pour $k_2$.
 
 Donc on a :
  
@@ -1161,110 +1642,71 @@ Donc on a :
   \frac{687 + 1}{16} & = & 43
  \end{array}$$
  
- Les deux exposants sont inférieurs à $64$, il reste à finir le recodage.
+ Les deux exposants sont inférieurs à $64$, il reste à finir le recodage en prenant la $RDR$ de chaque reste
+ d'exposants (ici $53$ et $43$).
  
- On continue le processus : \\
- 
-  Ici $k_1 = 53 [64]$ et $k_2 = 43 [64]$. \\
-Ainsi  $k_1 - \dbarre = \{52,50,30,26,54,56,12,16\}$. \\
-Et  $k_2 - \dbarre = \{42,40,20,16,44,46,2,6\}$. \\ 
- Ainsi on prend $d_0 = -27$ pour $k_1$ et $d_0' = 27$ pour $k_2$, il reste à vérifier qu'il existe $d_1$ et 
-$d_1'$ tels que :
+ On détermine la $RDR$ de chaque exposant :
+   $$\begin{array}{cccccccccc}
+  53 & = & (-27 & 0 & 0 & 0 & -3 & 0 & 0 & 1) \\
+  43 & = & (27 & 0 & 0 & 0 & 1 & 0 & 0 & 0)
+ \end{array}$$
 
-   $$\begin{array}{ccc}
-k_1 & = & -27 + 16 \times d_1[64] \\
-k_2 & = & 27 + 16 \times d_1'[64]
+ La $DoubleRDR$ de $(k_1,k_2)$ est :
+  $$\begin{array}{cccccccccccccccccccccccc}
+  869027 & = & (27 & 0 & 0 & 1 & 0 & 0 & 0 & -3 & 0 & 0 & 1 & 0 & 0 & 0 & -27 & 0 & 0 & 0 & -3 & 0 & 0 & 1) \\
+  706440 & = & (0 & 0 & 0 & 1 & 0 & 0 & 0 & 23 & 0 & 0 & -1 & 0 & 0 & 0 & 27 & 0 & 0 & 0 & 1 & 0 & 0 & 0)
  \end{array}$$
  
-Ce qui est le cas pour $d_1 = 1$ et $d_1' = 1$.
-
- Donc on a :
- 
- $$\begin{array}{ccccccccccccccccccccc}
-  869027 & = & (27 & 0 & 0 & 1 & 0 & 0 & 0 & -3 & 0 & 0 & 1 & 0 & 0 & 0 & -27 & 0 & 0 & 0 & \ldots \\
-  706440 & = & (0 & 0 & 0 & 1 & 0 & 0 & 0 & 23 & 0 & 0 & -1 & 0 & 0 & 0 & 27 & 0 & 0 & 0 & \ldots
- \end{array}$$
- 
- Et on effectue :
- $$\begin{array}{cccccc}
-  \frac{53 + 27}{16} & = & 5 \\
-  \frac{43 - 27}{16} & = & 1
- \end{array}$$
- 
- On peut finir l'exemple à la main (car les nombres sont très petits, $5$ et $1$).
- 
- Ce qui donne donc :
- 
-  $$\begin{array}{ccccccccccccccccccccccc}
-  869027 & = & (27 & 0 & 0 & 1 & 0 & 0 & 0 & -3 & 0 & 0 & 1 & 0 & 0 & 0 & -27 & 0 & 0 & 0 & 1 & 0 & 1) \\
-  706440 & = & (0 & 0 & 0 & 1 & 0 & 0 & 0 & 23 & 0 & 0 & -1 & 0 & 0 & 0 & 27 & 0 & 0 & 0 & 1 & 0 & 0)
- \end{array}$$
- 
-  Nombre de $\doublezero$ : $14$.
-  
-  On remarque tout d'abord que le nombre de $\doublezero$ est bien plus élevé ($3$ de plus su $20$ bits).
-  
+  Nombre de $\doublezero$ : $15$.
+    
   \begin{Remarque}
-   A noter que toute la méthode a été suivie en faisant la vérification du coefficient $d_1$, alors que ce
-   n'était pas nécessaire. Cependant, cela montre un fait intéressant, il existe presque toujours un coefficient $d_1$
-   vérifiant l'équation. 
-   
-   L'existence de $d_1$ (et de $d_1'$) vient du fait que plus la puissance $2^w$ est grande,
-   plus $2^{W_{max}-\omega}$ est petit, et donc plus on a de chances de trouver un coefficient $d_1$ de $\dbarre$
-   satisfaisant :
- $$\begin{array}{ccc}
-    d_1 & = & \frac{k_2 - d_0}{2^{\omega}} \text{Mod} \, (2^{W_{max}-\omega}) \\
-    2^{w} \times d_1 & = & k_2 - d_0 \,\,\, \text{Mod} \, (2^{W_{max}}) \\
-    k_2 & = & d_0 + 2^{\omega} \times d_1 \,\,\, \text{Mod} \, (2^{W_{max}})
- \end{array}$$
-   
-   Dans notre exemple, le choix des coefficients de $\mathcal{D}$ nous a permis de jamais bloquer sur l'existence d'un
-   tel $d_1$ (qui n'était pas nécessaire pour avancer dans la représentation).
+   On remarque que le nombre de $\doublezero$ est bien plus élevé ($4$ de plus sur $20$ bits), que pour
+   la $JSF$ ou pour la $RDR$ appliquée à chaque exposant.
   \end{Remarque}
  
  \subsection{Contraintes et Objectifs}
-La première étape m'a permis de définir des contraintes supplémentaires à celles que j'avais défini au début de mon approche.
+ 
+ La $DoubleRDR$ est efficace, cependant il y a quelques contraintes pour programmer une telle méthode.
+ 
+ On donne les contraintes liées à la sécurité de l'algorithme dans un premier temps, 
+ puis celles liées à la performance dans un second temps. 
+ 
+\subsubsection{Contraintes liées à la sécurité.}
 
-\subsubsection{Premières contraintes liées à la $RDR$}
-
-J'ai d'abord défini deux contraintes liées à l'approche du problème de recodage aléatoire que nous avions défini avec mon superviseur.
+Il y a contraintes liées à la résistance à une attaque par canaux auxiliaires, qui l'objectif principal de la $DoubleRDR$.
 \begin{itemize}
- \item [$\bullet$] La première condition de la double représentation est l'utilisation de coefficients choisis au préalable dans un tableau $\overline{\mathcal{D}}$.
- \item [$\bullet$] La deuxième condition est le choix d'une taille de fenêtre particulière qui permettra notamment de choisir les 
- coefficients en fonction.
-\end{itemize}
+ \item [$\bullet$] La première condition de la double représentation est l'utilisation de coefficients choisis aléatoirement (l'ensemble $\overline{\mathcal{D}}$).
+ \item [$\bullet$] Il est important que les résultats ne dépendent pas des coefficients choisis (il faut que 
+ les résulats soient similaires lorsuq'on change l'ensemble $\mathcal{D}$).
+ \item [$\bullet$] La disjonction de cas, lorsque les bits faibles sont égaux ou non, peut poser problème
+ au niveau de la sécurité (car l'utilisation d'un ``if'' semble nécessaire).
+ \end{itemize}
 
-\subsubsection{Contraintes liées à la méthode de recodage}
-
-J'ai ensuite établi les contraintes liées à la méthode de recodage pour la double exponentiation.
-\begin{itemize}
- \item [$\bullet$] La première contrainte est la connaissance des prochains bits non nuls de chacun des nombres, ceci peut être un problème du point de vue de la performance.
- \item [$\bullet$] La deuxième contrainte est la disjonction de cas, lorsque les bits faibles sont égaux ou non. \\
- Cela peut poser problème d'une part au niveau de l'implémentation, mais aussi au niveau de la sécurité (car l'utilisation d'un ``if'' semble nécessaire).
- \item [$\bullet$] Une des contrainte la plus gênante est la non existence de solution $d_0$ au problème :
-\begin{equation}
- 2^{\omega} \,\,\, \text{divise} \,\,\, (k_1 - d_0) \,\,\, \text{Mod} \, (2^{W_{max}})
-\end{equation}
+\subsubsection{Contraintes liées aux performances}
 
  
- En effet, d'un point de vue performance (temps de calcul ET nombre de double zéros), cette contrainte est la plus embarrassante.
+\begin{itemize}
+ \item [$\bullet$] Le choix d'une taille de fenêtre maximale $W_{max}$ est obligatoire pour choisir les 
+ coefficients de la $DoubleRDR$.
+ \item [$\bullet$] Il faut pouvoir déterminer les prochains bits non nuls de chacun des nombres ($B_{f,1}$ et $B_{f,2}$), 
+ ceci peut être un problème du point de vue de la performance.
+ \item [$\bullet$] Lorsque $B_{f,1} \neq B_{f,2}$, il peut arriver qu'il n'y ait pas de solution au problème : \\
+    Trouver $d_0 \in \dbarre$ tel que :
+   \begin{center}
+    $2^{\omega} \mid (k_i - d_0) \mod (2^{W_{max}})$ \\
+    $2^{\omega+1} \nmid (k_i - d_0) \mod (2^{W_{max}})$
+   \end{center}
+ C'est un contrainte embarrassante au niveau de la performance (temps de calcul ET nombre de double zéros).
 \end{itemize}
 
 \subsubsection{Objectifs et Définition}
 
-Voici donc la fin de l'approche de cette méthode de recodage, qui est une extension de la $RDR$ pour deux exposants,
-c'est pourquoi je l'ai tout simplement appelé $DoubleRDR$.
-
-Je pourrais la définir de cette manière, la $DoubleRDR$ d'un couple $(k_1 , k_2)$ est la représentation
-de ce couple en base $2$ vérifiant ces deux objectifs/conditions principaux :
-
+Pour rappel, on définit la $DoubleRDR$ comme la représentation d'un couple $(k_1 , k_2)$ en base $2$ 
+vérifiant ces deux objectifs/conditions principaux :
 \begin{itemize}
- \item [Objectif $1$] Le nombre de bits non nuls 
- (ie $\begin{pmatrix} d_0 \\ 0 \end{pmatrix}$,
- $\begin{pmatrix} 0 \\ d_0 \end{pmatrix}$ ou
- $\begin{pmatrix} d_0 \\ d_0' \end{pmatrix}$)
- doit être minimal.
- \item [Objectif $2$] Le nombre de $\doublezero$ consécutifs suivant un bit non nul est maximal. 
+ \item [Objectif $1$] Les coefficients de $k_1$ et $k_2$ sont choisis tels qu'il y ait le même nombre de $0$
+ consécutifs dans les représentations de $k_1$ et $k_2$.
+ \item [Objectif $2$] Le nombre de $\doublezero$ consécutifs, suivant un bit dont le coefficient est non nul est, maximal. 
 \end{itemize}
 
 
@@ -1296,349 +1738,6 @@ de ce couple en base $2$ vérifiant ces deux objectifs/conditions principaux :
 %J'ai donc obtenu une représentation plus efficace ($5$ double zéros contre $4$ pour le précédent recodage).
 %Malgré que je n'ai pas de certitudes à ce moment là, cela semble la méthode la plus efficace.
 %Je décide d'appliquer la méthode sur des exemples plus significatifs.
-
-\section{Décortiquer et trouver une méthode explicite}
-
-  Dans les deux représentations les plus efficaces obtenues dans la partie précédente, on remarque que 
-  les coefficients non nuls de chacun des exposants ``correspondent'' (c'est-à-dire qu'ils sont sur 
-  le même bit), comment parvient-on à un tel résultat ? 
-  
-  Il existe une infinité de recodage, et une méthode pour trouver la représentation ``parfaite'' d'un couple
-  d'exposant n'existe probablement pas, cependant une méthode pour optimiser le recodage en fonction des objectifs
-  fixés est mise en évidence dans cette partie.
-
-  \subsection{Démarrage du recodage}
-  
-  Malgré une infinité de représentations possibles (par exemple  $ \begin{pmatrix} 1 & 0 & -1 \end{pmatrix}$
-  peut être remplacé par  $ \begin{pmatrix} 0 & 0 & 3 \end{pmatrix}$ dans les représentations précédentes), 
-  l'approche de la problématique posée est la suivante : il faut commencer par fixer les positions 
-  (les bits) pour lesquels les exposants auront des coefficients non nuls.
-
-  Pour se faire, il faut choisir parmi ces deux possibilités :
-  \begin{itemize}
-   \item [$1)$] Recoder du bit de poids fort jusqu'au bit de poids faible (premier recodage).
-   \item [$2)$] Recoder du bit de poids faible jusqu'au bit de poids fort (deuxième recodage).
-   \end{itemize}
-
-   La deuxième représentation est plus efficace, notamment dans l'exemple de $53$ et $102$.
-   
-   Ainsi, en optant pour le recodage à partir du bit de poids faible, les bits de poids faibles sont les 
-   premiers bits fixés, il faut ensuite choisir des coefficients pour les exposants, puis avancer dans la représentation.
-   
-   Par exemple, pour l'exemple de $53$ et $102$, on a :
-   \begin{itemize}
-    \item [$\bullet$] $53$ est impair donc le bit $0$ est fixé.
-    \item [$\bullet$] $102$ est pair et non divisible par $4$ donc le bit $1$ est fixé.
-    \end{itemize}
-    
- $$\begin{array}{ccccccccc}
-  53 & = & (0 & 1 & 1 & 0 & 1 & 0 & \textcolor{blue}{1}) \\
-  102 & = & (1 & 1 & 0 & 0 & 1 & \textcolor{blue}{1} & 0)
- \end{array}$$
- 
- Pour la suite, les bits de poids faibles sont à gauche (et non à droite).
- 
-  $$\begin{array}{ccccccccc}
-  53 & = & (\textcolor{blue}{1} & \textcolor{blue}{0} & 1 & 0 & 1 & 1 & 0) \\
-  102 & = & (\textcolor{blue}{0} & \textcolor{blue}{1} & 1 & 0 & 0 & 1 & 1)
- \end{array}$$
- 
- \begin{Remarque}
- Il est nécessaire de toujours commencer un recodage avec l'écriture binaire d'un (des) exposant(s), car chaque
- coefficient se calcule d'une manière simple, contrairement aux coefficients de la $JSF$ ou à ceux de la $RDR$.
- 
- De plus, calculer la $RDR$ ou la $JSF$ de chacun des exposants avant de recoder le couple d'exposant est inefficace,
- et ralentit considérablement l'algorithme de double exponentiation.
- \end{Remarque}
-
- Il s'agit maintenant de choisir les coefficients pour ces premiers bits fixés, pour se faire, il faut commencer
- par le coefficient ``le plus à gauche'', c'est-à-dire correspondant au bit le plus faible (le bit $0$ dans notre cas).
- 
- \subsection{Le choix des coefficients}
- 
- Dans cette partie, une méthode de choix des coefficients est expliquée.
- 
- Pour illustrer cette méthode, on commence par choisir les coefficients des premiers bits fixés (représentés 
- en bleu sur la fin de la partie précédente), on remarque que :
- \begin{itemize}
-  \item [$1)$] Comme $102$ est pair, nécessairement son premier bit est nul.
-  \item [$2)$] Comme $53$ est impair, son premier bit est non nul.
-  \item [$3)$] Puisque le bit $1$ de $102$ est non nul, il est inutile d'avoir un $0$ sur le bit $1$ de $53$.
-  \item [$4)$] On choisit donc le coefficient du bit $0$ de $53$ tel que le coefficient du bit $1$ soit non nul.
-  Pour se faire il suffit de choisir $d_0$ tel que $53 - d_0$ soit divisible par $2$ mais pas par $2^2 = 4$ (car dans 
-  ce cas $\frac{53 - d_0}{2}$ est pair et donc le bit suivant est $0$). \\
-  Il suffit de choisir parmi $3$, $23$, $27$ ou $-1$. Prenons $d_0 = 3$ par exemple.
- \end{itemize}
-
- On a donc :
- 
-   $$\begin{array}{ccccccccc}
-  53 & = & (\textcolor{red}{3} & \textcolor{blue}{?} & \ldots & \ldots & \ldots & \ldots & \ldots) \\
-  102 & = & (\textcolor{red}{0} & \textcolor{blue}{?} & \ldots & \ldots & \ldots & \ldots & \ldots)
- \end{array}$$
- 
- Une fois le premier coefficient choisi pour chaque exposant, on continue le recodage, on remarque que :
- 
- \begin{itemize}
-  \item [$1)$] Pour ``avancer'' dans la représentation, il faut calculer  $\frac{53 - d_0}{2} = 25$ et $\frac{102}{2} = 51$.
-  \item [$2)$] Pour rappel, l'objectif $1$ est que les deux exposants aient le même nombre de $0$ consécutifs dans leur représentation.
-  \item [$3)$] Pour rappel, l'objectif $2$ est qu'il y ait un maximum de $\doublezero$ consécutifs dans la représentation du couple.
-  \item [$4)$] Les nombres $25$ et $51$ ont le même nombre de $0$ consécutifs dans leur représentation si $25 - d_0$ et $51 - d_0'$ 
-  ont la même divisibilité par une puissance de $2$, c'est-à-dire qu'il existe $k$ tel que $25 - d_0$ et $51 - d_0'$ sont divisibles
-  par $2^k$ et non divisibles par $2^{k+1}$, dans ce cas il y a $k-1$ zéros consécutifs (et pas un de plus !) dans la représentation
-  de chaque exposant.
-  \item [$5)$] Afin de respecter l'objectif $2$, il faut choisir $d_0$ et $d_0'$ tels que le nombre $k$, défini dans le point précédent
-  soit le plus grand possible.
-  \item [$6)$] Pour $d_0 = -23$ et $d_0' = 3$, on a $25 - d_0 = 48$ et $51 - d_0' = 48$, tous deux divisibles par $2^4$
-  et non par $2^5$.
- \end{itemize}
-  
-  On a donc :
-  
-    $$\begin{array}{ccccccccc}
-  53 & = & (\textcolor{red}{3} & \textcolor{red}{-23} & \textcolor{blue}{?} & \ldots & \ldots & \ldots & \ldots) \\
-  102 & = & (\textcolor{red}{0} & \textcolor{red}{3} & \textcolor{blue}{?} & \ldots & \ldots & \ldots & \ldots)
- \end{array}$$
-
- Ainsi, on calcule $\frac{25 - d_0}{2} = 24$ et $\frac{51 - d_0}{2} = 24$, tous les deux divisibles par $8 = 2^3$, on a donc :
- 
-     $$\begin{array}{ccccccccc}
-  53 & = & (\textcolor{red}{3} & \textcolor{red}{-23} & \textcolor{red}{0} & \textcolor{red}{0} & \textcolor{red}{0} & \textcolor{blue}{?} & \ldots) \\
-  102 & = & (\textcolor{red}{0} & \textcolor{red}{3} & \textcolor{red}{0} & \textcolor{red}{0} & \textcolor{red}{0} & \textcolor{blue}{?} & \ldots)
- \end{array}$$
- 
- Ainsi, on calcule $\frac{24}{8} = 3$, on a donc $d_0 = 3$ pour les deux exposants, ce qui donne :
- 
-      $$\begin{array}{cccccccc}
-  53 & = & (\textcolor{red}{3} & \textcolor{red}{-23} & \textcolor{red}{0} & \textcolor{red}{0} & \textcolor{red}{0} & \textcolor{red}{3}) \\
-  102 & = & (\textcolor{red}{0} & \textcolor{red}{3} & \textcolor{red}{0} & \textcolor{red}{0} & \textcolor{red}{0} & \textcolor{red}{3})
- \end{array}$$
- 
- 
-\subsection{Le choix d'une fenêtre}
-
-La première étape consiste à choisir une fenêtre à observer (on ne regarde qu'une partie de chaque nombre et 
-non les deux nombres dans leur totalité comme dans la partie tatonnement).
-J'ai opté pour une fenêtre de même taille que celle choisie pour la $RDR$, c'est-à-dire $6$ dans notre exemple.
-J'ai remarqué qu'un bit ne pouvait influer un bit d'une valeur supérieure à cette taille de fenêtre.
-
-Ainsi, \\
-  $$\begin{array}{ccc}
-53 & = & (0 \, \underbrace{1 \, 1 \, 0 \, 1 \, 0 \, 1}_{53}) \\
-102 & = & (1 \, \underbrace{1 \, 0 \, 0 \, 1 \, 1 \, 0}_{38})
- \end{array}$$
- 
-On peut également remarquer que j'ai commencé par le bit de poids faible (bit $2^0$).
-Dans la partie précédente, j'avais signalé qu'il était plus efficace de commencer par la droite car les bits de poids 
-faibles sont amovibles.
-
-\subsection{Le coeur de la méthode, le choix des coefficients}
-
-J'ai commencé par observé les deux premiers bits non nuls de $53$ et $102$, qui sont le bit $1$ ($2^0$) et le 
-bit $2$ ($2^1$) pour $53$ et $102$ respectivement.
-Ainsi le nombre $53$ est le premier à recoder, je définis ensuite les bits que je m'autorise à utiliser, dans ce cas, je peux
-utiliser au moins le bit $1$ et le bit $2$ (car bit faible de $102$).
-
-Une fois les conditions établies, le premier objectif donné est de choisir les deux coefficients (celui pour le bit $1$
-et celui pour le bit $2$) de telle sorte qu'il y ait un maximum de zéros consécutifs dans la représentation de $53$.
-Cela revient à trouver $d_0$ et $d_1$ dans $\overline{\mathcal{D}}$ telles que :
-\begin{equation}
- 53 = d_0 + 2 \times d_1 [64]
-\end{equation}
-
-Si de tels coefficients existent et sont dans $\overline{\mathcal{D}}$, alors la représentation de $53$ aura uniquement deux bits non
-nuls, les deux premiers bits.
-
-En prenant $d_0 = -1$ et $d_1 = 27$, on obtient bien $53$.
-
-Passons maintenant à l'exposant $102$, son premier bit est $0$ car il est pair.
-Ainsi je fixe $0$, et je regarde désormais $51 = \frac{102}{2}$, ce qui revient à regarder les $6$ prochains bits :
-  $$\begin{array}{ccc}
-53 & = & (\underbrace{0 \, 1 \, 1 \, 0 \, 1 \, 0}_{26} \, 1) \\
-102 & = & (\underbrace{1 \, 1 \, 0 \, 0 \, 1 \, 1}_{51} \, 0)
- \end{array}$$
-
-De la même manière qu'avec $53$, on cherche $d_0$ dans $\overline{\mathcal{D}}$ telles que :
-\begin{equation}
- 51 = d_0 [64]
-\end{equation}
-
-Comme ce n'est pas possible, on cherche alors $d_0$ et $d_1$ dans $\overline{\mathcal{D}}$ telles que :
-\begin{equation}
- 51 = d_0 + 2^5 \times d_1 [64]
-\end{equation}
- 
-On remarque alors $d_0$ vérifie :
-\begin{equation}
- 51 = d_0 [32]
-\end{equation}
- 
-Ce qui est également impossible.
-J'ai donc essayé avec une puissance plus petite :
-\begin{equation}
- 51 = d_0 + 2^4 \times d_1 [64]
-\end{equation}
-
-On a donc :
-  $$\begin{array}{cccc}
-51 & = & d_0 & [16] \\
-\, & = & 3 & [16]
- \end{array}$$
-
-Ainsi on obtient $d_0 = 3 [16] = 3$ (car le seul coefficient de $\overline{\mathcal{D}}$ vérifiant cette condition).
-
-D'où on constate que $d_1$ vérifie :
-\begin{equation}
- 48 = 2^4 \times d_1 [64]
-\end{equation}
- 
-on remarque que $d_1 = 3$ est solution.
-Cependant il est important de noter que $-1$, $23$ et $27$ était également solution et que tous ces coefficients
-vérifient $d_1 = 3 [4]$ (car $4 = \frac{64}{16}$).
-
-Finalement, on obtient la représentation suivante :
-  $$\begin{array}{ccccccccc}
-  53 & = & (0 & 0 & 0 & 0 & 0 & 27 & -1) \\
-  102 & = & (0 & 3 & 0 & 0 & 0 & 3 & 0)
- \end{array}$$
-
- On notera que le recodage contient le même nombre de double zéros que celui obtenu par tatonnement ($5$), mais il
- contient plus de $0$ ($1$ de plus) que ce dernier.
- 
-\subsection{Principes fondamentaux de la méthode}
- 
- Avec le premier exemple, très simple, de $53$ et $102$, que je noterai $k_1 = 53$ et $k_2 = 102$ 
- dans la suite de l'explication, j'en ai extrait un procédé applicable à de plus grands nombres.
- 
- En essayant d'appliquer cette méthode sur des nombres plus grands (de $20$ bits), je détecte que plusieurs cas n'ont 
- pas été traités, et principalement le cas où le bit de poid faible de chacun des exposant est le même (par exemple les deux 
- exposants sont impairs).
- 
- \subsubsection{Distinction de cas}
- 
- En essayant d'appliquer le procédé sur la représentation binaire des deux exposants, j'ai remarqué que la première
- phase consistait à enregistrer le bit faible de chacun des exposants, en faisant cela je suis arrivé à une distinction
- de cas.
- 
- J'ai également décidé d'inverser la représentation des deux exposants et de les ranger du bit faible au bit fort pour 
- plus de clarté (plus logique car recodage de gauche à droite).
- 
- J'ai distingué $2$ cas au sein de la méthode:
- \begin{itemize}
-  \item [$a)$] Le cas déjà traité : lorsque le premier bit faible de $k_1$ est différent de celui de $k_2$. \\
-  \item [$b)$] Le cas non traité : lorsque le premier bit faible de $k_1$ est à la même position que celui de $k_2$.
-  \end{itemize} 
-
- \subsubsection{Un problème nommé arithmétique}
-
- Pour traiter le cas $a)$, j'ai remarqué que ce n'était pas toujours possible et pour constaté cela j'ai utilisé un outil
- qui m'a permis de traiter la totalité des cas et d'éclaircir cette méthode.
- 
- Prenons par exemple $16$ et $29$,
-  $$\begin{array}{ccccccccc}
-  16 & = & (0 & 0 & 0 & 0 & 1 & 0 & 0) \\
-  29 & = & (1 & 0 & 1 & 1 & 1 & 0 & 0)
- \end{array}$$
- 
- Il n'est pas possible de recoder $k_2 = 29$ avec $d_0$ et $d_1$ dans $\dbarre$ de telle sorte que :
- \begin{equation}
- 29 = d_0 + 2^4 \times d_1 [64]
-\end{equation}
- 
- En effet, en écrivant l'ensemble que j'ai noté $k_2 - \dbarre = \{28,26,6,2,30,32,52,56\}$, on remarque que :
- \begin{itemize}
-  \item [$\bullet$] Le seul élément de cet ensemble divisible par $16$ est $32$.
-  \item [$\bullet$] Choisir $d_0 = -3$ donne systématiquement le prochain nombre à construire (en l'ocurrence $32$
-  dans ce cas) dans l'équation, ce choix donne ainsi une liste de coefficients (possibles ou non) pour la suite. 
-  \item [$\bullet$] Il n'y a aucun élément divisible par $16$ et non divisible par $32$.
- \end{itemize}
-
- Ceci, ajouté au fait qu'il n'existe pas d'élément $d_1$ tel que $29 = -3 + d_1 \times 16 [64]$ (il suffit de tous les tester) 
- montre que le cas $a)$ n'est pas toujours réalisable.
- 
- En reprenant cette fois-ci le cas déjà traité de $53$ et $102$, et en utilisant le même procédé, voilà ce 
- que j'obtiens :
- 
-   $$\begin{array}{ccccccccc}
-  53 & = & (1 & 0 & 1 & 0 & 1 & 1 & 0) \\
-  102 & = & (0 & 1 & 1 & 0 & 0 & 1 & 1)
- \end{array}$$
- 
- On cherche $d_0$ et $d_1$ tels que :
-  \begin{equation}
- 53 = d_0 + 2^1 \times d_1 [64]
-\end{equation}
- 
- De la même manière, en écrivant l'ensemble que j'ai noté $k_1 - \dbarre = \{52,50,30,26,54,56,12,16\}$, 
- on remarque que pour $k_1 - d_0 = 16$, $56$, $12$ et $52$ (ie $d_0 = -27$, $-3$, $-23$ et $1$), le nombre de 
- zéros consécutifs dans la représentation sera trop grand (resp $3$, $2$ et $1$ pour $12$ et $52$) alors que
- le prochain bit de $k_1$ non nul devrait être le bit $2$ ($2^1$).
- 
- On remarque dans le même temps, que la divisibilité par une puissance de $2$ est directement liée à cette méthode.
- Plus précisement, il est clair que le nombre de zéros que l'on cherche à obtenir donne exactement 
- la divisibilité par une puissance de $2$ que l'on doit obtenir. 
- 
- On peut maintenant traiter le cas $b)$ avec ce même outil, et ainsi définir $k_1 - \dbarre$ et $k_2 - \dbarre$
- et regarder quelle est la plus grande puissance de $2$ qui divise les deux ensembles.
- 
-  \subsubsection{Retour sur la méthode générale}
-  
-  On cherche à recoder $k_1$ et $k_2$ deux exposants telle que le recodage compte le plus de $\doublezero$ consécutifs.
-  On utilise l'ensemble $\dbarre$ construit à partir de coefficients choisis au préalable de manière aléatoire,
-  et $W_{max}$ comme défini dans la $RDR$ classique.
-  
-  Il reste à mettre la méthode en forme.
-  \begin{itemize}
-   \item [$1^{\text{ère}}$ étape :] Dans un premier temps, il faut déterminer quels sont les bits de poids faibles non nuls
-   de chacun des exposants, noté $B_{f,1}$ et $B_{f,2}$ respectivement. Puis on divise $k_1$ et $k_2$ par $2^{B_{f,1}}$ ou $2^{B_{f,2}}$ suivant lequel est le plus faible.
-   \item [$2^{\text{ème}}$ étape :] Il y a $2$ situations possibles : \\
-   \begin{itemize}
-    \item [$\bullet$] Si $B_{f,1} = B_{f,2}$, alors on calcule les ensembles $k_1 - \dbarre$ et $k_2 - \dbarre$, puis on cherche
-   la plus grande puissance de $2$, disons $2^{\omega}$ divisant l'un des nombres de chacun des ensembles,
-   et telle que $2^{\omega+1}$ ne divise aucun des deux nombres précédemment cités. \\
-   Une fois que l'on a déterminé cette puissance de $2$, on pose $d_0$ et $d_0'$ les valeurs de $\dbarre$ telles que : \\
-   $2^w$ divise $k_1 - d_0$ Mod $(2^{W_{max}})$ \\
-   $2^w$ divise $k_2 - d_0'$ Mod $(2^{W_{max}})$ \\
-   Finalement, on vérifie qu'il existe $d_1$ et $d_1'$ dans $\dbarre$ telles que : \\
-   $k_1 = d_0 + 2^w \times d_1$ Mod $(2^{W_{max}})$ \\
-   $k_2 = d_0' + 2^w \times d_1'$ Mod $(2^{W_{max}})$.
-   
-   Si c'est le cas, on pose alors : \\
-   $$\begin{array}{cccccc}
-   k_1 & = & (\underbrace{0 \ldots 0}_{0 \ldots B_{f,1} - 1} & d_0 & \underbrace{0 \ldots 0}_{w-1} & \ldots) \\
-   k_2 & = & (\underbrace{0 \ldots 0}_{0 \ldots B_{f,2} - 1} & d_0' & \underbrace{0 \ldots 0}_{w-1} & \ldots)
-   \end{array}$$
-   
-   Dans le cas contraire, on réitère le processus avec $2^{w-1}$, et ainsi de suite jusqu'à ce qu'on trouve un quadruplets $(d_0,d_0',d_1,d_1')$ solution.
-   \item [$\bullet$] Sinon $B_{f,1} \neq B_{f,2}$, par exemple $B_{f,1} > B_{f,2}$. \\
-   Dans ce cas, on calcule $B_{f,1} - B_{f,2}$, puis on calcule $k_2 - \dbarre$, et finalement on cherche un élément de cette ensemble divisible par $2^{B_{f,1} - B_{f,2}}$.
-   
-   Si il existe un tel $d_0$, on vérifie qu'il existe $d_1 \in \dbarre$ tel que :
-   $k_2 = d_0 + 2^{B_{f,1} - B_{f,2}} \times d_1$ Mod $(2^{W_{max}})$ \\
-   
-   Si c'est le cas, on pose alors : \\
-   $$\begin{array}{cccccc}
-   k_1 & = & (\underbrace{0 \ldots 0}_{0 \ldots B_{f,2} - 1} & 0 & \underbrace{0 \ldots 0}_{B_{f,1} - B_{f,2}-1} & \ldots) \\
-   k_2 & = & (\underbrace{0 \ldots 0}_{0 \ldots B_{f,2} - 1} & d_0 & \underbrace{0 \ldots 0}_{B_{f,1} - B_{f,2}-1} & \ldots)
-   \end{array}$$
-   
-   Dans le cas contraire, on réitère avec le processus avec $2^{B_{f,1} - B_{f,2} - 1}$, et ainsi de suite jusqu'à trouver une solution $(d_0,d_1)$ qui fonctionne.
-   \end{itemize}
-  \end{itemize}
-
-\begin{Remarque}
- Je me suis aperçu par la suite que l'étape de vérification de l'existence de $d_1$ (et de $d_1'$ dans le premier cas)
- n'était pas nécessaire.
- 
- On constate que, même s'il n'existe pas $d_1 \in \dbarre$ tel que :
- \begin{equation}
-    k_2 = d_0 + 2^{B_{f,1} - B_{f,2}} \times d_1 \,\,\, \text{Mod} \, (2^{W_{max}})
- \end{equation}
-
-   Cela n'entraine pas forcément que c'est impossible, d'ailleurs le principe du recodage montre que, même 
-   si pour tous les coefficients $d_1 \in \dbarre$, on a $k_2 - d_0 \neq 2^{B_{f,1} - B_{f,2}} \times d_1$ Mod $(2^{W_{max}})$,
-   alors il suffit simplement de compenser cette différence dans les coefficients qui suivront.
-\end{Remarque}
 
   
 
