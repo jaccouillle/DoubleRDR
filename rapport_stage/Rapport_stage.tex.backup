@@ -1701,14 +1701,12 @@ Il y a contraintes liées à la résistance à une attaque par canaux auxiliaire
 
 \subsubsection{Objectifs et Définition}
 
-Pour rappel, on définit la $DoubleRDR$ comme la représentation d'un couple $(k_1 , k_2)$ en base $2$ vérifiant ces deux objectifs/conditions principaux :
+Pour rappel, on définit la $DoubleRDR$ comme la représentation d'un couple $(k_1 , k_2)$ en base $2$ 
+vérifiant ces deux objectifs/conditions principaux :
 \begin{itemize}
- \item [Objectif $1$] Le nombre de $0$ consécutif pour $k_1$ est Le nombre de bits non nuls 
- (ie $\begin{pmatrix} d_0 \\ 0 \end{pmatrix}$,
- $\begin{pmatrix} 0 \\ d_0 \end{pmatrix}$ ou
- $\begin{pmatrix} d_0 \\ d_0' \end{pmatrix}$)
- doit être minimal.
- \item [Objectif $2$] Le nombre de $\doublezero$ consécutifs suivant un bit non nul est maximal. 
+ \item [Objectif $1$] Les coefficients de $k_1$ et $k_2$ sont choisis tels qu'il y ait le même nombre de $0$
+ consécutifs dans les représentations de $k_1$ et $k_2$.
+ \item [Objectif $2$] Le nombre de $\doublezero$ consécutifs, suivant un bit dont le coefficient est non nul est, maximal. 
 \end{itemize}
 
 
@@ -1745,252 +1743,284 @@ Pour rappel, on définit la $DoubleRDR$ comme la représentation d'un couple $(k
 
 \chapter{Théorie, Implémentation et Optimisation}
 
-Dans une première partie, j'explique la première implémentation du double recodage que j'ai effectué.
+Dans une première partie, on détaille un premier algorithme de recodage $DoubleRDR$.
 
-Puis dans un second temps, je détaille une implémentation plus efficace et otpimisée que la précédente.
+Puis dans un second temps, on explique une implémentation plus efficace et otpimisée que la précédente.
 
-Finalement , je montre dans une troisième partie l'équivalence entre ces deux implémentations.
+Finalement , la partie $3$ montre dans l'équivalence entre les deux implémentations de la $DoubleRDR$.
 
-\section{Un procédé purement arithmétique}
+\section{Implémentation de la $DoubleRDR$}
 
-J'ai d'abord programmé de manière non optimisée le double recodage suivant la méthode que j'ai expliquée plus haut.
-En premier lieu, je voulais observer l'efficacité de cette méthode et ainsi de noter le gain de double zéros moyen
-afin de valider ou non la méthode.
+Tout d'abord, afin de tester l'efficacité de la $DoubleRDR$, il est important de créer un algorithme permettant
+d'appliquer la méthode de recodage décrite dans la partie précédente.
 
-\subsection{Disjonction de cas et squelette du programme}
+Dans tout le chapitre, on note $k_1$ et $k_2$ les deux exposants à recoder et $\mathcal{D}$ l'ensemble des coefficients
+utilisés dans la représentation.
 
-J'ai commencé par un programme qui fonctionne de la même manière que l'exemple de la partie $4$.
-En voici le squellette :
+\subsection{Squelette et organisation du programme}
 
-\subsubsection{Squelette du programme : Démarrage}
-
-\begin{center}
-    \begin{tikzpicture}
-      \draw [thick, fill=gray] (2,2) rectangle (4,4);
-      \node at (3,3) {$k_1,k_2$};
-      \draw [thick, fill=gray] (7,2) rectangle (9,4);
-      \node at (8,3) {$B_{f,1},B_{f,2}$};
-      \draw [black, thick, ->] (4,3) -- (7,3);
-      \node [above] at (5.5,3) {Calcul du};
-      \node [below] at (5.5,3) {bit faible};
-      \draw [thick, fill=gray] (11,2) rectangle (13,4);
-      \node at (12,3.5) {$k_1 \leftarrow \frac{k_1}{2^{B_{f,1}}}$};
-      \node at (12,2.5) {$k_2 \leftarrow \frac{k_2}{2^{B_{f,2}}}$};
-      \draw [black, thick, ->] (9,3) -- (11,3);
-      \draw [thick, fill=gray] (15,2.5) rectangle (17.5,3.5);
-      \node at (16.25,3) {$B_{f,1} = B_{f,2}$};
-      \draw [black, thick, ->] (13,3) -- (15,3);
-      \draw [thick, fill=gray] (15,4.5) rectangle (17.5,5.5);
-      \node at (16.25,5) {$B_{f,1} < B_{f,2}$};
-      \draw [black, thick, ->] (13,3) -- (15,5);
-      \draw [thick, fill=gray] (15,0.5) rectangle (17.5,1.5);
-      \node at (16.25,1) {$B_{f,1} > B_{f,2}$}; 
-      \draw [black, thick, ->] (13,3) -- (15,1);
-   \end{tikzpicture}
-\end{center}
-
-\subsubsection{Squelette du programme : Premier cas}
-
-Voici l'idée du programme pour le premier cas :
+Voici le schéma $SADT$ du programme $DoubleRDR$ :
 
 \begin{center}
     \begin{tikzpicture}
-      \draw [thick, fill=gray] (2,2) rectangle (4.5,4);
-      \node at (3.25,3) {$B_{f,1} < B_{f,2}$};
-      \draw [thick, fill=gray] (7,2) rectangle (9,4);
-      \node at (8,3) {$k_1 - \mathcal{D}$};
-      \draw [black, thick, ->] (4.5,3) -- (7,3);
-      \node [above] at (5.75,3) {Calcul de};
-      \node [below] at (5.8,3) {$k_1 - \mathcal {D}$};
-      \draw [thick, fill=gray] (7.5,0) rectangle (8.5,1);
-      \node at (8,0.5) {$\dbarre$};
-      \draw [black, thick, ->] (8,1) -- (8,2);
-      \draw [thick, fill=gray] (11,2) rectangle (13,4);
-      \node at (12,3) {$d_0$};
-      \draw [black, thick, ->] (9,3) -- (11,3);
-      \node [above] at (10,3) {Calcul};
-      \node [below] at (10,3) {de $d_0$};
-      \draw [black, thick, ->] (11,5) -- (11.75,4);
-      \draw [black, thick, ->] (13,5) -- (12.25,4);
-      \draw [black, thick, ->] (12,1) -- (12,2);
-      \draw [thick, fill=gray] (10.5,5) rectangle (11.5,6);
-      \node at (11,5.5) {$B_{f,1}$};
-      \draw [thick, fill=gray] (12.5,5) rectangle (13.5,6);
-      \node at (13,5.5) {$B_{f,2}$};
-      \draw [thick, fill=gray] (11.5,0) rectangle (12.5,1);
-      \node at (12,0.5) {$\dbarre$};
-      \draw [thick, fill=gray] (14.5,2) rectangle (19,4);
-      \node at (16.75,3.5) {DoubleRDR$k_1 [ B_{f,1} ] = d_0$};
-      \node at (16.75,2.5) {$k_1 \leftarrow \frac{k_1 - d_0}{2^{B_{f,2} - B_{f,1}}}$};
-      \draw [black, thick, ->] (13,3) -- (14.5,3);
+      \draw [black, thick, ->] (1,4) -- (2,4);
+      \node [above] at (1.5,4) {$k_1,k_2$};
+      \draw [thick, fill=cyan] (2,2) rectangle (10,6);
+      \node at (6,4) {$DoubleRDR$};
+      \node at (2.3,2.3) {$A_0$};
+      \draw [black, thick, ->] (6,7) -- (6,6);
+      \node at (5.5,6.5) {$\mathcal{D} = \{1,\ldots\}$};
+      \draw [black, thick, ->] (10,4) -- (16,4);
+      \node [above] at (13,4) {$DoubleRDR_{k_1,k_2} =$};
+      \node [below] at (13,4) {$\begin{pmatrix} d_0 & 0 & \ldots & 0 & d_1 & \ldots & d_n \\ 0 & d_0' & \ldots & 0 & d_1' & \ldots & d_m' \end{pmatrix}$};
    \end{tikzpicture}
 \end{center}
 
-De la même manière, en inversant les rôles de $k_1$ et $k_2$ on obtient le troisième cas :
+Les entrées du programme sont :
+\begin{itemize}
+ \item [$\bullet$] les exposants $k_1$ et $k_2$,
+ \item [$\bullet$] l'ensemble $\mathcal{D}$ des coefficients possibles.
+\end{itemize}
+
+Le programme renvoie un tableau à deux lignes et environ la taille du plus grand nombre parmi $k_1$ et $k_2$.
 
 \begin{center}
     \begin{tikzpicture}
-      \draw [thick, fill=gray] (2,2) rectangle (4.5,4);
-      \node at (3.25,3) {$B_{f,1} > B_{f,2}$};
-      \draw [thick, fill=gray] (7,2) rectangle (9,4);
-      \node at (8,3) {$k_2 - \dbarre$};
-      \draw [black, thick, ->] (4.5,3) -- (7,3);
-      \node [above] at (5.75,3) {Calcul de};
-      \node [below] at (5.8,3) {$k_2 - \dbarre$};
-      \draw [thick, fill=gray] (7.5,0) rectangle (8.5,1);
-      \node at (8,0.5) {$\dbarre$};
-      \draw [black, thick, ->] (8,1) -- (8,2);
-      \draw [thick, fill=gray] (11,2) rectangle (13,4);
-      \node at (12,3) {$d_0$};
-      \draw [black, thick, ->] (9,3) -- (11,3);
-      \node [above] at (10,3) {Calcul};
-      \node [below] at (10,3) {de $d_0$};
-      \draw [black, thick, ->] (11,5) -- (11.75,4);
-      \draw [black, thick, ->] (13,5) -- (12.25,4);
-      \draw [black, thick, ->] (12,1) -- (12,2);
-      \draw [thick, fill=gray] (10.5,5) rectangle (11.5,6);
-      \node at (11,5.5) {$B_{f,1}$};
-      \draw [thick, fill=gray] (12.5,5) rectangle (13.5,6);
-      \node at (13,5.5) {$B_{f,2}$};
-      \draw [thick, fill=gray] (11.5,0) rectangle (12.5,1);
-      \node at (12,0.5) {$\dbarre$};
-      \draw [thick, fill=gray] (14.5,2) rectangle (19,4);
-      \node at (16.75,3.5) {DoubleRDR$k_2 [ B_{f,2} ] = d_0$};
-      \node at (16.75,2.5) {$k_2 \leftarrow \frac{k_2 - d_0}{2^{B_{f,1}-B_{f,2}}}$};
-      \draw [black, thick, ->] (13,3) -- (14.5,3);
+      \draw [black, thick, ->] (1,6) -- (2,6);
+      \node [above] at (1.5,6) {$k_1,k_2$};
+      \draw [thick, fill=white] (2,2) rectangle (15,9);
+      \node at (2.3,2.3) {$A_0$};
+      \node [above] at (4,9) {$DoubleRDR$};
+      \draw [black, thick, -] (2,6) -- (5,6);
+      \draw [black, thick, ->] (5,6) -- (8,7);
+      \node at (6.5,7.5) {$k_1 < 2^{W_{max}}$ ou};
+      \node at (6.5,7) {$k_2 < 2^{W_{max}}$};
+      \draw [black, thick, ->] (5,6) -- (8,5);
+      \node at (6.5,5) {$k_1 \geq 2^{W_{max}}$ et};
+      \node at (6.5,4.5) {$k_2 \geq 2^{W_{max}}$};
+      \draw [thick, fill=cyan] (8,4) rectangle (12,5.5);
+      \node at (8.3,4.3) {$A_{01}$};
+      \node at (10,4.75) {remplir $DoubleRDR$};
+      \draw [black, thick, -] (12,4.75) -- (14,4.75);
+      \node [above] at (13,4.75) {$k_1',k_2'$};
+      \draw [black, thick, -] (14,4.75) -- (14,2.75);
+      \draw [black, thick, -] (14,2.75) -- (3.5,2.75);
+      \draw [black, thick, ->] (3.5,2.75) -- (3.5,6);
+      \node at (3.5,5.5) {$k_1 = k_1'$};
+      \node at (3.5,5) {$k_2 = k_2'$};
+      \draw [thick, fill=cyan] (8,6.5) rectangle (12,8);
+      \node at (8.3,6.8) {$A_{02}$};
+      \node at (10,7.25) {fin $DoubleRDR$};
+      \draw [black, thick, -] (12,7.25) -- (14,7.25);
+      \draw [black, thick, -] (14,7.25) -- (15,6);
+      \node [above] at (13.5,7.25) {$DoubleRDR_{k_1,k_2}$};
+      \draw [black, thick, ->] (9.5,10) -- (9.5,9);
+      \node at (9.5,9.5) {$\mathcal{D} = \{1,\ldots\}$};
+      \draw [black, thick, ->] (9.5,9) -- (9.5,8);
+      \node at (9.5,3.5) {$\mathcal{D} = \{1,\ldots\}$};
+      \draw [black, thick, ->] (9.5,3) -- (9.5,4);
+      \draw [black, thick, ->] (15,6) -- (17,6);
+      \node [above] at (16,6) {$DoubleRDR_{k_1,k_2}$};
    \end{tikzpicture}
 \end{center}
 
-
-\subsubsection{Squelette du programme : Deuxième cas}
-
-Finalement le deuxième cas fonctionne de cette manière :
+On remarque qu'il faut fonctionner différemment pour la fin du recodage (ie $k_i < 2^{W_{max}}$), c'est pourquoi
+le programme applique la méthode $DoubleRDR$ en recalculant $k_1$ et $k_2$ au fur et à mesure jusqu'à ce 
+que l'un des deux exposants soit petit, on applique alors l'algorithme spécialement conçu pour ce cas particulier.
 
 \begin{center}
     \begin{tikzpicture}
-      \draw [thick, fill=gray] (2,4) rectangle (4.5,6);
-      \node at (3.25,5) {$B_{f,1} = B_{f,2}$};
-      \draw [thick, fill=gray] (7,6) rectangle (9,8);
-      \node at (8,7) {$k_1 - \dbarre$};
-      \draw [black, thick, ->] (4.5,5) -- (7,7);
-      \node [above] at (5.75,7) {Calcul de};
-      \node [below] at (5.8,7) {$k_1 - \dbarre$};
-      \draw [thick, fill=gray] (7.5,9) rectangle (8.5,10);
-      \node at (8,9.5) {$\dbarre$};
-      \draw [black, thick, ->] (8,9) -- (8,8);
-      \draw [thick, fill=gray] (7,2) rectangle (9,4);
-      \node at (8,3) {$k_2 - \dbarre$};
-      \draw [black, thick, ->] (4.5,4) -- (7,3);
-      \node [above] at (5.75,3) {Calcul de};
-      \node [below] at (5.8,3) {$k_2 - \dbarre$};
-      \draw [thick, fill=gray] (7.5,0) rectangle (8.5,1);
-      \node at (8,0.5) {$\dbarre$};
-      \draw [black, thick, ->] (8,1) -- (8,2);
-      \draw [thick, fill=gray] (11,4) rectangle (13,6);
-      \node at (12,5.5) {$d_0$};
-      \node at (12,4.5) {$d_0'$};
-      \draw [black, thick, ->] (9,7) -- (11,5.5);
-      \draw [black, thick, ->] (9,3) -- (11,4.5);
-      \draw [thick, fill=gray] (11.5,2) rectangle (12.5,3);
-      \node at (12,2.5) {$\dbarre$};
-      \draw [black, thick, ->] (12,3) -- (12,4);
-      \draw [thick, fill=gray] (14.5,6) rectangle (19,8);
-      \node at (16.75,7.5) {DoubleRDR$k_1 [ B_{f,1} ] = d_0$};
-      \node at (16.75,6.5) {$k_1 \leftarrow \frac{k_1 - d_0}{2}$};
-      \draw [black, thick, ->] (13,5) -- (14.5,7);
-      \draw [thick, fill=gray] (14.5,2) rectangle (19,4);
-      \node at (16.75,3.5) {DoubleRDR$k_2 [ B_{f,2} ] = d_0'$};
-      \node at (16.75,2.5) {$k_2 \leftarrow \frac{k_2 - d_0'}{2}$};
-      \draw [black, thick, ->] (13,5) -- (14.5,3);
+      \draw [black, thick, ->] (1,4) -- (2,4);
+      \node [above] at (1.5,4) {$k_1,k_2$};
+      \draw [thick, fill=white] (2,2) rectangle (12,6);
+      \node at (2.3,2.3) {$A_{01}$};
+      \node [above] at (4,6) {remplir $DoubleRDR$};
+      \draw [black, thick, ->] (2,4) -- (3,4);
+      \draw [thick, fill=cyan] (3,3) rectangle (5,5);
+      \node at (4,4.3) {calcul bit};
+      \node at (4,3.7) {faible}; 
+      \draw [black, thick, ->] (5,4) -- (7,4);
+      \node [above] at (6,4) {$B_{f,1},B_{f,2}$};
+      \node [below] at (6,4) {$k_1',k_2'$};
+      \draw [thick, fill=cyan] (7,3) rectangle (10,5);
+      \node at (7.4,3.3) {$A_{011}$};
+      \node at (8.5,4.3) {choix};
+      \node at (8.5,3.7) {coefficient(s)};
+      \draw [black, thick, -] (10,4) -- (12,4);
+      \node [above] at (11,4) {$k_1'',k_2''$};
+      \draw [black, thick, ->] (7.5,6) -- (8.5,5);
+      \draw [black, thick, ->] (7.5,7) -- (7.5,6);
+      \node at (7.5,6.5) {$\mathcal{D} = \{1,\ldots\}$};
+      \draw [black, thick, ->] (12,4) -- (14,4);
+      \node [above] at (13,4) {$k_1 = k_1''$};
+      \node [below] at (13,4) {$k_2 = k_2''$};
    \end{tikzpicture}
 \end{center}
 
-\subsection{Le coeur du programme, les fonctions.}
+De la même manière que dans l'exemple, il est très important de calculer les bits faibles de chaque exposant
+avant de calculer le coefficient associé sous peine de choisir le mauvais coefficient.
 
-Il y a plusieurs fonctions essentielles dans ce programme, certaines plutôt simples (calcul du bit faible, 
-calcul de $k - \dbarre$), et d'autres plus complexes (calcul de $d_0$, calcul de $d_0$ et de $d_0'$).
+\begin{center}
+    \begin{tikzpicture}
+      \draw [black, thick, ->] (0,4) -- (2,4);
+      \node [below] at (1,4) {$k_1,k_2$};
+      \node [above] at (1,4) {$B_{f,1},B_{f,2}$};
+      \draw [thick, fill=white] (2,2) rectangle (12,6);
+      \node at (2.4,2.3) {$A_{011}$};
+      \node [above] at (4,6) {choix coefficient(s)};
+      \draw [black, thick, -] (2,4) -- (3,4);
+      \draw [black, thick, ->] (3,4) -- (5,5);
+      \node at (4,5) {$B_{f,1} < B_{f,2}$};
+      \draw [thick, fill=cyan] (5,2.6) rectangle (9,3.4);
+      \node at (7,3) {Choix coeff $k_2$ };
+      \draw [black, thick, -] (9,5) -- (11,4);
+      \draw [black, thick, ->] (3,4) -- (5,4);
+      \node at (4,4.2) {$B_{f,1} = B_{f,2}$};
+      \draw [thick, fill=cyan] (5,3.6) rectangle (9,4.4);
+      \node at (7.2,4) {Choix coeff $(k_1,k_2)$ };
+      \draw [black, thick, -] (9,4) -- (11,4);
+      \draw [black, thick, ->] (3,4) -- (5,3);
+      \node at (4,3) {$B_{f,1} > B_{f,2}$};
+      \draw [thick, fill=cyan] (5,4.6) rectangle (9,5.4);
+      \node at (7,5) {Choix coeff $k_1$ };
+      \draw [black, thick, -] (9,3) -- (11,4);
+      \node [above] at (11.5,4) {$k_1', k_2'$};
+      \draw [black, thick, -] (11,4) -- (12,4);
+      \draw [black, thick, ->] (7.5,7) -- (7.5,6);
+      \draw [black, thick, ->] (7.5,6) -- (7,5.4);
+      \node at (7.5,6.5) {$\mathcal{D} = \{1,\ldots\}$};
+      \draw [black, thick, ->] (12,4) -- (14,4);
+      \node [above] at (13,4) {$k_1 = k_1'$};
+      \node [below] at (13,4) {$k_2 = k_2'$};
+      \end{tikzpicture}
+\end{center}
 
-\subsubsection{Les fonctions simples.}
+On distingue, comme dans la méthode $DoubleRDR$, le cas où $B_{f,1} = B_{f,2}$ et les cas où $B_{f,1} \neq B_{f,2}$
+(ie $B_{f,1} < B_{f,2}$ et $B_{f,1} > B_{f,2}$)
 
-La première fonction (la plus simple) est tout naturellement la fonction ``calcul du bit de poids faible''. \\
-Pour se faire, il suffit de récupérer l'écriture binaire de $k$ et de renvoyer le premier élément non nul en 
-partant du bit le plus faible.
+\subsection{Les algorithmes de calculs}
 
-La deuxième fonction, qui n'est pas beaucoup plus compliquée, est la fonction ``calcul de $k - \dbarre$''. \\
-Pour se faire, il suffit de renvoyer un tableau $k - d_i$ pour $i$ allant de $0$ à $|\dbarre| - 1$.
+Dans cette partie, on explique l' algorithme de calcul de $B_{f,i}$, les algorithmes de choix des coefficients
+et l'algorithme de fin de la $DoubleRDR$.
 
-\subsubsection{Les fonctions complexes : le coeur du raisonnement.}
+\subsubsection{Calcul de $B_{f,i}$}
 
-Le coeur du programme se situe dans ces deux fonctions d'une importance capitale.
+La première fonction détaillée est la fonction ``calcul du bit de poids faible''. \\
+Pour se faire, on divise par $2$ l'exposant tant que celui ci est pair, puis on récupère le nombre de division par $2$
+pour obtenir $B_{f}$, comme détaillée ci-dessous :
 
-Voici le premier algorithme pour le premier cas (qu'on réutilise pour le troisième cas).
 \begin{algorithm}
- \caption{Algorithme de calcul de $d_0$ pour $k_1$}
+ \caption{Algorithme de calcul de $B_f$ pour $k$}
  \begin{algorithmic}
-  \REQUIRE l'ensemble $k_1 - \dbarre$, les bits $b_{f,1}$ et $b_{f,2}$, et l'ensemble $\dbarre$ avec $Wn$ (borne).
+  \REQUIRE l'exposant $k$.
+  \ENSURE le nombre $B_f$ et la nouvelle valeur de l'exposant $k$, noté $k'$.
+  \STATE $B_f \leftarrow 0$
+  \STATE $k' \leftarrow k$
+  \WHILE{$k' > 1$}
+  \STATE $k' \leftarrow \frac{k'}{2}$
+  \STATE $B_f \leftarrow B_f + 1$
+  \ENDWHILE
+  \RETURN $[B_f,k']$
+ \end{algorithmic}
+\end{algorithm}
+
+\subsubsection{Choix des coefficients}
+
+On présente les $3$ algorithmes de choix des coefficients.
+
+L'algorithme pour le cas où $B_{f,1} < B_{f,2}$ est l'algorithme $8$.
+\begin{algorithm}
+ \caption{Algorithme de calcul de $d_0$ lorsque $B_{f,1} < B_{f,2}$}
+ \begin{algorithmic}
+  \REQUIRE l'exposant $k_1$, les bits $B_{f,1}$ et $B_{f,2}$, et l'ensemble $\dbarre$ avec $Wn$ (borne).
   \ENSURE $d_0$ avec $d_0 \in \dbarre$.
-  \STATE $pow \leftarrow 2^{b_{f,2} - b_{f,1}}$
+  \FOR{$i$ allant de $0$ à $|\dbarre| - 1$}
+  \STATE $KmoinsDbarre[i] \leftarrow k_1 - \dbarre[i]$ // l'ensemble $k_1 - \dbarre$ de l'exemple
+  \ENDFOR
+  \STATE $\omega \leftarrow B_{f,2} - B_{f,1}$
+  \STATE $pow_1 \leftarrow 2^{\omega} \mod 2^{W_{max}}$ // on a $pow_1 = 2^{\omega}$, puis $pow_1 = 2^{\omega-1}$ si on ne trouve pas de solution, etc ...
+  \STATE $pow_2 \leftarrow pow_1 \times 2 \mod 2^{W_{max}}$
   \STATE $c \leftarrow 0$
-  \WHILE{$pow > 1$ et $c = 0$}
+  \WHILE{$pow_1 > 1$ et $c = 0$}
   \STATE $i \leftarrow 0$
   \WHILE{$i < |\dbarre|$ et $c = 0$}
-  \STATE $S \leftarrow \dbarre[i] \times pow$ Mod $2^{Wn+2}$
-  \IF{$S = k_1 - \dbarre[j]$ pour $0 \leq j < |\dbarre|$}
-  \STATE $d_0 \leftarrow \dbarre[j]$
+  \STATE $S \leftarrow KmoinsDbarre[i] \mod 2^{W_{max}}$
+  \IF{$S = 0 \mod pow_1$ et $S \neq 0 \mod pow_2$}
+  \STATE $d_0 \leftarrow \dbarre[i]$
   \STATE $c \leftarrow 1$
   \ENDIF
   \STATE $i \leftarrow i+1$
   \ENDWHILE
-  \STATE $pow \leftarrow \frac{pow}{2}$
+  \STATE $pow_1 \leftarrow \frac{pow_1}{2}$
+  \STATE $pow_2 \leftarrow \frac{pow_2}{2}$
   \ENDWHILE
   \RETURN $d_0$
  \end{algorithmic}
 \end{algorithm}
 
-On cherche un coefficient $d_0$ de telle sorte que $k_1 - d_0$ soit divisible par $2^{b_{f,2} - b_{f,1}}$
-et non divisble par $2 \times 2^{b_{f,2} - b_{f,1}}$. \\
-Plus exactement, comme précisé dans la partie de l'exemple, on cherche $d_0$ et $d_1$ tels que : \\
-  $$\begin{array}{ccc}
-k_1 & = & d_0 + 2^{b_{f,2} - b_{f,1}} \times d_1[2^{Wn+2}] \\
- \end{array}$$
+\begin{itemize}
+ \item [$\bullet$] L'algorithme calcule d'abord l'ensemble $k_1 - \dbarre$ (comme dans l'exemple),
+ \item [$\bullet$] puis en fixant $pow_1 = 2^\omega$, l'algorithme cherche un coefficient $d_0$ tel que : \\
+ $pow_1 \mid (k_1 - d_0)$ et $pow_2 = 2 \times pow_1 \nmid (k_1 - d_0)$,
+ \item [$\bullet$] s'il y a une solution, le programme renvoie $d_0$, sinon on décremente $\omega$ jusqu'à
+ trouver un coefficient $d_0$ vérifiant $pow_1 \mid (k_1 - d_0)$ et $pow_2 = 2 \times pow_1 \nmid (k_1 - d_0)$.
+\end{itemize}
 
-De la même manière que dans l'exemple, une fois $k_1 - \dbarre$ calculé, on cherche un multiple de $2^{b_{f,2} - b_{f,1}}$
-dans l'ensemble précédent. \\
-Contrairement à l'exemple, pour chercher ce multiple, on multiplie chaque élément $d_1$ de $\dbarre$ par $2^{b_{f,2} - b_{f,1}}$ et on regarde s'il
-appartient à $k_1 - \dbarre$, si c'est le cas, la position $i$ de ce multiple dans $k_1 - \dbarre$ permet de 
-calculer $d_0 = \dbarre[i]$. \\
-Ce qui est vraiment pratique avec cet algorithme, c'est qu'il évite la vérification de l'existence d'un élément $d_1$ tel que
-l'équation soit juste, puisqu'on se sert d'éléments de $\dbarre$ directement.
+
+
+Pour le cas où $B_{f,1} > B_{f,2}$, il suffit d'utiliser le même algorithme en remplaçant $k_1$ par $k_2$
+et en inversant les rôles de $B_{f,1}$ et $B_{f,2}$. \newpage
+
+% On cherche un coefficient $d_0$ de telle sorte que $k_1 - d_0$ soit divisible par $2^{b_{f,2} - b_{f,1}}$
+% et non divisble par $2 \times 2^{b_{f,2} - b_{f,1}}$. \\
+% Plus exactement, comme précisé dans la partie de l'exemple, on cherche $d_0$ et $d_1$ tels que : \\
+%   $$\begin{array}{ccc}
+% k_1 & = & d_0 + 2^{b_{f,2} - b_{f,1}} \times d_1[2^{Wn+2}] \\
+%  \end{array}$$
+% 
+% De la même manière que dans l'exemple, une fois $k_1 - \dbarre$ calculé, on cherche un multiple de $2^{b_{f,2} - b_{f,1}}$
+% dans l'ensemble précédent. \\
+% Contrairement à l'exemple, pour chercher ce multiple, on multiplie chaque élément $d_1$ de $\dbarre$ par $2^{b_{f,2} - b_{f,1}}$ et on regarde s'il
+% appartient à $k_1 - \dbarre$, si c'est le cas, la position $i$ de ce multiple dans $k_1 - \dbarre$ permet de 
+% calculer $d_0 = \dbarre[i]$. \\
+% Ce qui est vraiment pratique avec cet algorithme, c'est qu'il évite la vérification de l'existence d'un élément $d_1$ tel que
+% l'équation soit juste, puisqu'on se sert d'éléments de $\dbarre$ directement.
  
 Voici le second algorithme pour le deuxième cas .
 \begin{algorithm}
- \caption{Algorithme de calcul de $d_0$ et $d_0'$ pour $k_1$ et $k_2$}
+ \caption{Algorithme de calcul de $d_0$ et $d_0'$ lorsque $B_{f,1} = B_{f,2}$}
  \begin{algorithmic}
-  \REQUIRE l'ensemble $k_1 - \dbarre$, $k_2 - \dbarre$, et l'ensemble $\dbarre$ avec $Wn$ (borne).
+  \REQUIRE les exposants $k_1$ et $k_2$ et l'ensemble $\dbarre$ avec $Wn$ (borne).
   \ENSURE $[d_0,d_0']$ avec $d_0, d_0' \in \dbarre$.
-  \STATE $pow \leftarrow 2^{Wn+2}$
-  \STATE $c \leftarrow 0$
+  \FOR{$i$ allant de $0$ à $|\dbarre| - 1$}
+  \STATE $KmoinsDbarre_1[i] \leftarrow k_1 - \dbarre[i]$ // l'ensemble $k_1 - \dbarre$
+  \ENDFOR
+  \FOR{$i$ allant de $0$ à $|\dbarre| - 1$}
+  \STATE $KmoinsDbarre_2[i] \leftarrow k_2 - \dbarre[i]$ // l'ensemble $k_2 - \dbarre$
+  \ENDFOR
+  \STATE $pow \leftarrow 2^{Wn+2}$ // la variable $pow$ correspond à $w_{max}$
+  \STATE $c \leftarrow 0$ // valeur d'arrêt qui arrête le programme quand on trouve les coefficients
   \WHILE{$pow > 1$ et $c \neq 1$}
-  \STATE $c1 \leftarrow 0$
-  \STATE $c2 \leftarrow 0$
+  \STATE $c1 \leftarrow 0$ // valeur d'arrêt pour $d_0$
+  \STATE $c2 \leftarrow 0$ // valeur d'arrêt pour $d_0'$
   \STATE $i \leftarrow 0$
   \WHILE{$i < |\dbarre|$ et $c_1 \neq 1$}
-  \STATE $S \leftarrow k_1 - \dbarre[i]$
-  \IF{$S[pow] = 0$ et $S[2 \times pow] \neq 0$}
+  \STATE $S \leftarrow KmoinsDbarre_1[i]$
+  \IF{$S = 0 \mod (pow)$ et $S \neq 0 \mod (2 \times pow)$}
   \STATE $c1 \leftarrow 1$
   \ENDIF
   \STATE $i \leftarrow i+1$
   \ENDWHILE
   \STATE $j \leftarrow 0$
   \WHILE{$j < |\dbarre|$ et $c_2 \neq 1$}
-  \STATE $S \leftarrow k_2 - \dbarre[i]$
-  \IF{$S[pow] = 0$ et $S[2 \times pow] \neq 0$}
+  \STATE $S \leftarrow KmoinsDbarre_2[j]$
+  \IF{$S = 0 \mod (pow)$ et $S \neq 0 \mod (2 \times pow)$}
   \STATE $c2 \leftarrow 1$
   \ENDIF
   \STATE $j \leftarrow j+1$
   \ENDWHILE
   \STATE $pow \leftarrow \frac{pow}{2}$
-  \STATE $c \leftarrow c1 \times c2$
+  \STATE $c \leftarrow c1 \times c2$ // $c$ vaut $1$ uniquement lorsque $c_1$ et $c_2$ valent $1$
   \ENDWHILE
   \STATE $d_0 \leftarrow \dbarre[i-1]$
   \STATE $d_0' \leftarrow \dbarre[j-1]$
@@ -1998,23 +2028,16 @@ Voici le second algorithme pour le deuxième cas .
  \end{algorithmic}
 \end{algorithm}
 
-On cherche cette fois $d_0$, $d_0'$, $d_1$, $d_1'$ dans $\dbarre$ et $k \in \mathbb{N}$ tels que : \\
- $$\begin{array}{ccc}
-k_1 & = & d_0 + 2^k \times d_1[2^{Wn+2}] \\
-k_2 & = & d_0' + 2^k \times d_1'[2^{Wn+2}]
-   \end{array}$$
-
-Ainsi la représentation des deux nombres contiendra $k-1$ $\doublezero$ après le couple $(d_0,d_0')$.
-
 Pour se faire, on réutilise la méthode de l'exemple : \\
 \begin{itemize}
- \item [$\bullet$] Une fois calculé $k_1 - \dbarre$ et $k_2 - \dbarre$, on cherche le ``ppcm'' de ces deux ensembles, c'est-à-dire $2^k$.
- \item [$\bullet$] Pour cela, on initialise $k$ à $Wn+2$ (limite) et on regarde dans le premier ensemble si $2^k$ divise l'un des éléments,
+ \item [$\bullet$] Une fois calculé $k_1 - \dbarre$ et $k_2 - \dbarre$, on cherche le ``ppcm'' de ces deux ensembles, c'est-à-dire $2^{w_{max}}$.
+ \item [$\bullet$] Pour cela, on initialise $\omega$ à $Wn+2$ (borne) et on regarde dans le premier ensemble si $2^\omega$ divise l'un des éléments,
  puis dans le deuxième ensemble.
- \item [$\bullet$] L'algorithme s'arrête uniquement au moment où $2^k$ divise un élément de chacun des ensembles.
- \item [$\bullet$] La deuxième boucle (celle avec la variable $i$) correspond à la recherche d'un $2^k$ divisant un élément de $k_1 - \dbarre$.
- \item [$\bullet$] La troisième boucle (celle avec la variable $j$) correspond à la recherche d'un $2^k$ divisant un élément de $k_2 - \dbarre$.
- \item [$\bullet$] La première boucle (celle avec la variable $pow$) correspond à la recherche du $2^k$ commun diviseur aux deux ensembles.
+ \item [$\bullet$] L'algorithme s'arrête uniquement au moment où $2^\omega$ divise un élément de chacun des ensembles, et tel que $2^{\omega + 1}$
+ ne divise pas ces éléments.
+ \item [$\bullet$] La deuxième boucle (celle avec la variable $i$) correspond à la recherche d'un $2^\omega$ divisant un élément de $k_1 - \dbarre$.
+ \item [$\bullet$] La troisième boucle (celle avec la variable $j$) correspond à la recherche d'un $2^\omega$ divisant un élément de $k_2 - \dbarre$.
+ \item [$\bullet$] La première boucle (celle avec la variable $pow$) correspond à la recherche du $w_{max}$ commun aux deux ensembles.
  \end{itemize}
 
  \section{De l'arithmétique à l'optimisation}
