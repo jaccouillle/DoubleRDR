@@ -91,7 +91,7 @@ $[$Prof/Dr/Mrs/Mr$]$ $<$first-name last-name$>$\\
 \newtheorem{Definition}{Definition}
 
 \abstractintoc
-\begin{abstract} 
+\begin{abstract}
 Le premier objectif de ce stage est de proposer une implémentation logicielle d'un algorithme décrit dans un article
 pensé et rédigé par Nicolas Méloni, mon superviseur pour ce stage. L'algorithme a pour but de recoder l'exposant
 dans l'exponentiation modulaire afin de rendre sa représentation aléatoire et efficace.
@@ -109,9 +109,9 @@ Le deuxième objectif de ce stage est de généraliser le concept et l'algorithm
 Dans une première partie, une brève introduction explicite l'exponentiation modulaire et son utilisation dans plusieurs 
 protocoles essentiels en cryptographie.
 
-La deuxième partie explique l'état de l'art du recodage 
+La deuxième partie explique l'état de l'art du recodage.
 
-La troisième partie introduit la double exponentiation, et les différentes méthodes de recodage existantes.
+La troisième partie introduit la double exponentiation ainsi que les différentes méthodes de recodage existantes.
 
 La quatrième partie est constituée de l'analyse du problème et de l'approche de la solution.
 
@@ -119,8 +119,6 @@ La cinquième partie concerne l'implémentation de la solution trouvée dans la 
 
 La sixième partie traite de l'étude statistique de l'algorithme et de son efficacité d'un point de vue sécurité
 et d'un point de vue performance.
-
-La septième partie est une étude sur les paramètres de l'algorithme.
 
 \end{abstract}
 
@@ -131,7 +129,7 @@ La septième partie est une étude sur les paramètres de l'algorithme.
 \mainmatter
 
 \chapter{Introduction} 
-L'exponentiation modulaire est un algorithme au coeur d'un grand nombre de protocole en cryptographie, notamment pour le RSA ou ECC.
+L'exponentiation modulaire est un algorithme au coeur d'un grand nombre de protocoles en cryptographie, notamment pour le RSA ou ECC.
 
 \subsubsection{L'exponentiation modulaire et le RSA}
 
@@ -155,25 +153,25 @@ calculer $C \equiv M^e \mod n$.
 Le déchiffrement de $C$ nécessite également une exponentiation modulaire, pour retrouver le message clair,
 il faut calculer $M \equiv C^d \mod n$.
 
-Dans le protocole $RSA$, l'exponentiation modulaire a une place importante (à la fois dans le chiffrement et dans le déchiffrement),
+Dans le protocole $RSA$, l'exponentiation modulaire a une place importante (à la fois dans le chiffrement et dans le déchiffrement);
 cependant il y a d'autres protocoles pour lesquels l'exponentiation est requise, comme par exemple le protocole
 basé sur les courbes elliptiques appelé $ECC$.
 
-Il est toutefois important de signaler que dans le groupe des courbes elliptiques, les opérations sont différentes, 
-les multiplications du $RSA$ deviennent des additions pour $ECC$, et l'exponentiation modulaire correspond
+Il est toutefois important de signaler que les opérations sont différentes dans le groupe des courbes elliptiques : 
+les multiplications du $RSA$ deviennent des additions pour $ECC$ et l'exponentiation modulaire correspond
 à la multiplication scalaire pour le protocole $ECC$.
 
 La différence principale entre le protocole $RSA$ et le protocole $ECC$ est la suivante :
 \begin{itemize}
  \item [$\bullet$] L'opposé d'un point $P$, noté $-P$, est facile à calculer pour $ECC$ 
  (négligeable comparé à l'addition de points),
- \item [$\bullet$] l'inverse d'un entier naturel $m$ modulo $n$, noté $m^{-1}$, 
- est coûteuse en temps de calcul pour $RSA$ (plus coûteuse que la mulitplication modulaire).
+ \item [$\bullet$] L'inverse d'un entier naturel $m$ modulo $n$, noté $m^{-1}$, 
+ est coûteux en temps de calcul pour $RSA$ (plus coûteux que la multiplication modulaire).
 \end{itemize}
 
 \subsubsection{Les premiers algorithmes d'exponentiation}
 
-Pour implémenter l'exponentiation, il existe deux principales méthodes générales : les algorithmes \emph{Left-To-Right} et \emph{Right-To-Left}.
+Pour implémenter l'exponentiation, il existe deux méthodes principales : les algorithmes \emph{Left-To-Right} et \emph{Right-To-Left}.
 Dans ce stage, nous avons choisi de traiter l'algorithme \emph{Left-To-Right}.
 
 \begin{algorithm}
@@ -191,10 +189,11 @@ Dans ce stage, nous avons choisi de traiter l'algorithme \emph{Left-To-Right}.
  \end{algorithmic}
 \end{algorithm}
 
-Cet algorithme est un algorithme de base permettant de comprendre le processus d'exponentiation,
-et de voir que l'exponentiation dépend essentiellement de la représentation binaire du secret $k$, et en particulier du poids de Hamming (nombre de $1$) de la représentation.
+Cet algorithme est un algorithme de base permettant de comprendre le processus d'exponentiation mais aussi
+de voir que l'exponentiation dépend essentiellement de la représentation binaire du secret $k$
+et en particulier du poids de Hamming (nombre de $1$).
 Ici, la représentation choisie est la décomposition canonique en base $2$ de $k$ avec coefficients valant soit $0$, soit $1$.
-Cependant, nous allons voir par la suite qu'il existe d'autres représentations présentant des avantages intéressants. 
+Cependant, nous allons voir par la suite qu'il existe d'autres représentations ayant des avantages intéressants. 
 %%Figure\,\ref{fig:example} presents ...
 
 %\begin{figure}[htbp]%placement
@@ -274,7 +273,7 @@ La représentation $NAF$ est l'unique représentation d'un nombre en entiers rel
   (1 & 0 & 0 & -1)_2 & = & 8 - 1 & = 7 \\
  \end{array}$$
  
- La représentation $NAF$ de $7$ est la dernière $$\begin{array}{cccc} (1 & 0 & 0 & -1)_2 \end{array}$$.
+ La représentation $NAF$ de $7$ est la dernière : $$\begin{array}{cccc} (1 & 0 & 0 & -1)_2 \end{array}$$
 \end{Exemple}
 
 \subsection{Représentation $wNAF$ (window Non Adjacent Form)}
@@ -294,7 +293,7 @@ Et ainsi $k$ vérifie :
 \end{eqnarray*}
 
 L'utilité de cette représentation est de réduire le poids de Hamming de la représentation de $k$, 
-et de ce fait réduire le temps de calcul de $x^k \mod N$.
+et de ce fait de réduire le temps de calcul de $x^k \mod N$.
 
 \begin{Exemple}
  Le nombre $88$ s'écrit comme :
@@ -303,8 +302,8 @@ et de ce fait réduire le temps de calcul de $x^k \mod N$.
  \end{array}$$
  
  Pour calculer la représentation $3NAF$ de $88$, il faut définir $\mathcal{B} = \{1,3,5,7\}$.
- En regarder les $3$ premiers bits de poids fort de $88$, on peut remplacer $(101)_2$ par $5$, 
- puis en regardant les $3$ suivants , puis à nouveau les suivants , on remarque qu'on ne peut pas remplacer 
+ En regardant les $3$ premiers bits de poids fort de $88$, on peut remplacer $(101)_2$ par $5$, 
+ puis en regardant les $3$ suivants , puis à nouveau les suivants, on remarque que l'on ne peut pas remplacer 
  les coefficients, on obtient donc :
   $$\begin{array}{cccccccc}
   (5 & 1 & 0 & 0 & 0)_2 & = & 5 \times 16 + 8 & = 88 
@@ -321,13 +320,13 @@ afin d'optimiser la vitesse et les calculs de l'algorithme d'exponentiation.
 \section{Randomisation et Optimisation}
 
 La partie précédente a présenté les bases et prérequis pour la compréhension de l'article de Nicolas Méloni.
-La partie suivante s'intéresse à la méthode d'exponentiation modulaire expliqué dans l'article, 
+La partie suivante s'intéresse à la méthode d'exponentiation modulaire expliquée dans l'article, 
 et à un moyen d'implémenter cette méthode le plus efficacement possible. 
 L'idée de la méthode est de recoder de manière aléatoire l'exposant (secret).
 
-Dans la première section, est expliquée la méthode de randomisation détaillée dans son article, puis la deuxième
-section détaille l'implémentation de cette méthode et l'optimisation de l'algorithme trouvé, 
-finallement la troisième partie correspond à la démonstration de la validité de cet algorithme.
+La première section explique la méthode de randomisation telle que détaillée dans l'article.
+La deuxième présente l'implémentation de celle-ci ainsi que l'optimisation de l'algorithme trouvé, 
+Enfin, la troisième correspond à la démonstration de la validité de cet algorithme.
 
 \subsection{Randomisation dans l'algorithme de Fractional Windows}
 
@@ -419,7 +418,7 @@ Voici l'algorithme avec lequel j'ai implémenté la fonction \emph{digit} au pre
 Il est composé de deux parties :
 \begin{itemize}
  \item [1)] Un algorithme qui calcule $i$ tel que $p_{W_{max}}(k) = p_{W_{max}}(d_i)$ où $d_i \in \overline{\mathcal{D}}$.
- \item [2)] L'algorithme de la fonction
+ \item [2)] L'algorithme de la fonction :
 \end{itemize}
 
 1) L'idée est de partir de la fenêtre de longueur maximale $w=W_n+2$ et de chercher dans $\overline{\mathcal{D}_w}$
@@ -488,7 +487,7 @@ Notre idée est basée sur les trois propositions suivantes :
 \subsubsection{\emph{Digit} vue comme un tableau}
 
 Afin d'éviter l'appel à une recherche de table, nous avons abordé la fonction \emph{digit} de manière différente,
-non pas comme une fonction mais comme la composition d'un modulo et d'une fonction défini par un vecteur.
+non pas comme une fonction mais comme la composition d'un modulo et d'une fonction définie par un vecteur.
 L'algorithme de la fonction \emph{digit} suit ces étapes :
 \begin{itemize}
  \item [1)] Construction d'un tableau \emph{$D_{max}$} de taille $2^{W_n+2}$ où $W_n$ est la taille du plus grand élément de $\mathcal{D}$
@@ -501,7 +500,6 @@ L'algorithme de la fonction \emph{digit} suit ces étapes :
 
 Avant de calculer et de compléter le tableau \emph{$D_{max}$}, il faut calculer $W_n$ et $\overline{\mathcal{D}} = \mathcal{D} \cup (-\mathcal{D})$.
 
-\begin{Construction}
 La construction du tableau \emph{$D_{max}$} comporte $3$ principales étapes :
 \begin{itemize}
  \item[$\bullet$] Initialiser toutes les cases à $0$ et mettre les éléments de $\overline{D}$ à leur place ($D_{max}[1] = 1$, $D_{max}[23] = 23$).
@@ -546,27 +544,26 @@ La construction du tableau \emph{$D_{max}$} comporte $3$ principales étapes :
    \ENDWHILE
   \end{algorithmic}
  \end{algorithm}
-\end{Construction}
 
 \subsection{Preuve}
 
-Dans cette partie, nous allons montrer que l'algorithme construit à partir de \emph{$D_{max}$} calcule la fonction \emph{digit}
+Dans cette partie, nous allons montrer que l'algorithme construit à partir de \emph{$D_{max}$} calcule la fonction \emph{digit} :
 
 \subsubsection{La fonction \emph{digit} sous forme mathématique}
 
-On peut remarque que calculer la fonction \emph{digit} revient à trouver une fonction vérifiant cette propriété :
+On peut remarquer que calculer la fonction \emph{digit} revient à trouver une fonction vérifiant cette propriété :
 
 \begin{Propriété}
- Soit $\phi_{1_\mathcal{D}} : \mathbb{N} \rightarrow \mathbb{Z} / 2^{W_n+2} \mathbb{Z}$, la projection canonique restreint à $\mathbb{N}$, \\ 
+ Soit $\phi_{1_\mathcal{D}} : \mathbb{N} \rightarrow \mathbb{Z} / 2^{W_n+2} \mathbb{Z}$, la projection canonique restreinte à $\mathbb{N}$, \\ 
  et $\phi_{2_\mathcal{D}} : \mathbb{Z} / 2^{W_n+2} \mathbb{Z} \rightarrow \overline{\mathcal{D}} \cup \{0\}$ une fonction.
  
  On a $digit_{\mathcal{D}} = \phi_{2_\mathcal{D}} \circ \phi_{1_\mathcal{D}}$ $\iff$
- $\forall k$, $\bar{k} = \phi_1(k) = k$ Mod $2^{W_n+2}$ et : \\
+ $\forall k$, $\bar{k} = \phi_1(k) = k \mod 2^{W_n+2}$ et : \\
  \begin{itemize}
   \item [(i)] Si $k$ est pair $\phi_{2_\mathcal{D}}(\bar{k}) = 0$
   \item [(ii)] Si $k$ est impair $\phi_{2_\mathcal{D}}(\bar{k}) = d_i$, avec $d_i \in \overline{\mathcal{D}} 
   \Rightarrow \exists j \in \llbracket 2,W_n+2 \rrbracket$,
- tel que $k = d_i$ Mod $2^j$ et $\forall m \in \llbracket j+1,W_n+2 \rrbracket, \forall d'_i \in \overline{\mathcal{D}}, k \neq d'_i$ Mod $2^m$.
+ tel que $k = d_i \mod 2^j$ et $\forall m \in \llbracket j+1,W_n+2 \rrbracket, \forall d'_i \in \overline{\mathcal{D}}, k \neq d'_i$ Mod $2^m$.
  \end{itemize}
 \end{Propriété}
 
@@ -583,26 +580,26 @@ On peut remarque que calculer la fonction \emph{digit} revient à trouver une fo
  \begin{itemize}
   \item [$\Leftarrow$] Soit $\phi_{2_\mathcal{D}}$ verifiant les conditions (i) and (ii). \\
   Alors $\exists j \in \llbracket 2,W_n+2 \rrbracket$,
- tel que $k = d_i$ Mod $2^j$ et $\forall m \in \llbracket j+1,W_n+2 \rrbracket, \\
- \forall d'_i \in \overline{\mathcal{D}}, \bar{k} \neq d'_i$ Mod $2^m$. \\
- So $\forall m > j$, $p_m(k) \notin \overline{\mathcal{D}_m}$. \\
- That implies $w_{max} \leq j$. \\
- Furthermore $\bar{k} = d_i$ Mod $2^j$ with $d_i$ in $\overline{\mathcal{D}}$, which means $p_j(k) \in \overline{\mathcal{D}}_j$.
- Finally we have $w_{max} = j$.
+ tel que $k = d_i \mod 2^j$ et $\forall m \in \llbracket j+1,W_n+2 \rrbracket, \\
+ \forall d'_i \in \overline{\mathcal{D}}, \bar{k} \neq d'_i \mod 2^m$. \\
+ D'où $\forall m > j$, $p_m(k) \notin \overline{\mathcal{D}_m}$. \\
+ Ce qui implique $w_{max} \leq j$. \\
+ De plus $\bar{k} = d_i \mod 2^j$ avec $d_i$ élément de $\overline{\mathcal{D}}$, d'où $p_j(k) \in \overline{\mathcal{D}}_j$.
+ Finalement on a $w_{max} = j$.
   \begin{itemize}
    \item [$\bullet$] Si $d_i \in \mathcal{D}$,  $p_j(k)=p_j(d_i) \Rightarrow digit_{\mathcal{D}}(k) = \phi_{2_\mathcal{D}}(\bar{k})$.
    \item [$\bullet$] Si $-d_i \in \mathcal{D}$, $p_j(k)=p_j(d_i) \Rightarrow 2^j - p_j(k)=p_j(-d_i) \Rightarrow 2^j - p_j(k) \in \mathcal{D}$. \\
-   And so $digit_{\mathcal{D}}(k) =-(-d_i)=d_i=\phi_{2_\mathcal{D}}(\bar{k})$.
+   Donc $digit_{\mathcal{D}}(k) =-(-d_i)=d_i=\phi_{2_\mathcal{D}}(\bar{k})$.
   \end{itemize}
   \item [$\Rightarrow$] On suppose que l'on a $digit_{\mathcal{D}}(k) = \phi_{2_\mathcal{D}}(\bar{k}) = d_i$ ou $-d_i$ avec $d_i \in \mathcal{D}$. \\
   On a $digit_{\mathcal{D}}(k) = d_i$ avec $d_i \in \overline{\mathcal{D}_m}$. \\
-  Let $j = w_{max}(k) = W_max$. \\
-  Par definition de $w_{max}(k)$, la condition $2)$ est fausse $\forall m > j$, 
+  Soit $j = w_{max}(k) = W_max$. \\
+  Par definition de $w_{max}(k)$, la condition $2)$ est fausse $\forall m > j$, \\
   donc $\nexists d'_i \in \mathcal{D}$ tel que $p_m(k) \in \overline{\mathcal{D}_m}$. \\
-  Ainsi $\forall m > j$, $\forall d'_i \in \overline{\mathcal{D}}$, $k \neq d'_i$ Mod $2^m$.
+  Ainsi $\forall m > j$, $\forall d'_i \in \overline{\mathcal{D}}$, $k \neq d'_i \mod 2^m$.
   
   De plus $j=w_{max} \Rightarrow w_{max}$ satisfait la condition $2)$, \\
-  i.e. $p_j(k) \in \overline{\mathcal{D}_j} \Rightarrow \exists d_i \in \overline{\mathcal{D}}$ tel que $k = d_i$ Mod $2^j$.
+  i.e. $p_j(k) \in \overline{\mathcal{D}_j} \Rightarrow \exists d_i \in \overline{\mathcal{D}}$ tel que $k = d_i \mod 2^j$.
  \end{itemize}
 
 \end{Preuve}
@@ -622,7 +619,7 @@ On peut remarque que calculer la fonction \emph{digit} revient à trouver une fo
   \item [(i)] Si $k$ est pair $\phi_{2_\mathcal{D}}(\bar{k}) = 0$
   \item [(ii)] Si $k$ est impaire $\phi_{2_\mathcal{D}}(\bar{k}) = d_i$, avec $d_i \in \overline{\mathcal{D}} 
   \Rightarrow \exists j \in \llbracket 2,W_n+2 \rrbracket$,
- tel que $k = d_i$ Mod $2^j$ et $\forall m \in \llbracket j+1,W_n+2 \rrbracket, \forall d'_i \in \overline{\mathcal{D}}, k \neq d'_i$ Mod $2^m$.
+ tel que $k = d_i \mod 2^j$ et $\forall m \in \llbracket j+1,W_n+2 \rrbracket, \forall d'_i \in \overline{\mathcal{D}}, k \neq d'_i \mod 2^m$.
  \end{itemize}
  
  Maintenant regardons la preuve :
@@ -631,26 +628,26 @@ On peut remarque que calculer la fonction \emph{digit} revient à trouver une fo
   \item [(ii)] La deuxième condition est plus difficile à prouver.
   
   Par construction $\phi_{2_\mathcal{D}}(\bar{k}) = d_i$ avec $d_i \in \overline{\mathcal{D}}$ signifie
-  $\exists j \in \llbracket 2,W_n+2 \rrbracket$ s.t. $\bar{k} = d_i + (2l+1)2^j$ Mod $2^{W_{max}}$ avec $0 \leq l < 2^{W_n+2-j-1}$, (1) \\
-  et $\forall m > j$, $\nexists d'_i, l'$ tel que $\bar{k} = d'_i + (2l'+1)2^m$ Mod $2^{W_n+2}$. (1bis) \\
+  $\exists j \in \llbracket 2,W_n+2 \rrbracket$ s.t. $\bar{k} = d_i + (2l+1)2^j \mod 2^{W_{max}}$ avec $0 \leq l < 2^{W_n+2-j-1}$, (1) \\
+  et $\forall m > j$, $\nexists d'_i, l'$ tel que $\bar{k} = d'_i + (2l'+1)2^m \mod 2^{W_n+2}$. (1bis) \\
  \end{itemize}
   \vspace{0.3cm}
   
-  La relation (1) implique $\exists j$ tel que $k = \bar{k} = d_i$ Mod $2^j$. \\
-  Maintenant il faut montrer que $\forall m \in \llbracket j+1,W_n+2 \rrbracket, \forall d'_i \in \overline{\mathcal{D}}, k \neq d'_i$ Mod $2^m$. \\
+  La relation (1) implique $\exists j$ tel que $k = \bar{k} = d_i \mod 2^j$. \\
+  Maintenant il faut montrer que $\forall m \in \llbracket j+1,W_n+2 \rrbracket, \forall d'_i \in \overline{\mathcal{D}}, k \neq d'_i \mod 2^m$. \\
   Par l'absurde on suppose qu'il existe un tel $m > j$ et $d'_i \in \overline{\mathcal{D}}$ tel que :
-  \begin{center} $k = d'_i$ Mod $2^m$. (2) \end{center}
-  By (2), on a $k = d'_i + n \times 2^m$ Mod $2^{W_n+2}$ avec $0 \leq n < 2^{W_n+2-m}$. (3) \\
+  \begin{center} $k = d'_i \mod 2^m$. (2) \end{center}
+  Avec (2), on a $k = d'_i + n \times 2^m \mod 2^{W_n+2}$ avec $0 \leq n < 2^{W_n+2-m}$. (3) \\
   Par distinction de cas, on a :
   \begin{itemize}
-   \item[$\bullet$] Si $n = 0$, (3) $\Rightarrow$ $k = d'_i$ Mod $2^{W_n+2}$, contradiction avec la construction de $D_{max}$ (on complète d'abord le tableau avec les éléments de $\overline{\mathcal{D}}$).
+   \item[$\bullet$] Si $n = 0$, (3) $\Rightarrow$ $k = d'_i \mod 2^{W_n+2}$, contradiction avec la construction de $D_{max}$ (on complète d'abord le tableau avec les éléments de $\overline{\mathcal{D}}$).
    \item[$\bullet$] Si $n$ est pair, i.e. $n = 2n'$, soit $m'=m+1$ et \\
-   (3) $\Rightarrow k = d'_i + n' \times 2^{m'}$ Mod $2^{W_n+2}$. Si $n'$ est encore pair, on réitère le procédé jusqu'à ce que $n'$ soit pair.
+   (3) $\Rightarrow k = d'_i + n' \times 2^{m'} \mod 2^{W_n+2}$. Si $n'$ est encore pair, on réitère le procédé jusqu'à ce que $n'$ soit pair.
    On réduit le problème au cas $n$ impair.
    \item[$\bullet$] Si $n$ est impair, i.e. $n = 2l'+1$. \\
-   Alors (3) $\Rightarrow k = d'_i + (2l'+1) \times 2^m$ Mod $2^{W_n+2}$ avec $0 \leq 2l'+1 < 2^{W_n+2-m}$. \\
+   Alors (3) $\Rightarrow k = d'_i + (2l'+1) \times 2^m \mod 2^{W_n+2}$ avec $0 \leq 2l'+1 < 2^{W_n+2-m}$. \\
    Et $0 \leq 2l'+1 < 2^{W_n+2-m} \Rightarrow 0 \leq l' < 2^{W_n+2-m-1}$. \\
-   Finalement on a $k = d'_i + (2l'+1) \times 2^m$ Mod $2^{W_n+2}$ avec $0 \leq l' < 2^{W_n+2-m-1}$.
+   Finalement on a $k = d'_i + (2l'+1) \times 2^m \mod 2^{W_n+2}$ avec $0 \leq l' < 2^{W_n+2-m-1}$.
    Il y a contradiction avec (1bis). Impossible.
    \end{itemize}
   
@@ -664,7 +661,7 @@ On peut remarque que calculer la fonction \emph{digit} revient à trouver une fo
 
 \subsection{Test et Performance}
 
-Nous avons effectuer des tests de performance afin de déterminer l'influence de cette méthode de randomisation de la représentation sur la vitesse d'exponentiation.
+Nous avons effectué des tests de performance afin de déterminer l'influence de cette méthode de randomisation de la représentation sur la vitesse d'exponentiation.
 
 \subsubsection{Comparaison avec $wNAF$}
 
@@ -688,10 +685,8 @@ Nous avons effectuer des tests de performance afin de déterminer l'influence de
 \label{tab:example}
 \end{table}%
 
-In Table\,\ref{tab:example}, the ... \cite{ex}.
-
 On remarque que pour plus la taille de $k$ augmente, plus la perte relative diminue.
-Cependant pour une taille plus petite de $k$ petite ($256$ bits), la perte est significative ($> 50 \%$),
+Cependant pour une taille plus petite de $k$ ($256$ bits), la perte est significative ($> 50 \%$),
 et plus particulièrement lorsqu'on augmente la taille de $\mathcal{D}$.
 
 \chapter{Etat de l'art de la double exponentiation}
@@ -781,14 +776,14 @@ elliptiques, ainsi il est possible d'utiliser les astuces des parties précéden
 C'est avec cette idée que Solinas a pensé une méthode pour recoder les deux exposants dans la double exponentiation 
 afin d'en accélérer l'execution.
 
-\subsection{Basé sur un $NAF$}
+\subsection{Basée sur un $NAF$}
 
 Dans le cas des courbes elliptiques, où le calcul de $-P$ est négligeable comparé à l'addition de points
 (analogie entre multiplication scalaire pour les courbes elliptiques et exponentiation modulaire),
 on peut utiliser une représentation signée (``signed binary expansion''), c'est-à-dire utiliser $0$, $1$ ET $-1$.
 
 Cependant, étant donné qu'il existe une infinité de représentation signée, on utilise la représentation optimale
-(au vu du nombre de $0$) de l'exposant, appelée aussi représentation $NAF$ (vu dans la première partie) qui 
+(au vu du nombre de $0$) de l'exposant, appelée aussi représentation $NAF$ (vue dans la première partie) qui 
 vérifie certaines propriétés.
 
 Solinas est allé encore plus loin en constatant qu'il était encore plus optimal de choisir entre la représentation classique 
@@ -818,7 +813,7 @@ Par exemple, avec les exposants $11$ et $20$, le calcul de $11P + 20Q$ donne :
 
 \subsection{La Joint Spar Form}
 
-Dans cette partie, j'expliquerai la méthode de Solinas pour recodant les deux exposants dans la double exponentiation.
+Dans cette partie, j'expliquerai la méthode de Solinas pour recoder les deux exposants dans la double exponentiation.
 
 Dans un premier temps, j'explicite la notion de poids ``joint'' de Hamming, puis dans un exemple je montre l'avantage de la
 $JSF$ sur la représentation $NAF$. Ensuite je donne un exemple concret dont je me servirai dans les prochaines parties,
@@ -826,18 +821,18 @@ puis finalement je donne les résultats qu'a obtenu Solinas avec cette méthode.
 
 \subsubsection{Joint Hamming Weight}
 
-Le Poids de Hamming Joint est le nombre de colonnes non nuls dans la représentation de deux nombres.
-Une colonne non nul est un bit pour lequel l'un des deux (ou les deux !) exposant(s) a un coefficient non nul.
-Par exemple, dans le cas de la partie précèdente, on a :
+Le Poids de Hamming Joint est le nombre de colonnes non nulles dans la représentation de deux nombres.
+Une colonne non nulle est un bit pour lequel l'un des deux (ou les deux !) exposant(s) a un coefficient non nul.
+Par exemple, dans le cas de la partie précédente, on a :
 
   $$\begin{array}{ccccccc}
   11 = & (1 & 0 & -1 & 0 & -1) \\
   20 = & (1 & 0 & 1 & 0 & 0)
   \end{array}$$
 
-Le poids de Hamming Joint de cette représentation est $3$ car il y a $3$ colonnes non nuls (et $2$ colonnes $\doublezero$).
+Le poids de Hamming Joint de cette représentation est $3$ car il y a $3$ colonnes non nulles (et $2$ colonnes $\doublezero$).
 
-Si on applique la Fast Shamir Method à cette représentation, le nombre d'addition est exactement poids de Hamming Joint
+Si on applique la Fast Shamir Method à cette représentation, le nombre d'addition est exactement le poids de Hamming Joint
 de la représentation.
 
 \subsubsection{Comparaison avec $NAF$}
@@ -919,7 +914,7 @@ de cette représentation.
 
 \subsection{Une solution simple à l'objectif $1$}
 
-Le premier objectif de la $DoubleRDR$ est le recodage des deux exposants à l'aide de coefficients aléatoire
+Le premier objectif de la $DoubleRDR$ est le recodage des deux exposants à l'aide de coefficients aléatoires
 (de cette façon, la $DoubleRDR$ rend l'algorithme d'exponentiation résistant à une attaque ``side-channel'').
 
 Une première approche triviale consiste à utiliser la $RDR$ sur chacun des exposants, de cette manière 
@@ -1095,7 +1090,7 @@ Dans cette partie, une méthode pour calculer la $DoubleRDR$ de $k_1$ et $k_2$ e
  
  Pour $k_1 = 53$ et $k_2 = 102$, on a $B_{f,1} = 0$ et $B_{f,2} = 1$.
  
- Ainsi, les $B_{f,1}$ premiers coefficients de la $DoubleRDR$ de $k_1$ sont nul, de même pour $k_2$.
+ Ainsi, les $B_{f,1}$ premiers coefficients de la $DoubleRDR$ de $k_1$ sont nuls, de même pour $k_2$.
  
  Dans notre exemple on a donc :
  
@@ -1209,7 +1204,7 @@ Dans cette partie, une méthode pour calculer la $DoubleRDR$ de $k_1$ et $k_2$ e
   
   Puis on calcule $\frac{48}{16} = 3$.
 
-  Ainsi, on choisit $-23$ et $3$ comme coefficient de $k_1$ et $k_2$ respectivement, et on ajoute $3$ zéros,
+  Ainsi, on choisit $-23$ et $3$ comme coefficients de $k_1$ et $k_2$ respectivement, et on ajoute $3$ zéros,
   ce qui donne dans la représentation :
   
  $$\begin{array}{ccccccccc}
@@ -1580,7 +1575,7 @@ il y ait un nombre divisible par $2^{\omega_{max}}$ et non divisible par $2^{\om
 Ici $k_1 = 17 \mod 64$ et $k_2 = 49 \mod 64$. \\
 Ainsi  $k_1 - \dbarre = \{16,14,58,54,18,20,40,44\}$. \\
 Et  $k_2 - \dbarre = \{48,46,26,22,50,52,8,12\}$. \\ 
-La plus grande puissance de $2$ qui divise un des élément dans chacun des ensembles est $16$
+La plus grande puissance de $2$ qui divise un des éléments dans chacun des ensembles est $16$
 car il y a $16$ dans le premier ensemble et $48$ dans le second. Or $32$ ne divise aucun de ces deux nombres. 
 Donc $\omega_{max} = 4$. \\
 Ainsi pour $d_0 = 1$ pour $k_1$ et $d_0' = 1$ pour $k_2$, la $DoubleRDR$ de $(k_1,k_2)$ donne :
@@ -1624,7 +1619,7 @@ Donc on a :
  \end{array}$$
  
  On obtient $k_1$ et $k_2$ impairs, comme précédemment. Ainsi on réitère le processus : \\
- Ici $k_1 = 17 [64]$ et $k_2 = 47 [64]$. \\
+ Ici $k_1 = 17 \mod 64$ et $k_2 = 47 \mod 64$. \\
 Ainsi  $k_1 - \dbarre = \{16,14,58,54,18,20,40,44\}$. \\
 Et  $k_2 - \dbarre = \{46,44,24,20,48,50,6,10\}$. \\ 
  Ainsi, on a $\omega_{max} = 4$ en prenant $d_0 = 1$ pour $k_1$ et $d_0' = -1$ pour $k_2$.
@@ -1673,11 +1668,11 @@ Donc on a :
  
 \subsubsection{Contraintes liées à la sécurité.}
 
-Il y a contraintes liées à la résistance à une attaque par canaux auxiliaires, qui l'objectif principal de la $DoubleRDR$.
+Il y a des contraintes liées à la résistance à une attaque par canaux auxiliaires, qui est l'objectif principal de la $DoubleRDR$.
 \begin{itemize}
  \item [$\bullet$] La première condition de la double représentation est l'utilisation de coefficients choisis aléatoirement (l'ensemble $\overline{\mathcal{D}}$).
  \item [$\bullet$] Il est important que les résultats ne dépendent pas des coefficients choisis (il faut que 
- les résulats soient similaires lorsuq'on change l'ensemble $\mathcal{D}$).
+ les résultats soient similaires lorsqu'on change l'ensemble $\mathcal{D}$).
  \item [$\bullet$] La disjonction de cas, lorsque les bits faibles sont égaux ou non, peut poser problème
  au niveau de la sécurité (car l'utilisation d'un ``if'' semble nécessaire).
  \end{itemize}
@@ -1747,7 +1742,7 @@ Dans une première partie, on détaille un premier algorithme de recodage $Doubl
 
 Puis dans un second temps, on explique une implémentation plus efficace et otpimisée que la précédente.
 
-Finalement , la partie $3$ montre dans l'équivalence entre les deux implémentations de la $DoubleRDR$.
+Finalement, la partie $3$ montre l'équivalence entre les deux implémentations de la $DoubleRDR$.
 
 \section{Implémentation de la $DoubleRDR$}
 
@@ -1900,14 +1895,14 @@ On distingue, comme dans la méthode $DoubleRDR$, le cas où $B_{f,1} = B_{f,2}$
 
 \subsection{Les algorithmes de calculs}
 
-Dans cette partie, on explique l' algorithme de calcul de $B_{f,i}$, les algorithmes de choix des coefficients
+Dans cette partie, on explique l'algorithme de calcul de $B_{f,i}$, les algorithmes de choix des coefficients
 et l'algorithme de fin de la $DoubleRDR$.
 
 \subsubsection{Calcul de $B_{f,i}$}
 
 La première fonction détaillée est la fonction ``calcul du bit de poids faible''. \\
-Pour se faire, on divise par $2$ l'exposant tant que celui ci est pair, puis on récupère le nombre de division par $2$
-pour obtenir $B_{f}$, comme détaillée ci-dessous :
+Pour ce faire, on divise par $2$ l'exposant tant que celui-ci est pair, puis on récupère le nombre de division par $2$
+pour obtenir $B_f$, comme détaillé ci-dessous :
 
 \begin{algorithm}
  \caption{Algorithme de calcul de $B_f$ pour $k$}
@@ -1986,11 +1981,11 @@ et en inversant les rôles de $B_{f,1}$ et $B_{f,2}$. \newpage
 % Ce qui est vraiment pratique avec cet algorithme, c'est qu'il évite la vérification de l'existence d'un élément $d_1$ tel que
 % l'équation soit juste, puisqu'on se sert d'éléments de $\dbarre$ directement.
  
-Voici le second algorithme pour le deuxième cas .
+L'algorithme pour le cas où $B_{f,1} = B_{f,2}$ est l'algorithme $9$.
 \begin{algorithm}
  \caption{Algorithme de calcul de $d_0$ et $d_0'$ lorsque $B_{f,1} = B_{f,2}$}
  \begin{algorithmic}
-  \REQUIRE les exposants $k_1$ et $k_2$ et l'ensemble $\dbarre$ avec $Wn$ (borne).
+  \REQUIRE les exposants $k_1$ et $k_2$ et l'ensemble $\dbarre$ avec $W_n$ (borne).
   \ENSURE $[d_0,d_0']$ avec $d_0, d_0' \in \dbarre$.
   \FOR{$i$ allant de $0$ à $|\dbarre| - 1$}
   \STATE $KmoinsDbarre_1[i] \leftarrow k_1 - \dbarre[i]$ // l'ensemble $k_1 - \dbarre$
@@ -2030,8 +2025,8 @@ Voici le second algorithme pour le deuxième cas .
 
 Pour se faire, on réutilise la méthode de l'exemple : \\
 \begin{itemize}
- \item [$\bullet$] Une fois calculé $k_1 - \dbarre$ et $k_2 - \dbarre$, on cherche le ``ppcm'' de ces deux ensembles, c'est-à-dire $2^{w_{max}}$.
- \item [$\bullet$] Pour cela, on initialise $\omega$ à $Wn+2$ (borne) et on regarde dans le premier ensemble si $2^\omega$ divise l'un des éléments,
+ \item [$\bullet$] L'algorithme calcule $k_1 - \dbarre$ et $k_2 - \dbarre$, puis on cherche $\omega_{max}$ correspondant à ces deux ensembles.
+ \item [$\bullet$] Pour cela, on initialise $\omega$ à $Wn+2$ ($W_{max}$) et on regarde dans le premier ensemble si $2^\omega$ divise l'un des éléments,
  puis dans le deuxième ensemble.
  \item [$\bullet$] L'algorithme s'arrête uniquement au moment où $2^\omega$ divise un élément de chacun des ensembles, et tel que $2^{\omega + 1}$
  ne divise pas ces éléments.
@@ -2042,144 +2037,128 @@ Pour se faire, on réutilise la méthode de l'exemple : \\
 
  \section{De l'arithmétique à l'optimisation}
    
-Une fois programmé, la méthode montre des résultats intéressants en terme de nombre de $\doublezero$, cependant 
-l'algorithme utilisé servant à améliorer la vitesse d'éxécution de l'exponentiation, il est nécessaire de se précoccuper
-de la vitesse d'éxécution de ce dernier et pour l'heure, le programme est plutôt lent, notamment pour des nombres grands
-ou lorsqu'il s'agit d'effectuer un nombre conséquent de tests.
-
-Dans cette partie, j'expliquerai par quel procédé j'ai optimisé l'algorithme de la partie précédente.
-
-Finalement, l'équivalence entre les deux algorithmes et sa preuve seront détaillées dans la partie suivante.
+Grâce à l'algorithme de la partie précédente, on remarque que la méthode $DoubleRDR$ donne des résultats 
+intéressants en terme de nombre de $\doublezero$ (voir tableau en annexe).
+On rappelle que l'algorithme de représentation d'un (ou plusieurs) exposant sert à améliorer la vitesse d'éxécution de
+l'exponentiation, ainsi il est nécessaire d'optimiser le programme précédent.
 
     \subsection{La recherche dans un tableau, procédé à éviter}
     
-      De la même manière que pour la RDR, on cherche à éviter la recherche dans un tableau, et donc de la même manière, j'ai pensé à 
-      créer un tableau $DoubleDmax$, dans lequel on récupére les coefficients $d_0$ et $d_0'$ quand il le faut.
-    
-    \subsection{Existence du tableau $DoubleDmax$}
-    
-      La première question que l'on peut se poser concernant l'optimisation est : \\
-      Est-ce que la création d'un tel tableau est faisable ? En d'autres termes, ce tableau existe-t-il et peut on
-      le construire facilement ?
+      De la même manière que pour la $RDR$ (voir partie $1$), on cherche à éviter la recherche dans un tableau (qui nécessite
+      de parcourir tout le tableau pour chaque coefficient). \\
+      Il existe un moyen de contourner la recherche dans un tableau, il s'agit de créer un tableau $DoubleDmax$, 
+      de telle sorte que l'indice du tableau donne directement les coefficients $d_0$ et $d_0'$ de la $DoubleRDR$.
 	    
-      Voici plusieurs raisons qui m'ont donné l'intuition que tout cela était possible : \\
+      Afin de créer et remplir le tableau $DoubleDmax$, on rappelle les points suivants :
       \begin{itemize}
-      \item [$1)$] C'est la cas pour la $RDR$.
-      \item [$2)$] Les coefficients $d_0$ et $d_0'$ sont déterminés uniquement avec $k_1 - \dbarre$ et $k_2 - \dbarre$, et donc uniquement
-      avec $k_1$ et $k_2$ lorsque $\dbarre$ ne change pas.
-      \item [$3)$] On observe les deux exposants sur une fenêtre maximale, les coefficients ne dépendent uniquement
-      de leurs valeurs sur cette fenêtre.
+      \item [$1)$] Dans la $RDR$, on utilise un tableau d'une ligne et de $2^{W_{max}}$ colonnes.
+      \item [$2)$] Les coefficients $d_0$ et $d_0'$ de la $DoubleRDR$ de $(k_1,k_2)$ sont déterminés uniquement avec $k_1 - \dbarre$ et $k_2 - \dbarre$, et donc uniquement
+      avec $k_1$ et $k_2$ car $\dbarre$ ne change pas.
+      \item [$3)$] On observe les deux exposants sur une fenêtre maximale à chaque choix de coefficients,
+      l'algorithme dépend uniquement des valeurs des exposants sur cette fenêtre.
       \end{itemize}
 
-    \subsection{Création du tableau $DoubleDmax$}   
+    \subsection{Création et initialisation du tableau $DoubleDmax$}   
    
-      Le premier constat concernant la création de $DoubleDmax$ est qu'il est constitué de deux entrées, $k_1$ et $k_2$. \\
-      Etant donné que dans tous les cas (choix de $d_0$ ou choix du couple $(d_0, d_0')$, les deux exposants définissent
-      le choix des coefficients.
+      On constate que le tableau $DoubleDmax$ est constitué de deux entrées, $k_1$ et $k_2$. \\
+      Les valeurs de $k_1$ et $k_2$ sur une fenêtre de taille $W_n + 2$ définissent un unique choix de coefficients.
 
-      Tout d'abord, avec ce constat, on remarque qu'il y a $2^{Wn+2}$ possibilités pour $k_1$ et $k_2$, ce qui fait exactement
-      $2^{2Wn+4}$ pour le couple $(k_1,k_2)$, et je suis donc parti sur la construction d'un tableau à $2^{Wn+2}$ lignes et 
-      $2^{Wn+2}$ colonnes et où chaque case contiendrait un couple $(d_0,d_0')$.
-	
-    \subsection{Initialisation du tableau $DoubleDmax$}
-      
-      Le deuxième constat que j'ai fait concerne les $0$ qui rempliront le tableau. \\
-      Naturellement, dès que $k_1$ ou $k_2$ est pair, le coefficient associé $d_0$ est logiquement nul.
-      Ainsi par un soucis d'efficacité, j'initialise $DoubleDmax$ à $0$ absolument partout, et je modifierai donc les coefficients
-      nuls pour lesquels $k_1$ ou $k_2$ est impair. \\
-      Il y a donc $2^{2Wn+3}$ coefficients à remplacer (exactement la moitié).
-	
-    \subsection{Remplissage partiel du tableau $DoubleDmax$}
-	
-      Etant donné que chacun des algorithmes utilisent des boucles déterminées par la variable $pow$ qui représente la puissance de $2$
-      qui divise $k$ Mod $[2^{Wn+2}]$, il semble évident que la construction de $DoubleDmax$ se fasse avec cette même boucle. \\
-      Le raisonnement du premier algorithme correspond au soucis de vouloir obtenir le plus grand nombre de $\doublezero$ possibles à la suite,
-      et le fait de vouloir commencer par la plus grande puissance de $2$ possible ($2^{Wn+2}$) pour remplir le tableau n'y est pas anodin.
+      Ainsi, on remarque qu'il y a $2^{Wn+2}$ possibilités pour $k_1$ et $k_2$, ce qui fait exactement
+      $2^{2Wn+4}$ pour le couple $(k_1,k_2)$, et la construction d'un tableau à $2^{Wn+2}$ lignes et 
+      $2^{Wn+2}$ colonnes et où chaque case contient un couple $(d_0,d_0')$ est appropriée.
 
-      Ainsi, on commence par remplir les cases du tableaux avec $\dbarre$, plus exactement on remplit les cases
-      $(d_0 = \dbarre[i],d_0' = \dbarre[j])$ où $0 \leq i,j < |\dbarre|$, correspondant à la ligne $\dbarre[i]$ et à la colonne $\dbarre[j]$.
-      Ce qui constitue la première étape (que je noterai $(\mathcal{D},\mathcal{D})$, qu'on peut interpreter comme l'étape $(\mathcal{D}+2^{Wn+2},\mathcal{D}+2^{Wn+2})$.
+      De plus, dès que $k_1$ ou $k_2$ est pair, le coefficient associé $d_0$ est logiquement nul.
+      Ainsi par un souci d'efficacité, on initialise $DoubleDmax$ à $(0,0)$ partout, et on modifie ensuite les coefficients
+      nuls pour lesquels $k_1$ et/ou $k_2$ est impair. \\
+      Il y a donc $2^{2Wn+3}$ doublets de coefficients à remplacer (exactement la moitié).
+	
+    \subsection{Remplissage du tableau $DoubleDmax$}
+	
+      Etant donné que chacun des algorithmes utilisent des boucles déterminées par la variable $pow$ qui est liée au nombre
+      de $\doublezero$ dans la représentation de $(k_1,k_2)$, il est logique que la construction de $DoubleDmax$ se fasse avec cette même boucle. \\
+      Ainsi, on utilise une boucle $while$ dans laquelle la variable $pow$ est initialisée à $2^{Wn+2}$, puis décrémentée à $2^{Wn+1}$,
+      puis à $2^{Wn}$, et ainsi de suite jusqu'à $pow = 1$.
 
-      Puis, on continue avec cette fois ci $pow = 2^{Wn+1}$. On remplit les cases $(d_0 = \dbarre[i] + 2^{Wn+1}$ Mod $[2^{Wn+2}] ,d_0' = \dbarre[j] + 2^{Wn+1}$  Mod $[2^{Wn+2}])$,
-      c'est-à-dire qu'on s'occupe de $(\mathcal{D}+2^{Wn+1},\mathcal{D}+2^{Wn+1})$.
-      
+      On remplit les cases du tableau avec $\dbarre$ de cette manière, \\
+      $(d_0 = \dbarre[i] + pow,d_0' = \dbarre[j] + pow)$ où $0 \leq i,j < |\dbarre|$, 
+      correspondant à la ligne $\dbarre[i] + pow$ et à la colonne $\dbarre[j] + pow$. \\
+      Puis on fait de même avec $(d_0 = \dbarre[i] + 3 \times pow,d_0' = \dbarre[j] + 3 \times pow)$ où $0 \leq i,j < |\dbarre|$
+      On réitère le procédé ($1 \times pow$, $3 \times pow$, $5 \times pow$, $7 \times pow$, \ldots)
+      jusqu'à retomber sur $1 \times pow$. Puis on décremente $pow \leftarrow \frac{pow}{2}$.
+
       En réitérant le procédé jusqu'à ce que $pow = 2$, on remplit ainsi toutes les cases \emph{impaires} du tableau (lignes et colonnes impaires).
-      
-      Avec cette méthode, j'ai remplit les cases qui me permettront de traiter les cas où, c'est-à-dire le fameux deuxième cas.
-      Voyons comment traiter le premier cas.
-      
-    \subsection{Fin du remplissage de $DoubleDmax$}
+
+      \begin{Exemple}
+       Pour $\mathcal{D} = \{1,3,23,27\}$, on a : 
+       \begin{itemize}
+        \item [$\bullet$] Pour $pow = 64$, on remplit les cases $(1,1)$, $(1,3)$, $(1,23)$, $(1,27)$, $(1,37)$, $(1,41)$, \ldots \\
+       puis on remplit les cases $(3,1)$, $(3,3)$, $(3,23)$ et $(3,27)$ \ldots
+        \item [$\bullet$] Pour $pow = 32$, on remplit les cases $(1+32,1+32)$, $(1+32,3+32)$, \ldots
+        \item [$\bullet$] Pour $pow = 16$, on remplit les cases $(1+16,1+16)$, $(1+16,3+16)$, \ldots
+        puis on remplit les cases $(1+48,1+48)$, $(1+48,3+48)$ \ldots
+       \end{itemize}
+      \end{Exemple}
     
-      Il reste à remplir les cases des lignes paires et des colonnes impaires, et inversement, ce qui correspond au premier cas dans le squelette 
-      de l'algorithme (c'est-à-dire le cas où $B_{f,1} < B_{f,2}$ et inversement). \\
-      Pour se faire, il faut donc que, lorsque $k_1$ a $3$ zéros consécutifs dans sa représentation et que $k_2$ a le premier bit non nul,
-      l'on choisisse un coefficient $d_0'$ pour $k_2$ (et $d_0 = 0$ pour $k_1$) tel que $\frac{k_2 - d_0'}{2}$ ait deux $0$ consécutifs. \\
-      Ce qui revient à dire, si $k_1$ est divsible par $8$ (équivalent à avoir $3$ zéros consécutifs), alors il faudra choisir $d_0'$ tel que
-      $k_2 - d_0'$ soit divisible par $8$.
+      Il reste à remplir les cases des lignes paires et des colonnes impaires, et inversement (c'est-à-dire le cas où $B_{f,1} < B_{f,2}$ et inversement). \\
+      On peut appliquer le même processus que précédemment en remplaçant l'un des coefficients de $\dbarre$ par $0$. \\
+      En utilisant la même boucle $while$, on remplit les cases de cette manière, \\
+      $(d_0 = 0 + pow,d_0' = \dbarre[j] + pow)$ où $0 \leq j < |\dbarre|$, 
+      correspondant à la ligne $pow$ et à la colonne $\dbarre[j] + pow$. \\
+      Puis on fait de même avec $(d_0 = 0 + 3 \times pow,d_0' = \dbarre[j] + 3 \times pow)$ où $0 \leq j < |\dbarre|$
+      On réitère le procédé ($1 \times pow$, $3 \times pow$, $5 \times pow$, $7 \times pow$, \ldots)
+      jusqu'à retomber sur $1 \times pow$. Puis on décremente $pow \leftarrow \frac{pow}{2}$.
       
-      On peut donc procéder de la même manière que pour le remplissage précédent.
+      \begin{Exemple}
+       Pour $\mathcal{D} = \{1,3,23,27\}$, on a : 
+       \begin{itemize}
+        \item [$\bullet$] Pour $pow = 64$, on remplit les cases $(0,1)$, $(0,3)$, $(0,23)$, $(0,27)$, $(0,37)$, $(0,41)$, \ldots
+        \item [$\bullet$] Pour $pow = 32$, on remplit les cases $(0+32,1+32)$, $(0+32,3+32)$, \ldots
+        \item [$\bullet$] Pour $pow = 16$, on remplit les cases $(0+16,1+16)$, $(0+16,3+16)$, \ldots
+        puis on remplit les cases $(0+48,1+48)$, $(0+48,3+48)$ \ldots
+       \end{itemize}
+      \end{Exemple}
+
+      Finalement, avec cette méthode, toutes les cases ne sont pas remplies. \\
+      Par exemple, pour le cas où $\mathcal{D} = \{1,3,23,27\}$, la case $(32,17)$ est toujours initialisée à $(d_0,d_0') = (0,0)$. \\
+      Dans ce cas, il s'agit de remplir les cases manquantes en utilisant les propriétés du nombre impair ($5$ dans l'exemple),
+      ainsi que la boucle $while$ utilisée précédemment. \\
+      On procède ainsi, \\
+      on remplit la case $(d_0 = 0 + 2 \times pow, d_0' = \dbarre[j] + pow)$ si celle ci est encore initialisée à $(0,0)$,
+      puis on remplit la case $(0 + 4 \times pow, d_0' = \dbarre[j] + pow)$, puis on continue avec $6 \times pow$ et ainsi de suite
+      jusqu'à retomber sur $2 \times pow$.
       
-      Afin de traiter ce cas, il suffit de prendre un exemple afin d'éclairer les lanternes du lecteur.
+      \begin{Exemple}
+       Pour $\mathcal{D} = \{1,3,23,27\}$, on a : 
+       \begin{itemize}
+        \item [$\bullet$] Pour $pow = 16$, on remplit les cases $(32,1+16)$, $(32,3+16)$, \\
+        puis $(32,1+48)$, $(32,3+48)$, \ldots
+        \item [$\bullet$] Pour $pow = 8$, on remplit les cases $(16,1+8)$, $(16,3+8)$, \ldots \\
+        puis $(16,1+24)$, $(16,3+24)$, \ldots \\
+        puis $(32,1+8)$, $(32,3+8)$ \ldots
+       \end{itemize}
+      \end{Exemple}
       
-      Soit $\dbarre = \{1,3,23,27,37,41,61,63\}$, \\
-      $k_1$ et $k_2$ tels que $k_1 = 24$ Mod $64$ et $k_2 = 21$ Mod $64$.
-      
-      Comme $k_1$ Mod $64$ est divisible par $8$, $k_1$ l'est aussi, \\
-      et de même $k_1$ Mod $64$ n'est pas divisible par $16$, $k_1$ ne l'est pas non plus. \\
-      Et donc le premier bit faible de $k_1$ est le quatrième. \\
-      Comme $k_2$ est impaire, son premier bit est non nul.
-      
- $$\begin{array}{ccccccc}
-  k_1 & = & (0 & 0 & 0 & 1 & \ldots \\
-  k_2 & = & (1 & a_0 & a_1 & a_2 & \ldots
- \end{array}$$
+    \subsection{Optimisation avancée}
     
-      Ainsi, nous voici dans le fameux premier cas, où $B_{f,1} = 3$ et $B_{f,2} = 0$. \\
-      Or on a $k_2 = 21 = -3 + 24$ Mod $64$. Et donc $k_2 - (-3)$ divisible par $8$. \\
-      Donc on remplit la case $(24,21)$ du tableau $DoubleDmax$ avec $(0,-3)$.
-      
-      Plus généralement, on remplit les cases $(0,\dbarre)$, puis $(0 + 2^{Wn+1},\dbarre + 2^{Wn+1})$, \\
-      $(0 + 2^{Wn},\dbarre + 2^{Wn})$, et ainsi de suite jusqu'à $(0 + 2^1,\dbarre + 2^1)$.
-      
-    \subsection{Astuces}
-      
-      La première chose que l'on constate dans l'explication de l'algorithme de la partie précèdente, est que 
-      le premier et le deuxième cas sont traités de la même manière, ce qui change c'est que pour le premier cas,
-      on utilise $0$ d'un côté et $\dbarre$ de l'autre. \\
-      J'ai donc utilisé une astuce pour regrouper ces deux cas en un seul et même programme, j'ai ajouté $0$ à $\dbarre$
-      afin de pouvoir traiter le cas où l'un des deux exposants est pair.
-      
-      Ensuite, j'ai également utilisé une deuxième astuce, pour économiser le nombre de calculs nécessaires pour remplir ce tableau. \\
-      Je me suis aperçu qu'il n'y avait pas besoin de calculer tous les ensembles $(\mathcal{D}+2^{k},\mathcal{D}+2^{k})$, par exemple
-      pour $\dbarre = \{1,3,23,27,37,41,61,63\}$, le tableau $DoubleDmax$ peut se remplir avec $(\mathcal{D}+2^{k},\mathcal{D}+2^{k})$, pour $k \geq 3$. \\
-      J'ai donc pensé à mettre un compteur afin d'arrêter le programme dès que le tableau est rempli.
-      
-      Finalement, avec ce compteur, je me suis rendu compte que je n'avais pas assez d'éléments dans mon tableau. \\
-      En observant les résultats, j'ai remarqué que certains des cas $k_1$ pair et $k_2$ impair (et inversement) n'avaient pas
-      été remplis. \\
-      Cela s'explique très simplement, prenons un exemple, mettons avec le même $\dbarre$,
-      et cette fois prenons $k_1 = 32$ et $k_2 = 7$, on remarque qu'il n'existe pas de solution $(d_0,d_1)$ à :
-      
-       $$\begin{array}{ccc}
-k_2 & = & d_0 + 32 \times d_1[64]
-   \end{array}$$
-      
-      Plus exactement, si on calcule l'ensemble $k_2 - \dbarre$, on s'aperçoit qu'aucun élément n'est divisible par $32$.
-      C'est un cas particulier, et dans ce cas, nous avions décidé de choisir la puissance de $2$ inférieure la plus proche 
-      divisant un des éléments de l'ensemble. Dans ce cas précis, c'est $8$. \\
-      Il faudra donc rajouter une partie du programme qui traitera ces cas particuliers.
-      
-      La dernière astuce me permet de réduire considérablement la taille du tableau, et ainsi les calculs. \\
-      En remarquant que les résultats étaient symétriques (les couples $(43,21)$ et $(21,43)$ renvoient les mêmes coefficients),
-      j'ai donc décidé d'associer le coefficient de la case $(k_1,k_2)$ à $k_1$ et celui de la case $(k_2,k_1)$ à $k_2$.
-      
+    On remarque dans la partie précédente que le premier et le deuxième procédé de remplissage du tableau $DoubleDmax$
+    fonctionne de la même manière, en ajoutant $0$ à $\dbarre$, on peut fusionner les deux processus en un seul programme.
+    
+    On peut également utiliser un compteur afin d'économiser un certain nombre de calculs. \\
+    Il n'est pas nécessaire de calculer tous les ensembles $(\mathcal{D}+2^{k},\mathcal{D}+2^{k})$, \\ 
+    par exemple pour $\dbarre = \{1,3,23,27,37,41,61,63\}$, le tableau $DoubleDmax$ peut se remplir avec 
+    $(\mathcal{D}+2^{k},\mathcal{D}+2^{k})$, pour $k \geq 3$.
+    
+    On observe finalement que les cases du tableau sont symmétriques (les cases $(43,21)$ et $(21,43)$ renvoient les mêmes coefficients),    
+    on peut diviser par deux la taille et les calculs du tableau $DoubleDmax$ en associant le coefficient
+    de la case $(k_1,k_2)$ à $k_1$ et celui de la case $(k_2,k_1)$ à $k_2$.
+ 
     \subsection{Algorithmes}
     
       Voici les différents algorithmes traitant la création et le remplissage du tableau $DoubleDmax$.
       
       \subsubsection{Création de $DoubleDmax$}
 
-      Pour créer un tableau à $2^{W_n+2}$ lignes et $2^{W_n+2}$ colones, il suffit d'allouer la bonne mémoire à 
+      Pour créer un tableau à $2^{W_n+2}$ lignes et $2^{W_n+2}$ colones, il suffit d'allouer une mémoire suffisante à 
       un pointeur de pointeurs, puis de faire une boucle pour allouer la mémoire suffisante à tous les pointeurs.
       
 \begin{algorithm}
@@ -2196,33 +2175,29 @@ k_2 & = & d_0 + 32 \times d_1[64]
  \end{algorithmic}
 \end{algorithm}    
       
-      \subsubsection{Remplissage de $DoubleDmax$ : Première partie}
+      \subsubsection{Remplissage de $DoubleDmax$ : Première fonction}
 
-      Dans un premier temps, il s'agit de remplir $DoubleDmax$ pour tous les cas où $k_1$ et $k_2$ sont impairs, 
-      mais également tous les cas où  seulement l'un des deux est impair et qu'il existe $d_0,d_1 \in \dbarre$ tels que :
-      
- $$\begin{array}{ccc}
-k_1 & = & d_0 + 2^k \times d_1 [2^{Wn+2}] \, \text{ou} \\ 
-k_2 & = & d_0 + 2^k \times d_1 [2^{Wn+2}]
-   \end{array}$$
+      Voici le premier algorithme correspondant aux deux premiers procédés de la partie $5.2.3$ (avec $0$ ajouté au tableau $\dbarre$),
 
 \begin{algorithm}
  \caption{Algorithme de remplissage de $DoubleDmax$}
  \begin{algorithmic}
-  \REQUIRE un compteur $c$, une puissance $2^k$, l'ensemble $\dbarre$ avec $Wn$ (borne) et le tableau $DoubleDmax$.
-  \ENSURE $DoubleDmax$ partiellement rempli.
+  \REQUIRE une puissance $pow$, l'ensemble $\dbarre$ avec $Wn$ (borne) et le tableau $DoubleDmax$.
+  \ENSURE $DoubleDmax$ partiellement rempli.  
   \FOR{$i$ allant de $0$ à $|\dbarre|-1$}
   \STATE $d_1 \leftarrow \dbarre[i]$
-  \STATE $k_1 \leftarrow 0$
-  \STATE $pow_1 \leftarrow 2^k$
-  \WHILE{$k_1 < \frac{2^{Wn+2}}{2 \times 2^k}+1$}
-  \STATE $d_1 \leftarrow d_1 + pow_1$ Mod $2^{Wn+2}$
+  
+  \STATE $pow_1 \leftarrow pow$
+  \WHILE{$pow_1 \leq 2^{Wn+2}$}
+  \STATE $d_1 \leftarrow d_1 + pow_1 \mod 2^{Wn+2}$
+
   \FOR{$j$ allant de $0$ à $|\dbarre|$}
   \STATE $d_2 \leftarrow \dbarre[j]$
-  \STATE $pow_2 \leftarrow 2^k$
-  \STATE $k_2 \leftarrow 0$
-  \WHILE{$k_2 < \frac{2^{Wn+2}}{2 \times 2^k}+1$}
-  \STATE $d_2 \leftarrow d_2 + pow_2$ Mod $2^{Wn+2}$
+
+  \STATE $pow_2 \leftarrow pow$
+  \WHILE{$pow_2 \leq 2^{Wn+2}$}
+  \STATE $d_2 \leftarrow d_2 + pow_2 \mod 2^{Wn+2}$
+
   \IF{$DoubleDmax[d_1][d_2] = 0$}
   
   \IF{$i < |D|$}
@@ -2231,7 +2206,6 @@ k_2 & = & d_0 + 2^k \times d_1 [2^{Wn+2}]
   \STATE $DoubleDmax[d_1][d_2] = -D[i-|D|]$
   \ENDIF
   
-  \ELSIF{$DoubleDmax[d_2][d_1] = 0$ et $d_2$ impair}
   \IF{$j < |D|$}
   \STATE $DoubleDmax[d_2][d_1] = D[j]$
   \ELSE 
@@ -2239,161 +2213,209 @@ k_2 & = & d_0 + 2^k \times d_1 [2^{Wn+2}]
   \ENDIF
   
   \ENDIF
-  \STATE $k_2 \leftarrow k_2+1$
-  \STATE $pow_2 \leftarrow 2 \times 2^k$
+  \STATE $pow_2 \leftarrow pow_2 + 2 \times pow$
   \ENDWHILE
   \ENDFOR
-  \STATE $k_1 \leftarrow k_1+1$
-  \STATE $pow_1 \leftarrow 2 \times 2^k$
+  \STATE $pow_1 \leftarrow pow_1 + 2 \times pow$
   \ENDWHILE
   \ENDFOR
   \RETURN $DoubleDmax$
  \end{algorithmic}
 \end{algorithm}
     
-     \subsubsection{Remplissage de $DoubleDmax$ : Deuxième partie}
+     \subsubsection{Remplissage de $DoubleDmax$ : Deuxième fonction}
      
-    Il ne reste plus qu'à traiter le cas où l'un des deux exposants est impair et qu'il n'y a pas de solution à l'équation :
-
- $$\begin{array}{ccc}
-k_1 & = & d_0 + 2^k \times d_1 [2^{Wn+2}] \, \text{ou} \\ 
-k_2 & = & d_0 + 2^k \times d_1 [2^{Wn+2}]
-   \end{array}$$
+    Voici le deuxième algorithme permettant de traiter le troisième procédé de la partie $5.2.3$,
 
    \begin{algorithm}
  \caption{Algorithme de complètion de $DoubleDmax$}
  \begin{algorithmic}
-  \REQUIRE un compteur $c$, une puissance $2^k$, l'ensemble $\dbarre$ avec $Wn$ (borne).
-  \ENSURE $DoubleDmax$ avec $d_0, d_0' \in \dbarre$.
-  \STATE $pow \leftarrow 2^{Wn+2}$
-  \STATE $c \leftarrow 0$
-  \WHILE{$pow > 1$ et $c \neq 1$}
-  \STATE $c1 \leftarrow 0$
-  \STATE $c2 \leftarrow 0$
-  \STATE $i \leftarrow 0$
-  \WHILE{$i < |\dbarre|$ et $c_1 \neq 1$}
-  \STATE $S \leftarrow k_1 - \dbarre[i]$
-  \IF{$S[pow] = 0$ et $S[2 \times pow] \neq 0$}
-  \STATE $c1 \leftarrow 1$
+  \REQUIRE une puissance $pow$, l'ensemble $\dbarre$ avec $Wn$ (borne).
+  \ENSURE $DoubleDmax$.
+  \STATE $pow_1 \leftarrow 0$
+  \WHILE{$pow_1 \leq 2^{W_n+2}$}
+  \STATE $d_1 \leftarrow pow_1$
+
+  \STATE $pow_2 \leftarrow pow$
+  \WHILE{$pow_2 \leq 2^{W_n+2}$}
+  
+  \FOR{$j$ allant de $0$ à $|\dbarre|$}
+  \STATE $d_2 \leftarrow \dbarre[j]$
+  \STATE $d_2 \leftarrow d_2 + pow_2 \mod 2^{Wn+2}$
+  
+  \IF{$DoubleDmax[d_1][d_2] = 0$}
+  
+  \IF{$i < |D|$}
+  \STATE $DoubleDmax[d_1][d_2] = D[i]$
+  \ELSE 
+  \STATE $DoubleDmax[d_1][d_2] = -D[i-|D|]$
   \ENDIF
-  \STATE $i \leftarrow i+1$
-  \ENDWHILE
-  \STATE $j \leftarrow 0$
-  \WHILE{$j < |\dbarre|$ et $c_2 \neq 1$}
-  \STATE $S \leftarrow k_2 - \dbarre[i]$
-  \IF{$S[pow] = 0$ et $S[2 \times pow] \neq 0$}
-  \STATE $c2 \leftarrow 1$
+  
+  \IF{$j < |D|$}
+  \STATE $DoubleDmax[d_2][d_1] = D[j]$
+  \ELSE 
+  \STATE $DoubleDmax[d_2][d_1] = -D[j-|D|]$
   \ENDIF
-  \STATE $j \leftarrow j+1$
+  
+  \ENDIF
+  
+  \ENDFOR
+  \STATE $pow_2 \leftarrow pow_2 + 2 \times pow$
   \ENDWHILE
-  \STATE $pow \leftarrow \frac{pow}{2}$
-  \STATE $c \leftarrow c_1 \times c_2$
+  \STATE $pow_1 \leftarrow pow_1 + 2 \times pow$
   \ENDWHILE
-  \STATE $d_0 \leftarrow \dbarre[i-1]$
-  \STATE $d_0' \leftarrow \dbarre[j-1]$
-  \RETURN $[d_0,d_0']$
+  \RETURN $DoubleDmax$
  \end{algorithmic}
 \end{algorithm}
       
-  \section{Equivalence et preuve}
+  \section{Equivalence et Preuve}
   
-  Les deux algorithmes expliqués précèdemment semble équivalent, il reste désormais à prouver cette équivalence.
+  Les deux algorithmes expliqués précédemment semblent équivalents, il reste désormais à prouver cette équivalence.
 
-  \subsection{La $DoubleRDR$, késako ?}
+  \subsection{La définition de la $DoubleRDR$}
   
   \begin{Definition}
-   La $DoubleRDR$ d'un couple d'exposant est une représentation de ce couple en base $2$ telle que :
+   La $DoubleRDR$ d'un couple d'exposant est une représentation de ce couple en base $2$ de la forme
+$$\begin{array}{cccccccccc}
+  k_1 & = & (d_0 & \ldots & d_k  & \ldots & d_n) \\
+  k_2 & = & (d_0' & \ldots & d_k' & \ldots & d_m') \\
+ \end{array}$$
+ telle que :
    \begin{itemize}
-    \item [$\bullet$] Les coefficients sont choisis aléatoirement inférieurs à une borne prédéfinie, leur 
-    nombre est également prédefini.
-    \item [$\bullet$] Il y a un ratio $\frac{\text{coefficients non nuls sur le même bit}}{\text{coefficients
-    non nuls}}$ maximum (le plus  proche de $1$ possible).
-    \item [$\bullet$] Il y a un maximum de $\doublezero$ dans le respect des deux premières règles.
+    \item [$\bullet$] Les coefficients $d_i$ et $d_i'$ appartiennent à $\mathcal{D} \cup -\mathcal{D} \cup \{0\}$
+    où $\mathcal{D}$ est prédéfini.
+    \item [$\bullet$] Si $k_{1,i} = \frac{k_1-d_0-d_1 \ldots -d_{i-1}}{2^i}$ est pair, alors $d_i = 0$.
+    \item [$\bullet$] Si $k_{1,i}$ est impair (resp pair) et $k_{2,i}$ est pair (resp impair), il existe 
+    $w \leq W_{max}$ tel que :
+   \begin{center}
+    $2^{w} \mid k_{2,i}$ et $2^{w+1} \nmid k_{2,i}$
+   \end{center}
+   alors $d_i$ est tel que :
+   \begin{center}
+   Il existe $m \leq w$ tel que $2^{m} \mid (k_{1,i}-d_i)$ et $2^{m+1} \nmid (k_{1,i}-d_i)$ et \\
+   il n'existe pas d'élément $j>m$, pour lequel il existe $d_i$ élément de $\dbarre$ vérifiant les conditions précédentes.
+   \end{center}
+   \item [$\bullet$] Si $k_{1,i}$ et $k_{2,i}$ sont pairs, alors $d_i$ et $d_i'$ sont tels que :
+   \begin{center}
+   Il existe $m \leq w$ tel que : \\
+   $2^{m} \mid (k_{1,i}-d_i)$ et $2^{m} \mid (k_{2,i}-d_i')$, \\
+   $2^{m+1} \nmid (k_{1,i}-d_i)$ et $2^{m+1} \nmid (k_{2,i}-d_i')$, et \\
+   il n'existe pas d'élément $j>m$, $d_i$ et $d_i'$ élément de $\dbarre$ vérifiant les conditions précédentes.
+   \end{center}
    \end{itemize}
   \end{Definition}
   
   \begin{Remarque}
-   Dans l'exemple de la partie $4$, le ratio est de $\frac{5}{7}$ ($7$ bits non nuls dont $2$ de la forme 
-   $\begin{pmatrix} d_0 \\ 0 \end{pmatrix}$ ou $\begin{pmatrix} 0 \\ d_0 \end{pmatrix}$, où $d_0 \neq 0$).
-  \end{Remarque}
-
-
-  \begin{Proposition}
-   Une représentation de $(k_1,k_2)$, de la forme 
-    $$\begin{array}{cccccccccc}
-  k_1 & = & (d_0 & \ldots & d_k  & \ldots & d_n) \\
-  k_2 & = & (d_0' & \ldots & d_k' & \ldots & d_m') \\
- \end{array}$$
-   est la $DoubleRDR$ de ce couple si et seulement si :
+   En d'autres termes, on choisit les coefficients $d_i$ et $d_i'$ tels que :
    \begin{itemize}
-    \item [$\bullet$] $d_i$, $d_i' \in \dbarre \cup \{0\}$, pour tout $i$.
-    \item [$\bullet$] $(d_i,d_i')$ sont tels que : \\
-    S'il existe $\omega \leq W_n$ tel que : \\
-    Il existe $d \in  \dbarre \cup \{0\}$ tel que $2^{\omega} \mid (a - d)$ et $2^{\omega + 1} \nmid (a - d)$ \\
-    Il existe $d' \in  \dbarre \cup \{0\}$ $2^{\omega} \mid (b - d')$ et $2^{\omega + 1} \nmid (b - d')$ \\
-    Alors on a $d_0 = d$ et $d_0' = d'$. \\
-    Si un tel $\omega$ n'existe pas, alors on cherche le plus grand $\omega$ tel que : \\
-    Il existe $d \in \dbarre \cup \{0\}$ tel que $2^{\omega} \mid (a - d)$ et $2^{\omega + 1} \nmid (a - d)$ \\
-    Puis on cherche le plus grand $\omega'$ tel que : \\
-    Il existe $d' \in \dbarre \cup \{0\}$ tel que $2^{\omega'} \mid (b - d')$ et $2^{\omega' + 1} \nmid (b - d')$ \\
-    Alors on a $d_0 = d$ et $d_0' = d'$. \\
-    \end{itemize}
-  \end{Proposition}
-
-  \begin{Remarque}
-   Il est facile de constater que lorsque $a$ et $b$ sont impairs, \\
-   il existe toujours $1 \leq \omega \leq W_n$ vérifiant la première condition.
-   
-   En effet, il suffit de remarquer que, étant donné que $1 \in \mathcal{D}$, 
-   il suffit de prendre $d_0 = 1$ si $(a-1)$ divisible par $2$ mais non par $4$, et $d_0 = -1$ dans
-   le cas contraire. De la même manière pour $b$, on obtient $(a-d_0)$ et $(b-d_0')$ divisible par $2$ et 
-   non par $4$.
-   
-   Finalement, le seul cas où la condition $(i)$ n'est pas vérifiée est lorsque l'un des deux exposants est pair
-   et l'autre impair.
+    \item [$1)$] les prochains coefficients $d_j$ et $d_j'$ non nuls se situent sur le même bit,
+    \item [$2)$] il y ait un maximum de coefficients $d_j$ et $d_j'$ nuls consécutivement (le plus grand 
+    nombre de $\doublezero$ après $\begin{pmatrix} d_j \\ d_j' \end{pmatrix}$)
+   \end{itemize}
   \end{Remarque}
 
   \subsection{Algorithme et Mathématiques}
+
+  \begin{Proposition}
+  Soit $\bar{k}_{1,i} = \frac{k_1-d_0-d_1 \ldots -d_{i-1}}{2^i} \mod 2^{W_n+2}$ et $\bar{k}_{2,i} = \frac{k_2-d_0'-d_1' \ldots -d_{i-1}'}{2^i} \mod 2^{W_n+2}$. \\
   
-  
+  Le tableau $DoubleDmax$ construit dans la partie précédente est telle que : \\
+  $d_i = DoubleDmax[\bar{k}_{1,i}][\bar{k}_{2,i}]$ \\
+  $d_i' = DoubleDmax[\bar{k}_{2,i}][\bar{k}_{1,i}]$ \\
+  où $d_i$ et $d_i'$ sont les $i$ èmes coefficients de la $DoubleRDR$ de $(k_1,k_2)$.
+  \end{Proposition}
+
+  \begin{Preuve}
+   Soient $k_1$ et $k_2$ deux exposants, soit $i$ un entier plus petit que la taille de $k_1$ et $k_2$, 
+   soient $d_i$ et $d_i'$ les $i$ ème coefficients dans la $DoubleRDR$ de $(k_1,k_2)$.
+   \begin{itemize}
+   \item [$\bullet$] Si $k_{1,i}$ et $k_{2,i}$ sont pairs, alors $\bar{k}_{1,i}$ et $\bar{k}_{2,i}$ sont pairs, \\
+   donc $DoubleDmax[\bar{k}_{1,i}][\bar{k}_{2,i}] = d_i = 0$  et \\
+   $DoubleDmax[\bar{k}_{2,i}][\bar{k}_{1,i}] = d_i' = 0$.
+   
+   \item [$\bullet$] Si $k_{1,i}$ est impair (resp pair) et $k_{2,i}$ est pair (resp impair), alors $\bar{k}_{1,i}$ est 
+   impair (resp pair) et $\bar{k}_{2,i}$ est pair (resp impair), \\
+   donc $DoubleDmax[\bar{k}_{2,i}][\bar{k}_{1,i}] = d_i' = 0$ et il existe $w$ tel que 
+   $2^w \mid \bar{k}_{2,i}$ et $2^{w+1} \nmid \bar{k}_{2,i}$. \\
+   Soit $d = DoubleDmax[\bar{k}_{1,i}][\bar{k}_{2,i}]$. \\
+   Avec l'algorithme $DoubleDmax$, ils existent $m$ et $l$ tels que :
+   \begin{center}
+   $\bar{k}_{1,i} = d + l \times 2^m \mod 2^{W_n+2}$, où $l$ impair.    
+   \end{center}
+   On a donc, $2^m \mid (\bar{k}_{1,i} - d)$ et $2^{m+1} \nmid (\bar{k}_{1,i} - d)$, \\
+   avec $m \leq w$ car $2^w \mid \bar{k}_{2,i}$. \\
+   Il reste à montrer qu'il n'existe pas d'élément $j>m$, pour lequel il existe un élément $d''$ vérifiant les 
+   conditions précédentes.
+   
+   Supposons qu'ils existent un tel $j$ et un tel $d''$, on a 
+   $2^j \mid (\bar{k}_{1,i} - d'')$ et $2^{j+1} \nmid (\bar{k}_{1,i} - d'')$. \\
+   Donc il existe $l$ impair tel que $\bar{k}_{1,i} = d'' + l \times 2^j \mod 2^{W_n+2}$. \\
+   Dans ce cas, d'après le fonctionnement de l'algorithme, on a $DoubleDmax[\bar{k}_{1,i}][\bar{k}_{2,i}] = d''$,
+   ce qui est contradictoire. \\
+   Donc $d = d_i$ et $d' = d_i'$.
+   
+   \item [$\bullet$] Si $k_{1,i}$ et $k_{2,i}$ sont impairs, alors $\bar{k}_{1,i}$ et $\bar{k}_{2,i}$ sont impairs. \\
+   Soient $d = DoubleDmax[\bar{k}_{1,i}][\bar{k}_{2,i}]$ et $d' = DoubleDmax[\bar{k}_{2,i}][\bar{k}_{1,i}]$. \\
+   Avec l'algorithme $DoubleDmax$, ils existent $m$, $l_1$ et $l_2$ tels que :
+   \begin{center}
+   $\bar{k}_{1,i} = d + l_1 \times 2^m \mod 2^{W_n+2}$, où $l_1$ impair, \\
+   $\bar{k}_{2,i} = d' + l_2 \times 2^m \mod 2^{W_n+2}$, où $l_2$ impair.
+   \end{center}
+   On a donc :
+   \begin{center}
+   $2^{m} \mid (k_{1,i}-d)$ et $2^{m} \mid (k_{2,i}-d')$, \\
+   $2^{m+1} \nmid (k_{1,i}-d)$ et $2^{m+1} \nmid (k_{2,i}-d')$
+   \end{center}
+   Il reste à montrer qu'il n'existe pas d'élément $j>m$, pour lequel ils existent $d^{(2)}$ et $d^{(3)}$ 
+   dans $\dbarre$ vérifiant les conditions précédentes.   
+   
+   Supposons qu'ils existent un tel $j$ et $d^{(2)}$ et $d^{(3)}$, on a 
+   $2^j \mid (\bar{k}_{1,i} - d^{(2)})$ et $2^{j+1} \nmid (\bar{k}_{1,i} - d^{(2)})$, \\
+   et $2^j \mid (\bar{k}_{2,i} - d^{(3)})$ et $2^{j+1} \nmid (\bar{k}_{2,i} - d^{(3)})$. \\
+   Donc il existe $l_1$ impair tel que $\bar{k}_{1,i} = d^{(2)} + l_1 \times 2^j \mod 2^{W_n+2}$, et \\
+   il existe $l_2$ impair tel que $\bar{k}_{2,i} = d^{(3)} + l_2 \times 2^j \mod 2^{W_n+2}$. \\
+   Dans ce cas, d'après le fonctionnement de l'algorithme, on a $DoubleDmax[\bar{k}_{1,i}][\bar{k}_{2,i}] = d^{(2)}$
+   et $DoubleDmax[\bar{k}_{2,i}][\bar{k}_{1,i}] = d^{(3)}$, ce qui est contradictoire. \\
+   Donc $d = d_i$ et $d' = d_i'$.   \end{itemize}
+  \end{Preuve}
   
   \chapter{Performances et Aléatoire : l'importance des coefficients}
   
   L'algorithme et la méthode sont optimisés, cependant un paramètre important n'a pas encore été discuté,
   quels sont les performances (en terme de $\doublezero$) de la $DoubleRDR$ ?
   
-  L'objectif le plus important de ce recodage est d'être résistant à une attaque par canal auxiliaire. Pour se 
-  faire, il est nécessaire que les résultats obtenus différent peu suivant les coefficients choisis, car des variations 
+  L'objectif le plus important de ce recodage est d'être résistant à une attaque par canal auxiliaire. Pour ce 
+  faire, il est nécessaire que les résultats obtenus soient indépendants des coefficients choisis, car des variations 
   trop importantes donneraient systématiquement des éléments sur l'exposant (et donc le secret !).
   
-  \section{L'important choix des coefficients}
+  \section{Le choix des coefficients}
   
   Nous allons voir dans cette partie, l'étude complète des coefficients de $\mathcal{D}$ pour certains paramètres
   de l'algorithme.
   
   \subsection{Deux choix , deux résultats}
   
-  J'ai remarqué rapidement que le choix de l'ensemble $\mathcal{D}$ influait grandement les performances de l'algorithme.
+  On remarque que le choix de l'ensemble $\mathcal{D}$ influe grandement sur les performances de l'algorithme.
   
-  Pour se faire, j'expose un exemple avec deux choix de coefficients particulièrement significatifs. \\
-  J'ai effectué $1000$ tests par choix, pour des exposants de $4096$ bits, et pour $|\mathcal{D}| = 4$. \\
+  Voici un exemple avec deux choix de coefficients particulièrement significatifs. \\
+  Pour $1000$ tests par choix, des exposants de $4096$ bits, et $|\mathcal{D}| = 4$. \\
   Pour $\mathcal{D} = \{1,3,23,27\}$, le nombre moyen de $\doublezero$ est $2926$. \\
   Pour $\mathcal{D} = \{1,15,17,31\}$, le nombre moyen de $\doublezero$ est $1566$.
   
   Ce constat est problèmatique, deux questions se posent alors, quelle est l'influence des coefficients sur 
-  les performances de l'algorithme ? D'où vient cette incroyable disparité ?
+  les performances de l'algorithme ? D'où vient cette disparité ?
   
   La partie suivante s'attache à donner un élément de réponse à la première question.
   
   \subsection{Etude sur les coefficients}
   
-  Pour effectuer les tests, j'ai choisi de bloquer certains paramètres afin d'observer l'influence des coefficients
-  de $\mathcal{D}$ sur les résultats du recodage. J'ai fixé la taille et la borne de $\mathcal{D}$ à $4$ et 
-  à $32$ respectivement, et la taille des exposants est fixée à $4096$. Une fois tous ces paramètres fixés, j'ai
-  testé tous les coefficients, c'est-à-dire tous les ensembles $\mathcal{D}$ possibles, 
+  Pour effectuer les tests, on fixe certains paramètres afin d'observer l'influence des coefficients
+  de $\mathcal{D}$ sur les résultats du recodage. La taille et la borne de $\mathcal{D}$ sont fixés à $4$ et 
+  à $32$ respectivement, et la taille des exposants est fixée à $4096$. Une fois tous ces paramètres établis, on
+  teste tous les coefficients, c'est-à-dire tous les ensembles $\mathcal{D}$ possibles, 
   il y en a $455$ ($3$ parmi $15$).
   
-  J'ai rangé les résultats en $5$ catégories distinctes que j'ai classées dans le tableau ci-dessous.
+  Voici les résultats rangés en $5$ catégories distinctes dans le tableau ci-dessous.
   
 \begin{table}[htbp]
 \caption{Performances suivant $\mathcal{D}$ ($1000$ tests) }
@@ -2415,9 +2437,7 @@ $x < 2500$ & $[0;61[$ & $35$ & $7.7$ \\
 
   \subsection{Conséquences}
   
-  Une fois ces résultats obtenus, j'ai automatiquement contacté mon superviseur pour le prévenir des ces
-  différences importantes dans les performances de l'algorithme. Nous avons donc cherché une solution et 
-  avons noté les possibilités qui s'offraient à nous, ainsi que les problèmes liés à ce tableau statistique.
+  Une fois ces résultats obtenus, on peut noter les difficultés que ceux ci engendrent et les solutions pour y remédier.
   
   Les difficultés que nous avons listés sont les suivantes :
   \begin{itemize}
@@ -2425,7 +2445,7 @@ $x < 2500$ & $[0;61[$ & $35$ & $7.7$ \\
    \item [$\bullet$] Ne pas prendre toutes les possibilités de coefficients entraine une baisse de sécurité car 
    il y a une baisse d'aléatoire.
    \item [$\bullet$] Il n'est pas certain que nous puissions identifier les coefficients par catégorie, encore moins
-   par les catégories que j'ai moi-même définies.
+   par les catégories définies dans le tableau de la partie précédente.
   \end{itemize}
   
   Face à ces observations, nous avons listé plusieurs possibilités :
@@ -2452,25 +2472,24 @@ $x < 2500$ & $[0;61[$ & $35$ & $7.7$ \\
    \end{itemize}
   \end{itemize}
   
-  Nous avons décidé, Nicolas et moi-même, de partir sur la piste $2$ proposant plus de choix.
-  La question qui s'est présentée à nous fût alors, est-il possible de 
-  ranger les coefficients de $\mathcal{D}$ et si oui, comment ?
+  La piste $2$ propose plus de choix, et est expliquée dans la partie suivante. \\
+  Les pistes $1$ et $3$ n'ont pas été traitées. \\
+  Est-il possible de ranger les coefficients de $\mathcal{D}$ et si oui, comment ?
   
   \section{Liens entre les coefficients}
   
-  Afin de répondre à la question de la partie précédente, j'ai observé attentivement les résultats du tableau
-  statistique sur les coefficients, et j'ai commencé par noter tous les ensembles $\mathcal{D}$ donnant des 
-  performances optimums.
-  En regardant attentivement ces coefficients, j'ai pu découvrir le lien qui liait tous les quadruplets de
-  $\mathcal{D}$ entre eux.
+  Afin de répondre à la question de la partie précédente, on observe attentivement les résultats du tableau
+  statistique sur les coefficients, et on note tous les ensembles $\mathcal{D}$ donnant des 
+  performances optimums. \\
+  En regardant attentivement ces coefficients, on remarque le point commun entre tous ces quadruplets.
   
   \subsection{Les coefficients ``optimums''}
-  
-  Pour rappel, j'ai fixé la borne de $\mathcal{D}$ à $32$, sa taille à $4$, et $1$ est obligatoirement fixé.
 
-  J'ai commencé par noter tous les $\mathcal{D}$ possibles pour chaque niveau de performance.
+  Pour rappel, la borne de $\mathcal{D}$ est $32$, sa taille à $4$, et $1$ est obligatoirement dans $\mathcal{D}$.
+
+  On commence par noter tous les $\mathcal{D}$ possibles pour chaque niveau de performance.
   
-  Pour le premier niveau, voilà ce que j'ai obtenu :
+  Pour le premier niveau, on obtient :
   
 \begin{table}[htbp]
 \caption{Ensembles $\mathcal{D}$ pour performances optimales }
@@ -2501,15 +2520,15 @@ $1,21,25,29$ & $1,23,27,29$ & $1,25,27,29$ & \, & \, \\
   Tous ces quadruplets ont un point commun, lorsqu'on regarde la congruence modulo $16$, on obtient systématiquement
   l'ensemble $\{\bar{1},\pm\bar{3},\pm\bar{5},\pm\bar{7}\}$.
   
-  Par exemple, $\{1,3,5,9\}$ Mod $(16) = \{\bar{1},\bar{3},\bar{5},-\bar{7}\}$, \\
-  et $\{1,11,25,29\}$ Mod $(16) = \{\bar{1},-\bar{5},-\bar{7},-\bar{3}\}$.
+  Par exemple, $\{1,3,5,9\} \mod 16 = \{\bar{1},\bar{3},\bar{5},-\bar{7}\}$, \\
+  et $\{1,11,25,29\} \mod 16 = \{\bar{1},-\bar{5},-\bar{7},-\bar{3}\}$.
   
   Ainsi pour définir le niveau optimal pour ces paramètres, il suffit de prendre 
   $\mathcal{D} = \{1,d_1,d_2,d_3\}$ tel que : \\
  $$\begin{array}{ccc}
-d_1 & = & \pm 3 \,\, \text{Mod} (2^4) \\ 
-d_2 & = & \pm 5 \,\, \text{Mod} (2^4) \\
-d_3 & = & \pm 7 \,\, \text{Mod} (2^4) \\
+d_1 & = & \pm 3 \,\, \mod 2^4 \\ 
+d_2 & = & \pm 5 \,\, \mod 2^4 \\
+d_3 & = & \pm 7 \,\, \mod 2^4 \\
    \end{array}$$
   
   On a donc $4$ possibilités pour chaque coefficient $d_1$, $d_2$ et $d_3$ (par exemple 
@@ -2520,7 +2539,6 @@ d_3 & = & \pm 7 \,\, \text{Mod} (2^4) \\
   \subsection{Les autres coefficients}
   
   La partie précédente a permis de remarquer qu'il y avait un lien arithmétique entre tous ces coefficients.
-  Je ne détaillerai pas le raisonnement pour les autres catégories de coefficients.
   
   \subsubsection{Level 3 : un intrus}
   
@@ -2531,20 +2549,19 @@ d_3 & = & \pm 7 \,\, \text{Mod} (2^4) \\
   Le premier quadruplet de l'ensemble est $1,3,5,7$, qui n'est pas très significatif car il correspond au 
   quadruplet du $Double-wNAF$ pour $|\mathcal{D}| = 4$, c'est un cas très particulier.
   
-  Ensuite, j'ai remarqué qu'à l'inverse des coefficients du niveau $2$, il manque toujours un élément dans 
+  Ensuite, on constate qu'à l'inverse des coefficients du niveau $2$, il manque toujours un élément dans 
   l'ensemble $\{\bar{1},\pm\bar{3},\pm\bar{5},\pm\bar{7}\}$, tous sont susceptibles d'y être absents sauf
   $\bar{1}$ évidemment.
   
   De par le constat précédent, on peut conclure que nécessairement deux des quatre coefficients ont la même 
   valeur modulo $16$ (au signe près).
   
-  Ces conclusions m'induisent sur la piste suivante : \\
   Il suffit de choisir deux nombres parmi $\pm \bar{3}$, $\pm \bar{5}$ et $\pm \bar{7}$, \\
   pour choisir le dernier coefficient, il suffit de prendre un nombre ayant la même valeur que l'un des 
   trois coefficients précédents modulo $16$ (au signe près).
   
   Ainsi, pour résumer, il suffit de choisir un intrus parmi $3$, $5$ et $7$, on applique les mêmes rêgles
-  que précèdemment pour les deux premiers coefficients (les deux restants après avoir eliminer l'intrus),
+  que précédemment pour les deux premiers coefficients (les deux restants après avoir eliminer l'intrus),
   puis finalement on fait $16 + \mathcal{D}[i]$ ou $16 - \mathcal{D}[i]$, où $i = 0, 1$ ou $2$, pour obtenir
   le dernier coefficient.
   
@@ -2574,7 +2591,7 @@ d_3 & = & \pm 7 \,\, \text{Mod} (2^4) \\
 
   \subsubsection{Level 4 : changement minimum pour un résultat bien différent}
   
-  Le niveau $4$ a l'avantage d'être extremement proche du niveau précédent.
+  Le niveau $4$ est très proche du niveau précédent.
   
   Pour obtenir les quadruplets du niveau $4$, il suffit d'appliquer la même méthode que le niveau $3$ en 
   modifiant une petite partie.
@@ -2588,9 +2605,9 @@ d_3 & = & \pm 7 \,\, \text{Mod} (2^4) \\
   \subsubsection{Level 5 : dernier casse-tête avant la fin}
   
   Le dernier niveau à décortiquer est le niveau $5$, en observant attentivement les coefficients de $\mathcal{D}$ modulo $16$,
-  j'ai constaté l'absence de $\pm \bar{7}$, c'est-à-dire qu'il n'y a ni $7$, ni $9$, ni $23$ et ni $25$ dans tous les quadruplets.
+  on remarque l'absence de $\pm \bar{7}$, c'est-à-dire qu'il n'y a ni $7$, ni $9$, ni $23$ et ni $25$ dans tous les quadruplets.
   
-  Le deuxième constat qui m'est apparu est le suivant, tous les quadruplets ont $\bar{1}$ en commun, et ils
+  Le deuxième constat est le suivant, tous les quadruplets ont $\bar{1}$ en commun, et ils
   ont tous un élément de la forme $\pm \bar{3}$ ($3$, $13$, $19$ et $29$) ou $\pm \bar{5}$ ($5$, $11$, $21$ ou $27$).
   
   En résumé les quadruplets vérifient cette règle simple : chaque quadruplet possède au moins élément non congru à
@@ -2618,25 +2635,123 @@ d_3 & = & \pm 7 \,\, \text{Mod} (2^4) \\
   
   On obtient au total $24 + 8 + 36 = 68$ choix potentiels.
   
-  Statistiquement, j'obtiens exactement le même résultat, ce qui confirme le lien entre les quadruplets.
+  Statistiquement, on obtient exactement le même résultat, ce qui confirme le lien entre les quadruplets.
   \end{Remarque}
 
-  \section{Généralisation et Théorie}
+  \section{Performance et Sécurité}
   
-  Pour réaliser l'étude précédente, j'ai été forcé de fixer certains paramètres. C'est pourquoi il faut désormais 
-  étendre cette étude afin de pouvoir appliquer des niveaux de performance et de sécurité lorsque les paramètres
-  sont différents.
+  Pour réaliser l'étude précédente,  certains paramètres ont été fixés. Dans cette partie, on s'intéresse à 
+  à l'influence des paramètres sur la performance et la sécurité de l'algorithme.
+    
+  Nous avons effectué des tests de performance afin de déterminer l'influence de cette méthode de randomisation de la 
+  représentation sur la vitesse d'exponentiation.
   
-  Pour cela, je me suis attelé à la compréhension de tous ces résultats, et ainsi de saisir la théorie sous-jacente
-  aux liens entre les performances et les choix de $\mathcal{D}$.
-  
-  \subsection{Une réalité arithmétique}
-  
-  
- 
+  \subsection{Influence du choix de coefficient sur les performances.}
+
+  Voici les résultats des tests de comparaison en terme de performance et de vitesse entre les différents
+  niveaux de sécurité de l'algorithme $DoubleRDR$ :
+\begin{table}[htbp]
+\caption{Comparaison des niveaux de sécurité pour $\#\mathcal{D} = 4$ et $|k| = 4096$ (1000 tests) }
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+\, & Temps d'execution & Double Zéros (nombre) & Double Zéros (en \%) \\
+\midrule
+$Double-wNAF$ & 1458 & 2859  & 69.8 \\
+$DoubleRDR$ Niveau $2$ & 1767 & 2926 & 71.4 \\
+$DoubleRDR$ Niveau $3$ & 1815 & 2829 & 69.1 \\
+$DoubleRDR$ Niveau $4$ & 1822 & 2766 & 67.5 \\
+$DoubleRDR$ Niveau $5$ & 1806 & 2647 & 64.6 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\label{tab:example}
+\end{table}%
+
+On remarque que le temps d'execution des différents niveaux de l'algorithme est assez proche pour ces paramètres. \\
+Plus la sécurité de l'algorithme augmente (du haut vers le bas du tableau), plus les performances en terme
+de $\doublezero$ diminuent.
+
+Dans la partie suivante, nous testons l'influence de la randomisation de $\mathcal{D}$ sur les performances.
+
+  \subsection{Influence de l'aléatoire sur les performances.}
+
+Voici les résultats des tests de comparaison entre le $Double-wNAF$ (pas de randomisation) et la $DoubleRDR$ de
+niveau $1$ :
+\begin{table}[htbp]
+\caption{Temps d'execution (1000 tests) }
+\begin{center}
+\begin{tabular}{ccccc}
+\toprule
+\#D & |k| & $DoubleRDR Niveau 1$ & $Double-wNAF$ & perte (en \%) \\
+\midrule
+1 & 256 & 57  & 55 & 0 \\
+1 & 4096 & 1415 & 1439 & 0 \\
+4 & 256 & 353 & 177 & 99 \\
+4 & 4096 & 1709 & 1365 & 25 \\
+8 & 1024 & 4900 & 162 & 47765 \\
+16 & 256 & 68620 & 29 & $\infty$ \\
+16 & 4096 & 70303 & 1366 & 50466 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\label{tab:example}
+\end{table}%
+
+On constate que la $DoubleRDR$ est très coûteuse en terme de temps, ce qui est un problème important pour l'exponentiation.
+
+Il existe une solution pour réduire le temps d'execution, il s'agit de diminuer l'appel à la fonction $random$,
+ce qui permet de réduire le nombre de construction du tableau $DoubleDmax$. \\
+Pour $1000$ recodages, on peut se contenter de changer $10$ fois l'ensemble $\mathcal{D}$, afin d'effectuer $100$
+tests avec le même ensemble $\mathcal{D}$.
+
+Dans la partie suivante, nous testons l'influence de la taille de $\mathcal{D}$ sur les performances.
+
+\subsection{Influence de la taille de $\mathcal{D}$ sur les performances.}
+
+Dans cette partie, on a testé l'influence de la taille de l'ensemble $\mathcal{D}$ sur le temps d'execution et les performances. \\
+Voici les résultats :
+\begin{table}[htbp]
+\caption{Temps d'execution (1000 tests) }
+\begin{center}
+\begin{tabular}{ccccc}
+\toprule
+\#D & |k| & Double Zéros (nombre) & $DoubleRDR Niveau 1$ & Double Zéros (en \%) \\
+\midrule
+1 & 256 & 127 & 57 & 50 \\
+1 & 4096 & 2047 & 2047 & 50 \\
+2 & 4096 & 2518 & 1382 & 61 \\
+4 & 4096 & 2926 & 1709 & 71 \\
+8 & 4096 & 3178 & 5991 & 78 \\
+16 & 4096 & 3340 & 70303 & 82 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\label{tab:example}
+\end{table}%
+
+On observe que lorsque $\#\mathcal{D}$ devient grand, le temps d'execution croît très vite, il est important 
+de choisir une taille de $\mathcal{D}$ adéquate afin d'avoir un bon rapport ``temps d'execution/performance''.
+
+Il faut rappeler que lorsque la taille de $\mathcal{D}$ augmente, la sécurité de l'algorithme (du secret) augmente également.
 %=====================
 \chapter{Conclusion}
-Some text\dots
+
+Le but de cette étude est l'amélioration de la sécurité de l'algorithme d'exponentiation modulaire.
+La solution proposée a montré qu'on ne peut améliorer la sécurité de cet algorithme sans affecter les performances
+de celui-ci. La sécurité et la performance sont étroitement liées et l'important est de choisir les paramètres 
+adéquats en fonction de ses besoins, dans le but d'optimiser l'utilisation des protocoles.
+
+Le plus grand atout de la méthode explicitée dans cet article est l'adaptabilité du procédé. Nous offrons 
+des possibilités variées pouvant répondre à tous les besoins en fonction des utilisateurs, ceci rend la 
+solution intéressante.
+
+Une étude sur la façon de précalculer les $x^{d_i}$ et les $x^{d_i} \times y^{d_j}$ permettrait de compléter
+cet article. Ils existent plusieurs manières d'effectuer les précalculs, et le temps d'execution de 
+l'exponentiation modulaire dépend grandement de l'efficacité du précalcul.
+
+Il est possible de généraliser le concept à la multi-exponentiation en général. Il serait intéressant de réaliser
+une étude sur la $RDR$ de $3$, $4$ ou même $n$ exposants. 
 
 \backmatter
 %\appendix
