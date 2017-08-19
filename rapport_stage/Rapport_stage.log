@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.11.1)  18 AUG 2017 18:21
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.11.1)  19 AUG 2017 13:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1188,11 +1188,249 @@ File: tikzlibraryarrows.code.tex 2008/01/09 v3.0.1a (rcs-revision 1.1)
 tex
 File: pgflibraryarrows.code.tex 2013/09/23 v3.0.1a (rcs-revision 1.16)
 \arrowsize=\dimen276
+)) (/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.sty
+Package: biblatex 2016/03/03 v3.3 programmable bibliographies (PK/JW/AB)
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex_.sty
+Package: biblatex_ 2016/03/03 v3.3 programmable bibliographies (biber) (PK/JW/A
+B)
+
+(/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2015/08/02 v2.2a e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count182
+)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+(/usr/share/texlive/texmf-dist/tex/latex/logreq/logreq.sty
+Package: logreq 2010/08/04 v1.0 xml request logger
+\lrq@indent=\count183
+
+(/usr/share/texlive/texmf-dist/tex/latex/logreq/logreq.def
+File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
 ))
-LaTeX Font Info:    Try loading font information for T1+ptm on input line 19.
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip11
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+\c@tabx@nest=\count184
+\c@listtotal=\count185
+\c@listcount=\count186
+\c@liststart=\count187
+\c@liststop=\count188
+\c@citecount=\count189
+\c@citetotal=\count190
+\c@multicitecount=\count191
+\c@multicitetotal=\count192
+\c@instcount=\count193
+\c@maxnames=\count194
+\c@minnames=\count266
+\c@maxitems=\count267
+\c@minitems=\count268
+\c@citecounter=\count269
+\c@savedcitecounter=\count270
+\c@uniquelist=\count271
+\c@uniquename=\count272
+\c@refsection=\count273
+\c@refsegment=\count274
+\c@maxextratitle=\count275
+\c@maxextratitleyear=\count276
+\c@maxextrayear=\count277
+\c@maxextraalpha=\count278
+\c@abbrvpenalty=\count279
+\c@highnamepenalty=\count280
+\c@lownamepenalty=\count281
+\c@maxparens=\count282
+\c@parenlevel=\count283
+\blx@tempcnta=\count284
+\blx@tempcntb=\count285
+\blx@tempcntc=\count286
+\blx@maxsection=\count287
+\blx@maxsegment@0=\count288
+\blx@notetype=\count289
+\blx@parenlevel@text=\count290
+\blx@parenlevel@foot=\count291
+\blx@sectionciteorder@0=\count292
+\labelnumberwidth=\skip261
+\labelalphawidth=\skip262
+\biblabelsep=\skip263
+\bibnamesep=\skip264
+\bibinitsep=\skip265
+\bibparsep=\skip266
+\bibhang=\skip267
+\blx@bcfin=\read3
+\blx@bcfout=\write5
+\c@mincomprange=\count293
+\c@maxcomprange=\count294
+\c@mincompwidth=\count295
+Package biblatex Info: Trying to load biblatex default data model...
+Package biblatex Info: ... file 'blx-dm.def' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/blx-dm.def)
+Package biblatex Info: Trying to load biblatex style data model...
+Package biblatex Info: ... file 'authoryear.dbx' not found.
+Package biblatex Info: Trying to load biblatex custom data model...
+Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
+\c@afterword=\count296
+\c@savedafterword=\count297
+\c@annotator=\count298
+\c@savedannotator=\count299
+\c@author=\count300
+\c@savedauthor=\count301
+\c@bookauthor=\count302
+\c@savedbookauthor=\count303
+\c@commentator=\count304
+\c@savedcommentator=\count305
+\c@editor=\count306
+\c@savededitor=\count307
+\c@editora=\count308
+\c@savededitora=\count309
+\c@editorb=\count310
+\c@savededitorb=\count311
+\c@editorc=\count312
+\c@savededitorc=\count313
+\c@foreword=\count314
+\c@savedforeword=\count315
+\c@holder=\count316
+\c@savedholder=\count317
+\c@introduction=\count318
+\c@savedintroduction=\count319
+\c@namea=\count320
+\c@savednamea=\count321
+\c@nameb=\count322
+\c@savednameb=\count323
+\c@namec=\count324
+\c@savednamec=\count325
+\c@translator=\count326
+\c@savedtranslator=\count327
+\c@shortauthor=\count328
+\c@savedshortauthor=\count329
+\c@shorteditor=\count330
+\c@savedshorteditor=\count331
+\c@labelname=\count332
+\c@savedlabelname=\count333
+\c@institution=\count334
+\c@savedinstitution=\count335
+\c@lista=\count336
+\c@savedlista=\count337
+\c@listb=\count338
+\c@savedlistb=\count339
+\c@listc=\count340
+\c@savedlistc=\count341
+\c@listd=\count342
+\c@savedlistd=\count343
+\c@liste=\count344
+\c@savedliste=\count345
+\c@listf=\count346
+\c@savedlistf=\count347
+\c@location=\count348
+\c@savedlocation=\count349
+\c@organization=\count350
+\c@savedorganization=\count351
+\c@origlocation=\count352
+\c@savedoriglocation=\count353
+\c@origpublisher=\count354
+\c@savedorigpublisher=\count355
+\c@publisher=\count356
+\c@savedpublisher=\count357
+\c@language=\count358
+\c@savedlanguage=\count359
+\c@pageref=\count360
+\c@savedpageref=\count361
+\shorthandwidth=\skip268
+\shortjournalwidth=\skip269
+\shortserieswidth=\skip270
+\shorttitlewidth=\skip271
+\shortauthorwidth=\skip272
+\shorteditorwidth=\skip273
+Package biblatex Info: Trying to load compatibility code...
+Package biblatex Info: ... file 'blx-compat.def' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/blx-compat.def
+File: blx-compat.def 2016/03/03 v3.3 biblatex compatibility (PK/JW/AB)
+)
+Package biblatex Info: Trying to load generic definitions...
+Package biblatex Info: ... file 'biblatex_.def' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex_.def
+File: biblatex_.def 
+\c@textcitecount=\count362
+\c@textcitetotal=\count363
+\c@textcitemaxnames=\count364
+\c@biburlnumpenalty=\count365
+\c@biburlucpenalty=\count366
+\c@biburllcpenalty=\count367
+\c@smartand=\count368
+)
+Package biblatex Info: Trying to load bibliography style 'authoryear'...
+Package biblatex Info: ... file 'authoryear.bbx' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/bbx/authoryear.bbx
+File: authoryear.bbx 2016/03/03 v3.3 biblatex bibliography style (PK/JW/AB)
+Package biblatex Info: Trying to load bibliography style 'standard'...
+Package biblatex Info: ... file 'standard.bbx' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/bbx/standard.bbx
+File: standard.bbx 2016/03/03 v3.3 biblatex bibliography style (PK/JW/AB)
+\c@bbx:relatedcount=\count369
+\c@bbx:relatedtotal=\count370
+))
+Package biblatex Info: Trying to load citation style 'authoryear'...
+Package biblatex Info: ... file 'authoryear.cbx' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/cbx/authoryear.cbx
+File: authoryear.cbx 2016/03/03 v3.3 biblatex citation style (PK/JW/AB)
+Package biblatex Info: Redefining '\cite'.
+Package biblatex Info: Redefining '\parencite'.
+Package biblatex Info: Redefining '\footcite'.
+Package biblatex Info: Redefining '\footcitetext'.
+Package biblatex Info: Redefining '\smartcite'.
+Package biblatex Info: Redefining '\textcite'.
+Package biblatex Info: Redefining '\textcites'.
+)
+Package biblatex Info: Trying to load configuration file...
+Package biblatex Info: ... file 'biblatex.cfg' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.cfg
+File: biblatex.cfg 
+)
+
+Package biblatex Warning: 'firstinits' option is deprecated, use 'giveninits' i
+nstead.
+
+))
+LaTeX Font Info:    Try loading font information for T1+ptm on input line 27.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 )
+Package biblatex Info: Trying to load language 'english'...
+Package biblatex Info: ... file 'english.lbx' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/lbx/english.lbx
+File: english.lbx 2016/03/03 v3.3 biblatex localization (PK/JW/AB)
+)
+Package biblatex Info: Trying to load language 'french'...
+Package biblatex Info: ... file 'french.lbx' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/lbx/french.lbx
+File: french.lbx 2016/03/03 v3.3 biblatex localization (PK/JW/AB)
+)
+
+Package biblatex Warning: 'babel/polyglossia' detected but 'csquotes' missing.
+(biblatex)                Loading 'csquotes' recommended.
+
+\@quotelevel=\count371
+\@quotereset=\count372
 (./Rapport_stage.aux
 
 LaTeX Warning: Label `tab:example' multiply defined.
@@ -1212,21 +1450,21 @@ LaTeX Warning: Label `tab:example' multiply defined.
 )
 \openout1 = `Rapport_stage.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Info: Redefining \degres on input line 80.
-LaTeX Info: Redefining \dots on input line 80.
-LaTeX Info: Redefining \up on input line 80.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Info: Redefining \degres on input line 87.
+LaTeX Info: Redefining \dots on input line 87.
+LaTeX Info: Redefining \up on input line 87.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1264,16 +1502,16 @@ LaTeX Info: Redefining \up on input line 80.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count182
+\scratchcounter=\count373
 \scratchdimen=\dimen277
 \scratchbox=\box44
-\nofMPsegments=\count183
-\nofMParguments=\count184
+\nofMPsegments=\count374
+\nofMParguments=\count375
 \everyMPshowfont=\toks53
-\MPscratchCnt=\count185
+\MPscratchCnt=\count376
 \MPscratchDim=\dimen278
-\MPnumerator=\count186
-\makeMPintoPDFobject=\count187
+\MPnumerator=\count377
+\makeMPintoPDFobject=\count378
 \everyMPtoPDFconversion=\toks54
 ) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
@@ -1292,19 +1530,6 @@ Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
 Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
 ))
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
-Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
-
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
-Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
-
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/etexcmds.sty
-Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
-Package etexcmds Info: Could not find \expanded.
-(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
-(etexcmds)             that some package has redefined \expanded.
-(etexcmds)             In the latter case, load this package earlier.
-)))
 Package grfext Info: Graphics extension search list:
 (grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
 G,.JBIG2,.JB2,.eps]
@@ -1315,63 +1540,74 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 ABD: EveryShipout initializing macros
+Package biblatex Info: Input encoding 'utf8' detected.
+Package biblatex Info: Automatic encoding selection.
+(biblatex)             Assuming data encoding 'utf8'.
+\openout5 = `Rapport_stage.bcf'.
+
+Package biblatex Info: Trying to load bibliographic data...
+Package biblatex Info: ... file 'Rapport_stage.bbl' found.
+ (./Rapport_stage.bbl)
+Package biblatex Info: Reference section=0 on input line 87.
+Package biblatex Info: Reference segment=0 on input line 87.
+
 <Logo_UGA_CySec_en.png, id=4, 428.60126pt x 369.38pt>
 File: Logo_UGA_CySec_en.png Graphic file (type png)
 
 <use Logo_UGA_CySec_en.png>
-Package pdftex.def Info: Logo_UGA_CySec_en.png used on input line 82.
+Package pdftex.def Info: Logo_UGA_CySec_en.png used on input line 89.
 (pdftex.def)             Requested size: 87.71994pt x 75.59991pt.
  <Logo_ENSIMAG.pdf, id=6, 141.57994pt x 90.35707pt>
 File: Logo_ENSIMAG.pdf Graphic file (type pdf)
 
 <use Logo_ENSIMAG.pdf>
-Package pdftex.def Info: Logo_ENSIMAG.pdf used on input line 82.
+Package pdftex.def Info: Logo_ENSIMAG.pdf used on input line 89.
 (pdftex.def)             Requested size: 118.46184pt x 75.59991pt.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <14.4> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 82.
-LaTeX Font Info:    Try loading font information for T1+phv on input line 82.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 89.
+LaTeX Font Info:    Try loading font information for T1+phv on input line 89.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
 )
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <24.88> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 82.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 89.
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <20.74> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 82.
-LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 82
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 89.
+LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 89
 .
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ztmcm.fd
 File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 82
+LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 89
 .
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omlztmcm.fd
 File: omlztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 82
+LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 89
 .
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsztmcm.fd
 File: omsztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 82
+LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 89
 .
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omxztmcm.fd
 File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 82.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 89.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 82.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 89.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 82.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 89.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 82.
-LaTeX Font Info:    Try loading font information for U+stmry on input line 82.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 89.
+LaTeX Font Info:    Try loading font information for U+stmry on input line 89.
 
 (/usr/share/texlive/texmf-dist/tex/latex/stmaryrd/Ustmry.fd) [1
 
@@ -1380,22 +1616,22 @@ LaTeX Font Info:    Try loading font information for U+stmry on input line 82.
 ./Logo_ENSIMAG.pdf>] [2
 
 ]
-\c@Construction=\count188
-\c@Propriété=\count189
-\c@Remarque=\count190
-\c@Preuve=\count191
-\c@Proposition=\count192
-\c@Corollaire=\count193
-\c@Exemple=\count194
-\c@Definition=\count266
+\c@Construction=\count379
+\c@Propriété=\count380
+\c@Remarque=\count381
+\c@Preuve=\count382
+\c@Proposition=\count383
+\c@Corollaire=\count384
+\c@Exemple=\count385
+\c@Definition=\count386
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10.95> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 94.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 101.
 
 
 Class memoir Warning: The material used in the headers is too large
 (14.49998pt) for the given head height (0.0pt), it is recommended to
 either increase the head height or redesign the header
-(in both cases you will find help in the memoir manual). on input line 125.
+(in both cases you will find help in the memoir manual). on input line 132.
 
 
 Overfull \vbox (14.49998pt too high) has occurred while \output is active []
@@ -1405,16 +1641,16 @@ Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
 ]
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 126.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 133.
  (./Rapport_stage.toc
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 3.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 7.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 3.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 7.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 3.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 7.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 3.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 7.
 )
 Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
@@ -1433,7 +1669,7 @@ Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
 [2]
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <17.28> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 228.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 235.
 
 Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
@@ -1446,7 +1682,7 @@ Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
 [4]
 LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <12> not available
-(Font)              Font shape `T1/ptm/b/it' tried instead on input line 342.
+(Font)              Font shape `T1/ptm/b/it' tried instead on input line 349.
 
 Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
@@ -1468,12 +1704,12 @@ Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
 
 [9]
-Underfull \hbox (badness 10000) in paragraph at lines 560--563
+Underfull \hbox (badness 10000) in paragraph at lines 567--570
 
  []
 
 
-Overfull \hbox (22.01595pt too wide) in paragraph at lines 610--613
+Overfull \hbox (22.01595pt too wide) in paragraph at lines 617--620
 []\T1/ptm/b/n/12 Proposition 1. []\T1/ptm/m/it/12 Soit $\OML/ztmcm/m/it/12 ^^^[
 ] \OT1/ztmcm/m/n/12 : \U/msb/m/n/12 N \OMS/ztmcm/m/n/12 ! \U/msb/m/n/12 Z\OML/z
 tmcm/m/it/12 =\OT1/ztmcm/m/n/12 2[]\U/msb/m/n/12 Z$ \T1/ptm/m/it/12 la pro-jec-
@@ -1483,7 +1719,7 @@ m/it/12 ^^^[] \OT1/ztmcm/m/n/12 : \U/msb/m/n/12 Z\OML/ztmcm/m/it/12 =\OT1/ztmcm
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 616--619
+Underfull \hbox (badness 10000) in paragraph at lines 623--626
 
  []
 
@@ -1492,7 +1728,7 @@ Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
 
 [10]
-Underfull \hbox (badness 10000) in paragraph at lines 630--633
+Underfull \hbox (badness 10000) in paragraph at lines 637--640
 
  []
 
@@ -1515,9 +1751,9 @@ Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
 ]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17.28> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 771.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 778.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 771.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 778.
 
 Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
@@ -1527,7 +1763,7 @@ Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
 
 [15]
-Overfull \hbox (21.54826pt too wide) detected at line 878
+Overfull \hbox (21.54826pt too wide) detected at line 885
 []
  []
 
@@ -1536,7 +1772,7 @@ Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
 
 [16]
-Underfull \hbox (badness 10000) in paragraph at lines 923--924
+Underfull \hbox (badness 10000) in paragraph at lines 930--931
 
  []
 
@@ -1547,7 +1783,7 @@ Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 [17
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 940--941
+Underfull \hbox (badness 10000) in paragraph at lines 947--948
 
  []
 
@@ -1568,7 +1804,7 @@ Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
 
 [21]
-Underfull \hbox (badness 10000) in paragraph at lines 1196--1200
+Underfull \hbox (badness 10000) in paragraph at lines 1203--1207
 
  []
 
@@ -1577,7 +1813,7 @@ Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
 
 [22]
-Overfull \hbox (18.96315pt too wide) detected at line 1536
+Overfull \hbox (18.96315pt too wide) detected at line 1543
 []
  []
 
@@ -1590,7 +1826,7 @@ Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
 
 [24]
-Overfull \hbox (22.96315pt too wide) detected at line 1653
+Overfull \hbox (22.96315pt too wide) detected at line 1660
 []
  []
 
@@ -1603,14 +1839,14 @@ Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
 
 [26]
-Overfull \hbox (11.95279pt too wide) in paragraph at lines 1745--1746
+Overfull \hbox (11.95279pt too wide) in paragraph at lines 1752--1753
 []\T1/ptm/m/n/12 Finalement, la par-tie $\OT1/ztmcm/m/n/12 3$ \T1/ptm/m/n/12 mo
 ntre l'équi-va-lence entre les deux im-plé-men-ta-tions de la $\OML/ztmcm/m/it/
 12 DoubleRDR$\T1/ptm/m/n/12 . 
  []
 
 
-Overfull \hbox (19.37871pt too wide) in paragraph at lines 1819--1820
+Overfull \hbox (19.37871pt too wide) in paragraph at lines 1826--1827
  [] 
  []
 
@@ -1629,7 +1865,7 @@ Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
 
 [29]
-Underfull \hbox (badness 10000) in paragraph at lines 2026--2028
+Underfull \hbox (badness 10000) in paragraph at lines 2033--2035
 
  []
 
@@ -1646,7 +1882,7 @@ Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
 
 [32]
-Overfull \hbox (3.98756pt too wide) in paragraph at lines 2121--2129
+Overfull \hbox (3.98756pt too wide) in paragraph at lines 2128--2136
 \T1/ptm/m/n/12 Par exemple, pour le cas où $\OMS/ztmcm/m/n/12 D \OT1/ztmcm/m/n/
 12 = \OMS/ztmcm/m/n/12 f\OT1/ztmcm/m/n/12 1\OML/ztmcm/m/it/12 ; \OT1/ztmcm/m/n/
 12 3\OML/ztmcm/m/it/12 ; \OT1/ztmcm/m/n/12 23\OML/ztmcm/m/it/12 ; \OT1/ztmcm/m/
@@ -1664,9 +1900,6 @@ Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
 
 [34]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
 Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
 
@@ -1675,7 +1908,7 @@ Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
 
 [36]
-Underfull \hbox (badness 10000) in paragraph at lines 2320--2321
+Underfull \hbox (badness 10000) in paragraph at lines 2347--2348
 
  []
 
@@ -1698,7 +1931,7 @@ Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
 
 [40]
-Overfull \hbox (11.15758pt too wide) in paragraph at lines 2526--2528
+Overfull \hbox (11.15758pt too wide) in paragraph at lines 2553--2555
 []\T1/ptm/m/n/12 Ainsi pour dé-fi-nir le ni-veau op-ti-mal pour ces pa-ra-mètre
 s, il suf-fit de prendre $\OMS/ztmcm/m/n/12 D \OT1/ztmcm/m/n/12 = \OMS/ztmcm/m/
 n/12 f\OT1/ztmcm/m/n/12 1\OML/ztmcm/m/it/12 ; d[]; d[]; d[]\OMS/ztmcm/m/n/12 g$
@@ -1706,7 +1939,7 @@ n/12 f\OT1/ztmcm/m/n/12 1\OML/ztmcm/m/it/12 ; d[]; d[]; d[]\OMS/ztmcm/m/n/12 g$
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2526--2528
+Underfull \hbox (badness 10000) in paragraph at lines 2553--2555
 
  []
 
@@ -1723,7 +1956,7 @@ Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
 
 [43]
-Overfull \hbox (5.86136pt too wide) in paragraph at lines 2656--2667
+Overfull \hbox (5.86136pt too wide) in paragraph at lines 2683--2694
  [] 
  []
 
@@ -1732,7 +1965,7 @@ Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
 
 [44]
-Overfull \hbox (26.06816pt too wide) in paragraph at lines 2733--2735
+Overfull \hbox (26.06816pt too wide) in paragraph at lines 2760--2762
 \T1/ptm/m/n/12 tant de choi-sir une taille de $\OMS/ztmcm/m/n/12 D$ \T1/ptm/m/n
 /12 adé-quate afin d'avoir un bon rap-port ``temps d'exe-cu-tion/performance''.
  
@@ -1750,17 +1983,13 @@ Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 
 [47] [48
 
-] (./Rapport_stage.bbl
+]
 bibitemlist
-
-LaTeX Warning: Empty `thebibliography' environment on input line 3.
-
-)
 
 Class memoir Warning: The material used in the headers is too large
 (14.49998pt) for the given head height (0.0pt), it is recommended to
 either increase the head height or redesign the header
-(in both cases you will find help in the memoir manual). on input line 2781.
+(in both cases you will find help in the memoir manual). on input line 2831.
 
 
 Overfull \vbox (14.49998pt too high) has occurred while \output is active []
@@ -1769,22 +1998,25 @@ Overfull \vbox (14.49998pt too high) has occurred while \output is active []
 [49
 
 ]
-\tf@toc=\write5
-\openout5 = `Rapport_stage.toc'.
+\tf@toc=\write6
+\openout6 = `Rapport_stage.toc'.
 
  (./Rapport_stage.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
+Package logreq Info: Writing requests to 'Rapport_stage.run.xml'.
+\openout1 = `Rapport_stage.run.xml'.
+
  ) 
 Here is how much of TeX's memory you used:
- 19224 strings out of 493029
- 342482 string characters out of 6136234
- 426866 words of memory out of 5000000
- 22346 multiletter control sequences out of 15000+600000
+ 24574 strings out of 493029
+ 439331 string characters out of 6136234
+ 873944 words of memory out of 5000000
+ 27641 multiletter control sequences out of 15000+600000
  96557 words of font info for 156 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,15n,54p,417b,840s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,15n,54p,882b,1739s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist
@@ -1799,7 +2031,7 @@ xlive/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/ur
 w/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a
 .pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Rapport_stage.pdf (55 pages, 272593 bytes).
+Output written on Rapport_stage.pdf (55 pages, 273918 bytes).
 PDF statistics:
  252 PDF objects out of 1000 (max. 8388607)
  176 compressed objects within 2 object streams

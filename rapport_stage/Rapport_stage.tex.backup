@@ -12,6 +12,14 @@
 \usepackage{amssymb}
 \usepackage{tikz}
 \usetikzlibrary{arrows}
+\usepackage[style=authoryear,
+            firstinits=true,
+            uniquename=false,
+            uniquelist=false,
+            maxcitenames=2,
+            maxbibnames=7,
+            backend=biber]{biblatex}
+\addbibresource{\jobname.bib}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -66,10 +74,7 @@ Research project performed at $Imaths$ \\\medskip
 Under the supervision of:\\
 Nicolas Méloni, $Imaths$\\\medskip
 Defended before a jury composed of:\\
-$[$Prof/Dr/Mrs/Mr$]$ $<$first-name last-name$>$\\
-$[$Prof/Dr/Mrs/Mr$]$ $<$first-name last-name$>$\\
-$[$Prof/Dr/Mrs/Mr$]$ $<$first-name last-name$>$\\
-$[$Prof/Dr/Mrs/Mr$]$ $<$first-name last-name$>$\\
+$[$Prof$]$ $<$Jean-Guillaume Dumas$>$\\
 }
 \session{$[$September$]$\hfill 2017}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -154,12 +159,12 @@ Le déchiffrement de $C$ nécessite également une exponentiation modulaire, pou
 il faut calculer $M \equiv C^d \mod n$.
 
 Dans le protocole $RSA$, l'exponentiation modulaire a une place importante (à la fois dans le chiffrement et dans le déchiffrement);
-cependant il y a d'autres protocoles pour lesquels l'exponentiation est requise, comme par exemple le protocole
-basé sur les courbes elliptiques appelé $ECC$.
+cependant il y a d'autres protocoles pour lesquels l'exponentiation est requise, comme par exemple les protocoles
+basés sur les courbes elliptiques appelé $ECC$.
 
 Il est toutefois important de signaler que les opérations sont différentes dans le groupe des courbes elliptiques : 
 les multiplications du $RSA$ deviennent des additions pour $ECC$ et l'exponentiation modulaire correspond
-à la multiplication scalaire pour le protocole $ECC$.
+à la multiplication scalaire pour les protocoles $ECC$.
 
 La différence principale entre le protocole $RSA$ et le protocole $ECC$ est la suivante :
 \begin{itemize}
@@ -225,7 +230,7 @@ Cependant, nous allons voir par la suite qu'il existe d'autres représentations 
 
 %=====================
 \chapter{Représentation aléatoire de l'exposant}
-\section{State of the art\dots}
+\section{Etat de l'art}
 
 Afin d'améliorer l'efficacité de l'exponentiation, il est possible de précalculer certaines valeurs et de changer la représentation
 de l'exposant en fonction de ces nombres.
@@ -238,8 +243,8 @@ Soit $\mathcal{G}$ un groupe et $\mathcal{D}$ un ensemble d'entiers positifs imp
 Soit $k=(k_{l-1} \ldots k_0)_2$ un entier, où les $k_i$ sont des éléments de $\mathcal{D}$, et soit $g \in \mathcal{G}$.
 L'algorithme est en deux étapes :
 \begin{itemize}
- \item [1)] Calculer $g^d$, où $d$ sont les éléments de $\mathcal{D}$
- \item [2)] Si $k_i \neq 0$, multiplier par l'élément précalculé $g^{k_i}$
+ \item [1)] Calculer $g^d$, où $d$ sont les éléments de $\mathcal{D}$,
+ \item [2)] Si $k_i \neq 0$, multiplier par l'élément précalculé $g^{k_i}$.
 \end{itemize}
 
 \begin{algorithm}
@@ -349,7 +354,7 @@ Pour construire la fonction \emph{digit}, on doit d'abord définir, pour tout k 
 
 \begin{itemize}
  \item [1.] $d_i < k$,
- \item [2.] $p_w(k) \in \overline{\mathcal{D}_w}$
+ \item [2.] $p_w(k) \in \overline{\mathcal{D}_w}$.
 \end{itemize}
 
 Finalement, la fonction $digit_{\mathcal{D}}$ : $\mathbb{N} \rightarrow \overline{\mathcal{D}} \cup \{0\}$ est définie par :
@@ -358,9 +363,9 @@ Finalement, la fonction $digit_{\mathcal{D}}$ : $\mathbb{N} \rightarrow \overlin
  \item [$\bullet$] si $k$ est pair : $digit(k) = 0$,
  \item [$\bullet$] si $k$ est impair :
  \begin{itemize}
-  \item [-] on pose $W_{max} = w_{max}(k)$
-  \item [-] si $p_{W_{max}}(k) \in \mathcal{D}_{W_{max}}$, $digit_{\mathcal{D}}(k) = d$ avec $d < k$ tel que $p_w(k) = p_w(d)$
-  \item [-] si $2^{W_{max}} - p_{W_{max}}(k) \in \mathcal{D}_{W_{max}}$, $digit_{\mathcal{D}}(k) = -d$ avec $d < k$ tel que $2^{W_{max}} - p_w(k) = p_w(d)$
+  \item [-] on pose $W_{max} = w_{max}(k)$,
+  \item [-] si $p_{W_{max}}(k) \in \mathcal{D}_{W_{max}}$, $digit_{\mathcal{D}}(k) = d$ avec $d < k$ tel que $p_w(k) = p_w(d)$,
+  \item [-] si $2^{W_{max}} - p_{W_{max}}(k) \in \mathcal{D}_{W_{max}}$, $digit_{\mathcal{D}}(k) = -d$ avec $d < k$ tel que $2^{W_{max}} - p_w(k) = p_w(d)$.
  \end{itemize} 
 \end{itemize}
 
@@ -417,7 +422,7 @@ Le coeur de l'implémentation de la représentation réside dans celle de la fon
 Voici l'algorithme avec lequel j'ai implémenté la fonction \emph{digit} au premier essai : \\
 Il est composé de deux parties :
 \begin{itemize}
- \item [1)] Un algorithme qui calcule $i$ tel que $p_{W_{max}}(k) = p_{W_{max}}(d_i)$ où $d_i \in \overline{\mathcal{D}}$.
+ \item [1)] Un algorithme qui calcule $i$ tel que $p_{W_{max}}(k) = p_{W_{max}}(d_i)$ où $d_i \in \overline{\mathcal{D}}$,
  \item [2)] L'algorithme de la fonction :
 \end{itemize}
 
@@ -547,7 +552,7 @@ La construction du tableau \emph{$D_{max}$} comporte $3$ principales étapes :
 
 \subsection{Preuve}
 
-Dans cette partie, nous allons montrer que l'algorithme construit à partir de \emph{$D_{max}$} calcule la fonction \emph{digit} :
+Dans cette partie, nous allons montrer que l'algorithme construit à partir de \emph{$D_{max}$} calcule la fonction \emph{digit}.
 
 \subsubsection{La fonction \emph{digit} sous forme mathématique}
 
@@ -560,7 +565,7 @@ On peut remarquer que calculer la fonction \emph{digit} revient à trouver une f
  On a $digit_{\mathcal{D}} = \phi_{2_\mathcal{D}} \circ \phi_{1_\mathcal{D}}$ $\iff$
  $\forall k$, $\bar{k} = \phi_1(k) = k \mod 2^{W_n+2}$ et : \\
  \begin{itemize}
-  \item [(i)] Si $k$ est pair $\phi_{2_\mathcal{D}}(\bar{k}) = 0$
+  \item [(i)] Si $k$ est pair $\phi_{2_\mathcal{D}}(\bar{k}) = 0$,
   \item [(ii)] Si $k$ est impair $\phi_{2_\mathcal{D}}(\bar{k}) = d_i$, avec $d_i \in \overline{\mathcal{D}} 
   \Rightarrow \exists j \in \llbracket 2,W_n+2 \rrbracket$,
  tel que $k = d_i \mod 2^j$ et $\forall m \in \llbracket j+1,W_n+2 \rrbracket, \forall d'_i \in \overline{\mathcal{D}}, k \neq d'_i$ Mod $2^m$.
@@ -593,7 +598,7 @@ On peut remarquer que calculer la fonction \emph{digit} revient à trouver une f
   \end{itemize}
   \item [$\Rightarrow$] On suppose que l'on a $digit_{\mathcal{D}}(k) = \phi_{2_\mathcal{D}}(\bar{k}) = d_i$ ou $-d_i$ avec $d_i \in \mathcal{D}$. \\
   On a $digit_{\mathcal{D}}(k) = d_i$ avec $d_i \in \overline{\mathcal{D}_m}$. \\
-  Soit $j = w_{max}(k) = W_max$. \\
+  Soit $j = w_{max}(k) = W_{max}$. \\
   Par definition de $w_{max}(k)$, la condition $2)$ est fausse $\forall m > j$, \\
   donc $\nexists d'_i \in \mathcal{D}$ tel que $p_m(k) \in \overline{\mathcal{D}_m}$. \\
   Ainsi $\forall m > j$, $\forall d'_i \in \overline{\mathcal{D}}$, $k \neq d'_i \mod 2^m$.
@@ -616,7 +621,7 @@ On peut remarquer que calculer la fonction \emph{digit} revient à trouver une f
  Par construction $\phi_{2_\mathcal{D}} : \mathbb{Z} / 2^{W_n+2} \mathbb{Z} \rightarrow \overline{\mathcal{D}} \cup \{0\}$ donc $\phi_{2_\mathcal{D}}$ existe.
  Par la propriété $1$, on doit prouver que $\phi_{2_\mathcal{D}}$ vérifie $\forall k$ : \\
  \begin{itemize}
-  \item [(i)] Si $k$ est pair $\phi_{2_\mathcal{D}}(\bar{k}) = 0$
+  \item [(i)] Si $k$ est pair $\phi_{2_\mathcal{D}}(\bar{k}) = 0$.
   \item [(ii)] Si $k$ est impaire $\phi_{2_\mathcal{D}}(\bar{k}) = d_i$, avec $d_i \in \overline{\mathcal{D}} 
   \Rightarrow \exists j \in \llbracket 2,W_n+2 \rrbracket$,
  tel que $k = d_i \mod 2^j$ et $\forall m \in \llbracket j+1,W_n+2 \rrbracket, \forall d'_i \in \overline{\mathcal{D}}, k \neq d'_i \mod 2^m$.
@@ -1028,7 +1033,7 @@ le maximum de $0$ consécutifs dans la représentation.
 Dans la partie précédente, la représentation $DoubleRDR$ d'un couple d'exposant a été définie.
 Dans cette partie, une méthode pour calculer la $DoubleRDR$ de $k_1$ et $k_2$ est détaillée.
 
-  \subsection{Le début de la $DoubleRDR$}
+  \subsection{Démarrage de la $DoubleRDR$}
   
   Avant de détailler le recodage de la $DoubleRDR$, il est nécessaire de rappeler certaines conditions :
   \begin{itemize}
@@ -1132,15 +1137,15 @@ Dans cette partie, une méthode pour calculer la $DoubleRDR$ de $k_1$ et $k_2$ e
 
    Afin de choisir le coefficient $d_0$ de $k_2$, il faut trouver $d_0 \in \dbarre$ tel que :
    \begin{center}
-    $2^{\omega} \mid (k_2 - d_0) \mod (2^{W_{max}})$ \\
-    $2^{\omega+1} \nmid (k_2 - d_0) \mod (2^{W_{max}})$
+    $2^{\omega} \mid (k_2 - d_0) \mod (2^{W_{max}})$, \\
+    $2^{\omega+1} \nmid (k_2 - d_0) \mod (2^{W_{max}})$.
    \end{center}
  
  Il peut arriver qu'aucun élément de $\dbarre$ vérifie ces conditions, dans ce cas on pose $\omega' = \omega - 1$, 
  il faut trouver $d_0 \in \dbarre$ tel que :
  \begin{center}
-    $2^{\omega'} \mid (k_2 - d_0) \mod (2^{W_{max}})$ \\
-    $2^{\omega'+1} \nmid (k_2 - d_0) \mod (2^{W_{max}})$
+    $2^{\omega'} \mid (k_2 - d_0) \mod (2^{W_{max}})$, \\
+    $2^{\omega'+1} \nmid (k_2 - d_0) \mod (2^{W_{max}})$.
  \end{center}
  
  On répète le processus jusqu'à trouver une solution vérifiant les conditions.
@@ -1152,7 +1157,7 @@ Dans cette partie, une méthode pour calculer la $DoubleRDR$ de $k_1$ et $k_2$ e
   
   Trouvons un coefficient $d_0 \in dbarre$ tel que :
   \begin{center}
-   $2 \mid (53 - d_0) \mod 2^6$ \\
+   $2 \mid (53 - d_0) \mod 2^6$, \\
    $4 \nmid (53 - d_0) \mod 2^6$.
   \end{center}
   
@@ -1542,8 +1547,8 @@ des exposants. \\
 On a donc $B_{f,1} = 0$ et $B_{f,2} = 3$, et donc $B_{f,1} < B_{f,2}$. \\
 Ensuite, comme $\omega = B_{f,1} - B_{f,2} = 3$, il s'agit de trouver le coefficient $d_0$ de $\dbarre$ tel que :
    \begin{center}
-    $2^{3} \mid (k_1 - d_0) \mod 64$ \\
-    $2^{4} \nmid (k_1 - d_0) \mod 64$
+    $2^{3} \mid (k_1 - d_0) \mod 64$, \\
+    $2^{4} \nmid (k_1 - d_0) \mod 64$.
    \end{center}
 
    Il y a une méthode rapide et efficace pour déterminer rapidement le coefficient $d_0$, il suffit de calculer
@@ -1688,10 +1693,10 @@ Il y a des contraintes liées à la résistance à une attaque par canaux auxili
  \item [$\bullet$] Lorsque $B_{f,1} \neq B_{f,2}$, il peut arriver qu'il n'y ait pas de solution au problème : \\
     Trouver $d_0 \in \dbarre$ tel que :
    \begin{center}
-    $2^{\omega} \mid (k_i - d_0) \mod (2^{W_{max}})$ \\
-    $2^{\omega+1} \nmid (k_i - d_0) \mod (2^{W_{max}})$
+    $2^{\omega} \mid (k_i - d_0) \mod (2^{W_{max}})$, \\
+    $2^{\omega+1} \nmid (k_i - d_0) \mod (2^{W_{max}})$.
    \end{center}
- C'est un contrainte embarrassante au niveau de la performance (temps de calcul ET nombre de double zéros).
+ C'est une contrainte embarrassante au niveau de la performance (temps de calcul ET nombre de double zéros).
 \end{itemize}
 
 \subsubsection{Objectifs et Définition}
@@ -2177,7 +2182,7 @@ l'exponentiation, ainsi il est nécessaire d'optimiser le programme précédent.
       
       \subsubsection{Remplissage de $DoubleDmax$ : Première fonction}
 
-      Voici le premier algorithme correspondant aux deux premiers procédés de la partie $5.2.3$ (avec $0$ ajouté au tableau $\dbarre$),
+      L'algorithme $11$ correspondant aux deux premiers procédés de la partie $5.2.3$ (avec $0$ ajouté au tableau $\dbarre$),
 
 \begin{algorithm}
  \caption{Algorithme de remplissage de $DoubleDmax$}
@@ -2225,12 +2230,12 @@ l'exponentiation, ainsi il est nécessaire d'optimiser le programme précédent.
     
      \subsubsection{Remplissage de $DoubleDmax$ : Deuxième fonction}
      
-    Voici le deuxième algorithme permettant de traiter le troisième procédé de la partie $5.2.3$,
+    L'algorithme $12$ permet de traiter le troisième procédé de la partie $5.2.3$,
 
    \begin{algorithm}
  \caption{Algorithme de complètion de $DoubleDmax$}
  \begin{algorithmic}
-  \REQUIRE une puissance $pow$, l'ensemble $\dbarre$ avec $Wn$ (borne).
+  \REQUIRE une puissance $pow$, l'ensemble $\dbarre$ avec $Wn$ (borne) et le tableau $DoubleDmax$.
   \ENSURE $DoubleDmax$.
   \STATE $pow_1 \leftarrow 0$
   \WHILE{$pow_1 \leq 2^{W_n+2}$}
@@ -2267,6 +2272,26 @@ l'exponentiation, ainsi il est nécessaire d'optimiser le programme précédent.
   \RETURN $DoubleDmax$
  \end{algorithmic}
 \end{algorithm}
+
+   \subsubsection{La boucle $while$}
+   
+   L'algorithme $13$ explique la construction de $DoubleDmax$ avec les $3$ algorithmes précédents.
+   
+\begin{algorithm}
+ \caption{Algorithme $DoubleDmax$}
+ \begin{algorithmic}
+  \REQUIRE l'ensemble $\dbarre$ avec $Wn$ (borne) et le tableau $DoubleDmax$.
+  \ENSURE $DoubleDmax$.
+  \STATE Algorithm $10$ ($W_n$)
+  \STATE $pow \leftarrow 2^{W_n+2}$
+  \WHILE{$pow \geq 2$}
+  \STATE Algorithm $11$ ($pow$,$\dbarre$,$DoubleDmax$)
+  \STATE $pow \leftarrow \frac{pow}{2}$
+  \STATE Algorithm $12$ ($pow$,$\dbarre$,$DoubleDmax$)
+  \ENDWHILE
+  \RETURN $DoubleDmax$
+ \end{algorithmic}
+\end{algorithm}
       
   \section{Equivalence et Preuve}
   
@@ -2288,7 +2313,7 @@ $$\begin{array}{cccccccccc}
     \item [$\bullet$] Si $k_{1,i}$ est impair (resp pair) et $k_{2,i}$ est pair (resp impair), il existe 
     $w \leq W_{max}$ tel que :
    \begin{center}
-    $2^{w} \mid k_{2,i}$ et $2^{w+1} \nmid k_{2,i}$
+    $2^{w} \mid k_{2,i}$ et $2^{w+1} \nmid k_{2,i}$,
    \end{center}
    alors $d_i$ est tel que :
    \begin{center}
@@ -2310,7 +2335,7 @@ $$\begin{array}{cccccccccc}
    \begin{itemize}
     \item [$1)$] les prochains coefficients $d_j$ et $d_j'$ non nuls se situent sur le même bit,
     \item [$2)$] il y ait un maximum de coefficients $d_j$ et $d_j'$ nuls consécutivement (le plus grand 
-    nombre de $\doublezero$ après $\begin{pmatrix} d_j \\ d_j' \end{pmatrix}$)
+    nombre de $\doublezero$ après $\begin{pmatrix} d_j \\ d_j' \end{pmatrix}$).
    \end{itemize}
   \end{Remarque}
 
@@ -2320,8 +2345,8 @@ $$\begin{array}{cccccccccc}
   Soit $\bar{k}_{1,i} = \frac{k_1-d_0-d_1 \ldots -d_{i-1}}{2^i} \mod 2^{W_n+2}$ et $\bar{k}_{2,i} = \frac{k_2-d_0'-d_1' \ldots -d_{i-1}'}{2^i} \mod 2^{W_n+2}$. \\
   
   Le tableau $DoubleDmax$ construit dans la partie précédente est telle que : \\
-  $d_i = DoubleDmax[\bar{k}_{1,i}][\bar{k}_{2,i}]$ \\
-  $d_i' = DoubleDmax[\bar{k}_{2,i}][\bar{k}_{1,i}]$ \\
+  $d_i = DoubleDmax[\bar{k}_{1,i}][\bar{k}_{2,i}]$, \\
+  $d_i' = DoubleDmax[\bar{k}_{2,i}][\bar{k}_{1,i}]$, \\
   où $d_i$ et $d_i'$ sont les $i$ èmes coefficients de la $DoubleRDR$ de $(k_1,k_2)$.
   \end{Proposition}
 
@@ -2364,7 +2389,7 @@ $$\begin{array}{cccccccccc}
    On a donc :
    \begin{center}
    $2^{m} \mid (k_{1,i}-d)$ et $2^{m} \mid (k_{2,i}-d')$, \\
-   $2^{m+1} \nmid (k_{1,i}-d)$ et $2^{m+1} \nmid (k_{2,i}-d')$
+   $2^{m+1} \nmid (k_{1,i}-d)$ et $2^{m+1} \nmid (k_{2,i}-d')$.
    \end{center}
    Il reste à montrer qu'il n'existe pas d'élément $j>m$, pour lequel ils existent $d^{(2)}$ et $d^{(3)}$ 
    dans $\dbarre$ vérifiant les conditions précédentes.   
@@ -2526,9 +2551,9 @@ $1,21,25,29$ & $1,23,27,29$ & $1,25,27,29$ & \, & \, \\
   Ainsi pour définir le niveau optimal pour ces paramètres, il suffit de prendre 
   $\mathcal{D} = \{1,d_1,d_2,d_3\}$ tel que : \\
  $$\begin{array}{ccc}
-d_1 & = & \pm 3 \,\, \mod 2^4 \\ 
-d_2 & = & \pm 5 \,\, \mod 2^4 \\
-d_3 & = & \pm 7 \,\, \mod 2^4 \\
+d_1 & = & \pm 3 \,\, \mod 2^4, \\ 
+d_2 & = & \pm 5 \,\, \mod 2^4, \\
+d_3 & = & \pm 7 \,\, \mod 2^4, \\
    \end{array}$$
   
   On a donc $4$ possibilités pour chaque coefficient $d_1$, $d_2$ et $d_3$ (par exemple 
@@ -2589,7 +2614,7 @@ d_3 & = & \pm 7 \,\, \mod 2^4 \\
    en commun.
   \end{Remarque}
 
-  \subsubsection{Level 4 : changement minimum pour un résultat bien différent}
+  \subsubsection{Level 4 : changement minime pour un résultat différent}
   
   Le niveau $4$ est très proche du niveau précédent.
   
@@ -2602,7 +2627,7 @@ d_3 & = & \pm 7 \,\, \mod 2^4 \\
   
   Ce qui donne donc exactement $\frac{192}{2} = 96$ possibilités.
   
-  \subsubsection{Level 5 : dernier casse-tête avant la fin}
+  \subsubsection{Level 5 : le choix restreint}
   
   Le dernier niveau à décortiquer est le niveau $5$, en observant attentivement les coefficients de $\mathcal{D}$ modulo $16$,
   on remarque l'absence de $\pm \bar{7}$, c'est-à-dire qu'il n'y a ni $7$, ni $9$, ni $23$ et ni $25$ dans tous les quadruplets.
@@ -2646,9 +2671,9 @@ d_3 & = & \pm 7 \,\, \mod 2^4 \\
   Nous avons effectué des tests de performance afin de déterminer l'influence de cette méthode de randomisation de la 
   représentation sur la vitesse d'exponentiation.
   
-  \subsection{Influence du choix de coefficient sur les performances.}
+  \subsection{Influence du choix de coefficient sur les performances}
 
-  Voici les résultats des tests de comparaison en terme de performance et de vitesse entre les différents
+  Voici les résultats des tests de comparaison en termes de performance et de vitesse entre les différents
   niveaux de sécurité de l'algorithme $DoubleRDR$ :
 \begin{table}[htbp]
 \caption{Comparaison des niveaux de sécurité pour $\#\mathcal{D} = 4$ et $|k| = 4096$ (1000 tests) }
@@ -2674,7 +2699,7 @@ de $\doublezero$ diminuent.
 
 Dans la partie suivante, nous testons l'influence de la randomisation de $\mathcal{D}$ sur les performances.
 
-  \subsection{Influence de l'aléatoire sur les performances.}
+  \subsection{Influence de l'aléatoire sur les performances}
 
 Voici les résultats des tests de comparaison entre le $Double-wNAF$ (pas de randomisation) et la $DoubleRDR$ de
 niveau $1$ :
@@ -2698,16 +2723,16 @@ niveau $1$ :
 \label{tab:example}
 \end{table}%
 
-On constate que la $DoubleRDR$ est très coûteuse en terme de temps, ce qui est un problème important pour l'exponentiation.
+On constate que la $DoubleRDR$ est très coûteuse en temps, ce qui est un problème important pour l'exponentiation.
 
 Il existe une solution pour réduire le temps d'execution, il s'agit de diminuer l'appel à la fonction $random$,
-ce qui permet de réduire le nombre de construction du tableau $DoubleDmax$. \\
+ce qui permet de réduire le nombre de constructions du tableau $DoubleDmax$. \\
 Pour $1000$ recodages, on peut se contenter de changer $10$ fois l'ensemble $\mathcal{D}$, afin d'effectuer $100$
 tests avec le même ensemble $\mathcal{D}$.
 
 Dans la partie suivante, nous testons l'influence de la taille de $\mathcal{D}$ sur les performances.
 
-\subsection{Influence de la taille de $\mathcal{D}$ sur les performances.}
+\subsection{Influence de la taille de $\mathcal{D}$ sur les performances}
 
 Dans cette partie, on a testé l'influence de la taille de l'ensemble $\mathcal{D}$ sur le temps d'execution et les performances. \\
 Voici les résultats :
@@ -2737,27 +2762,56 @@ Il faut rappeler que lorsque la taille de $\mathcal{D}$ augmente, la sécurité 
 %=====================
 \chapter{Conclusion}
 
-Le but de cette étude est l'amélioration de la sécurité de l'algorithme d'exponentiation modulaire.
+Le premier objectif de cette étude est l'implémentation de la méthode $RDR$, qui a pour but de recoder l'exposant dans l'exponentiation
+modulaire afin de rendre l'algorithme résistant contre une attaque du type ``side-channel''. \\
 La solution proposée a montré qu'on ne peut améliorer la sécurité de cet algorithme sans affecter les performances
 de celui-ci. La sécurité et la performance sont étroitement liées et l'important est de choisir les paramètres 
 adéquats en fonction de ses besoins, dans le but d'optimiser l'utilisation des protocoles.
 
-Le plus grand atout de la méthode explicitée dans cet article est l'adaptabilité du procédé. Nous offrons 
-des possibilités variées pouvant répondre à tous les besoins en fonction des utilisateurs, ceci rend la 
-solution intéressante.
+Le deuxième objectif de l'article est la généralisation de la méthode $RDR$ pour la double exponentiation. \\
+L'influence de la sécurité sur les performances est plus importante lorsque l'on considère deux exposants.
+Cependant, nous avons trouvé une solution permettant d'adapter au mieux les critères de sécurité et de performance
+en fonction des besoins. L'adaptabilité de la méthode, appelée $DoubleRDR$, permet à l'utilisateur d'optimiser
+l'utilisation des protocoles en fonction de l'usage de l'exponentiation modulaire (les serveurs Google effectuent
+beaucoup plus de calcul que les serveurs d'une petite entreprise par exemple).
+
+Il est possible de généraliser le concept de $RDR$ à la multi-exponentiation en général. \\
+Il serait intéressant d'étendre la méthode à $3$, $4$ ou même $n$ exposants.
+Plus le nombre d'exposants est grand, plus les paramètres de l'algorithme influent les performances du recodage.
 
 Une étude sur la façon de précalculer les $x^{d_i}$ et les $x^{d_i} \times y^{d_j}$ permettrait de compléter
 cet article. Ils existent plusieurs manières d'effectuer les précalculs, et le temps d'execution de 
-l'exponentiation modulaire dépend grandement de l'efficacité du précalcul.
+l'exponentiation modulaire dépend grandement de l'efficacité du précalcul. \\
+La difficulté du précalcul dépend également du protocole étudié, et plus particulièrement du groupe dans 
+lequel les calculs sont effectués.
 
-Il est possible de généraliser le concept à la multi-exponentiation en général. Il serait intéressant de réaliser
-une étude sur la $RDR$ de $3$, $4$ ou même $n$ exposants. 
+On peut également s'intéresser à la théorie mathématique sous-jacente aux méthodes $RDR$ et $DoubleRDR$. \\
+Par exemple, il est possible de calculer le nombre moyen de $\doublezero$ en fonction du choix de $\mathcal{D}$.
+Une telle étude permettrait aussi de comprendre l'influence des paramètres sur la $DoubleRDR$.
+
 
 \backmatter
 %\appendix
 
-\bibliographystyle{plain} % plain-fr si rapport en français
-\bibliography{bibfile}
+%\bibliographystyle{plain} % plain-fr si rapport en français
+%\bibliography{bibfile}
+\begin{thebibliography}{1}
+ 
+ \bibitem{a}
+ N.Méloni et A.Hasan
+ \newblock {\em Random Digit Representation of Integers}.
+\newblock 2015.
+
+\bibitem{b}
+B.Möller
+\newblock {\em Algorithms for multi-exponentiation}.
+\newblock Darmstadt University, 2001.
+
+\bibitem{c}
+J.Solinas
+\newblock {\em Low-Weight Binary Representations for Pairs of Integers}.
+\newblock National Security Agency, 2001.
+\end{thebibliography}
 
 %En français, il peut être une bonne idée de mettre le résumé en 4e de couverture... (à ce moment là, commenter les abstracts avan la ToC !)
 %% 4e de couverture

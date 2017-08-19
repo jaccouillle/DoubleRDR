@@ -1,92 +1,187 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\defcounter {refsection}{0}\relax 
 \select@language {english}
+\defcounter {refsection}{0}\relax 
 \select@language {french}
+\defcounter {refsection}{0}\relax 
 \contentsline {chapter}{R\'esum\'e}{i}
+\defcounter {refsection}{0}\relax 
 \contentsline {chapter}{R\'esum\'e}{i}
+\defcounter {refsection}{0}\relax 
 \select@language {french}
+\defcounter {refsection}{0}\relax 
 \select@language {french}
+\defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\chapternumberline {1}Introduction}{1}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{L'exponentiation modulaire et le RSA}{1}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Les premiers algorithmes d'exponentiation}{2}
+\defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\chapternumberline {2}Repr\IeC {\'e}sentation al\IeC {\'e}atoire de l'exposant}{3}
-\contentsline {section}{\numberline {2.1}State of the art\dots }{3}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.1}Etat de l'art}{3}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.1.1}Pr\IeC {\'e}calcul et Exponentiation}{3}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.1.2}Repr\IeC {\'e}sentation $NAF$ (Non Adjacent Form)}{4}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.1.3}Repr\IeC {\'e}sentation $wNAF$ (window Non Adjacent Form)}{4}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.1.4}Fractional Windows}{4}
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {2.2}Randomisation et Optimisation}{5}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.2.1}Randomisation dans l'algorithme de Fractional Windows}{5}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{La fonction \emph {digit}}{5}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{L'algorithme de repr\IeC {\'e}sentation}{6}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Premi\IeC {\`e}re impl\IeC {\'e}mentation}{6}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.2.2}Optimisation de l'algorithme}{8}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\emph {Digit} vue comme un tableau}{8}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Construction de \emph {$D_{max}$}}{8}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.2.3}Preuve}{8}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{La fonction \emph {digit} sous forme math\IeC {\'e}matique}{10}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Preuve de fonctionnement de \emph {$D_{max}$}}{10}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.2.4}Test et Performance}{11}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Comparaison avec $wNAF$}{12}
+\defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\chapternumberline {3}Etat de l'art de la double exponentiation}{13}
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {3.1}L'approche de Shamir}{13}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.1.1}La m\IeC {\'e}thode na\IeC {\"\i }ve}{13}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.1.2}Le ``square'' en simultan\IeC {\'e}}{13}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.1.3}Le pr\IeC {\'e}calcul}{14}
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {3.2}L'approche de Solinas et la $JSF$}{14}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.2.1}Bas\IeC {\'e}e sur un $NAF$}{15}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.2.2}La Joint Spar Form}{15}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Joint Hamming Weight}{15}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Comparaison avec $NAF$}{16}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Un exemple simple}{16}
+\defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\chapternumberline {4}Approche du probl\IeC {\`e}me}{17}
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4.1}La repr\IeC {\'e}sentation d'un couple d'exposants}{17}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.1.1}Une solution simple \IeC {\`a} l'objectif $1$}{17}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.1.2}La $JSF$, solution \IeC {\`a} l'objectif $2$}{18}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.1.3}La repr\IeC {\'e}sentation $DoubleRDR$}{18}
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4.2}La m\IeC {\'e}thode $DoubleRDR$}{19}
-\contentsline {subsection}{\numberline {4.2.1}Le d\IeC {\'e}but de la $DoubleRDR$}{19}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.2.1}D\IeC {\'e}marrage de la $DoubleRDR$}{19}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.2.2}Le choix des coefficients}{20}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Bits de poids faibles}{20}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Disjonction de cas}{20}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Synchronisation des coefficients}{21}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.2.3}Fin de la $DoubleRDR$}{22}
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4.3}Exemple et Contraintes}{23}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.3.1}Exemple}{23}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.3.2}Contraintes et Objectifs}{25}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Contraintes li\IeC {\'e}es \IeC {\`a} la s\IeC {\'e}curit\IeC {\'e}.}{25}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Contraintes li\IeC {\'e}es aux performances}{25}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Objectifs et D\IeC {\'e}finition}{26}
+\defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\chapternumberline {5}Th\IeC {\'e}orie, Impl\IeC {\'e}mentation et Optimisation}{27}
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {5.1}Impl\IeC {\'e}mentation de la $DoubleRDR$}{27}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {5.1.1}Squelette et organisation du programme}{27}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {5.1.2}Les algorithmes de calculs}{29}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Calcul de $B_{f,i}$}{29}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Choix des coefficients}{29}
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {5.2}De l'arithm\IeC {\'e}tique \IeC {\`a} l'optimisation}{32}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {5.2.1}La recherche dans un tableau, proc\IeC {\'e}d\IeC {\'e} \IeC {\`a} \IeC {\'e}viter}{32}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {5.2.2}Cr\IeC {\'e}ation et initialisation du tableau $DoubleDmax$}{32}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {5.2.3}Remplissage du tableau $DoubleDmax$}{32}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {5.2.4}Optimisation avanc\IeC {\'e}e}{34}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {5.2.5}Algorithmes}{34}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Cr\IeC {\'e}ation de $DoubleDmax$}{34}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Remplissage de $DoubleDmax$ : Premi\IeC {\`e}re fonction}{34}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Remplissage de $DoubleDmax$ : Deuxi\IeC {\`e}me fonction}{35}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{La boucle $while$}{35}
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {5.3}Equivalence et Preuve}{35}
-\contentsline {subsection}{\numberline {5.3.1}La d\IeC {\'e}finition de la $DoubleRDR$}{36}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {5.3.1}La d\IeC {\'e}finition de la $DoubleRDR$}{37}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {5.3.2}Algorithme et Math\IeC {\'e}matiques}{37}
+\defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\chapternumberline {6}Performances et Al\IeC {\'e}atoire : l'importance des coefficients}{39}
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {6.1}Le choix des coefficients}{39}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {6.1.1}Deux choix , deux r\IeC {\'e}sultats}{39}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {6.1.2}Etude sur les coefficients}{39}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {6.1.3}Cons\IeC {\'e}quences}{40}
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {6.2}Liens entre les coefficients}{41}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {6.2.1}Les coefficients ``optimums''}{41}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {6.2.2}Les autres coefficients}{42}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Level 3 : un intrus}{42}
-\contentsline {subsubsection}{Level 4 : changement minimum pour un r\IeC {\'e}sultat bien diff\IeC {\'e}rent}{43}
-\contentsline {subsubsection}{Level 5 : dernier casse-t\IeC {\^e}te avant la fin}{43}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Level 4 : changement minime pour un r\IeC {\'e}sultat diff\IeC {\'e}rent}{43}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Level 5 : le choix restreint}{43}
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {6.3}Performance et S\IeC {\'e}curit\IeC {\'e}}{44}
-\contentsline {subsection}{\numberline {6.3.1}Influence du choix de coefficient sur les performances.}{44}
-\contentsline {subsection}{\numberline {6.3.2}Influence de l'al\IeC {\'e}atoire sur les performances.}{44}
-\contentsline {subsection}{\numberline {6.3.3}Influence de la taille de $\mathcal {D}$ sur les performances.}{45}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {6.3.1}Influence du choix de coefficient sur les performances}{44}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {6.3.2}Influence de l'al\IeC {\'e}atoire sur les performances}{44}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {6.3.3}Influence de la taille de $\mathcal {D}$ sur les performances}{45}
+\defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\chapternumberline {7}Conclusion}{47}
+\defcounter {refsection}{0}\relax 
 \contentsline {chapter}{Bibliographie}{49}
